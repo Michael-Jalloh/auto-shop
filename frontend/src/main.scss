@@ -1,0 +1,94 @@
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.full-height {
+  height: 100vh
+}
+
+.relative {
+  position: relative;
+}
+
+.grid-md-1 {
+  @include at-least($large-tablet + 1){
+    width: 100%;
+    margin: 15px;
+    border: 0;
+  }
+}
+
+.container {
+  flex-flow: row wrap;
+}
+
+.grid-md-2 {
+  @include at-least($large-tablet + 1){
+    width: calc(100% / 2 - 35px);
+    margin: 15px;
+    border: 0;
+  }
+}
+
+.grid-md-3 {
+  @include at-least($large-tablet + 1){
+    width: calc(100% / 3 - 35px);
+    margin: 15px;
+    border: 0;
+  }
+}
+
+.grid-md-4 {
+  @include at-least($large-tablet + 1){
+    width: calc(100% / 4 - 30px);
+    margin: 15px;
+    border: 0;
+  };
+}
+
+.grid-sm-1 {
+  @include until($large-tablet){
+    width: 100%;
+    margin: 10px 0;
+    border:0;
+  }
+}
+
+.grid-sm-2 {
+  @include until($large-tablet){
+    width: calc(100% / 2 - 25px);
+    margin: 10px;
+    border: 0;
+  }
+}
+
+.grid-sm-3 {
+  @include until($large-tablet){
+    width: calc(100% / 3 - 25px);
+    margin: 10px;
+    border: 0;
+  }
+}
+
+.grid-sm-4 {
+  @include until($large-tablet){
+    width: calc(100% / 4 - 25px);
+    margin: 10px;
+    border: 0;
+  }
+}
+
+.grid-xs-1 {
+  @include until($large-mobile){
+    width: 100%;
+    margin: 10px;
+  }
+}
+
+.btn-small {
+  @include until($large-mobile){
+    padding: 9px 11px;
+  }
+}
