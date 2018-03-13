@@ -30,6 +30,7 @@ class User(BaseModel):
     logo = CharField(default='')
     password_hash = CharField()
     email = CharField(unique=True)
+    contact = CharField(default="")
     joined = DateTimeField(default=datetime.datetime.now())
 
     @property

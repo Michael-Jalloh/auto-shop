@@ -40,14 +40,6 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
-        car.owner = User.get(id=int(data['user']))
-        car.save()
-        return {
-            'data':Car.car_to_dict(car),
-            'message':'Post saved',
-            'status':'success'
-            }
-    '''
         try:
             car.owner = User.get(id=int(data['user']))
             car.save()
@@ -62,7 +54,7 @@ class AddCar(Resource):
                 'data':'',
                 'message':'And error occur please check your fields',
                 'status':'error'
-                } '''
+                }
 
 class GetCars(Resource):
     decorators=[]
@@ -78,3 +70,26 @@ class GetCars(Resource):
                 'message':'',
                 'status':'success'
                 }
+
+class ViewCar(Resource):
+    decorators = []
+
+    def post(self):
+        data = parser.parse_args()
+        logger = logging.getLogger('app.view-car-post')
+        car_id = data['car_id']
+        try:
+            car = Car.car_to_dict(Car.get(id=int(car_id)))
+            return {
+                'message':'',
+                'data': car,
+                'status':'succes'
+                }
+        except Exception as e:
+            logger.error(str(e))
+            return {
+                    'message':'An error occur',
+                    'data':'',
+                    'status':'error'
+                    }
+                    
