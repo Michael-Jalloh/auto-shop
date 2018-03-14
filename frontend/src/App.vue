@@ -47,7 +47,7 @@ body {
 }
 
 main{
-  max-width: 1200px;
+  //max-width: 1200px;
   flex: 1;
   padding: 20px 10px 0;
 }
@@ -57,6 +57,7 @@ main{
   flex: 1;
   //background-color: crimson;
   padding: 10px;
+  height: 100%;
 }
 
 </style>

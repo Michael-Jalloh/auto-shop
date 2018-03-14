@@ -14,7 +14,9 @@
           <icon name="envelope" scale="1.75"></icon>
         </div> -->
         <ul>
-          <li></li>
+          <li><router-link to="" class="link">Blog</router-link></li>
+          <li><router-link to="" class="link">About us</router-link></li>
+
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
           <li class="log-out" v-on:click="logout()"><icon class="icon" scale="1.75" name="sign-out" v-on:click="logout()"></icon></li>
@@ -178,4 +180,11 @@ export default {
 .log-out{
   cursor: pointer;
 }
+
+.link{
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 </style>

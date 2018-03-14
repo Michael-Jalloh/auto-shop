@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="">
-    <el-button v-on:click="printCar" >Heelo</el-button>
     <h3>Luxury Cars</h3>
     <el-carousel ref="carousel" arrow="always" :autoplay="false">
       <el-carousel-item v-for="item in cars.length" :key="item">
@@ -21,6 +20,7 @@
         <h3>{{ cars[item - 1] }}</h3>
       </el-carousel-item>
     </el-carousel>
+    <hr>
   </div>
 </template>
 
