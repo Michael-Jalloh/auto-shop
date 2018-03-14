@@ -43,5 +43,7 @@ api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.ViewCar, '/api/v1/view-car')
 
 
+api.add_resource(car.TestCar, '/api/v1/test-car')
+
 if __name__ =='__main__':
     application.run(host='0.0.0.0')

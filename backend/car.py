@@ -92,4 +92,13 @@ class ViewCar(Resource):
                     'data':'',
                     'status':'error'
                     }
-                    
+
+class TestCar(Resource):
+    def post(self):
+        data = parser.parse_args()
+        print data['engine'], data['transmission']
+        return {
+                'data':'',
+                'message': 'data received',
+                'status': 'success'
+                }

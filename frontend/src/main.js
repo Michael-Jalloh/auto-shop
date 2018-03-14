@@ -10,9 +10,8 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import VeeValidate from 'vee-validate';
 
-Vue.use(VeeValidate);
+
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = "http://localhost:5000/api/v1";

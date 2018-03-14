@@ -1,5 +1,6 @@
 from peewee import *
 from playhouse.sqlite_ext import *
+from playhouse.postgres_ext import *
 from playhouse.flask_utils import get_object_or_404
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,7 +8,7 @@ import json
 
 
 db = SqliteExtDatabase('auto_shop.db')
-
+#db = PostgresqlExtDatabase('test',user='michael', password='millicent', register_hstore=False)
 class BaseModel(Model):
     class Meta:
         database = db
