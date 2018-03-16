@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header">
       <div class="">
-        <a href="#" class="brand"><h3>{{ brand}}</h3></a>
+        <router-link :to="{ name: 'View-Cars', params: {} }" class="brand-link"> {{ brand }}</router-link>
       </div>
       <div id="hamburger" v-on:click="active = !active"  v-bind:class="{active:active}">
         <span class="bar1"></span>
@@ -16,7 +16,7 @@
         <ul>
           <li><router-link to="" class="link">Blog</router-link></li>
           <li><router-link to="" class="link">About us</router-link></li>
-
+          <li><router-link :to="{ name:'Add-Car', params: {} }" class="link">Add Car</router-link></li>
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
           <li class="log-out" v-on:click="logout()"><icon class="icon" scale="1.75" name="sign-out" v-on:click="logout()"></icon></li>
@@ -181,10 +181,14 @@ export default {
   cursor: pointer;
 }
 
-.link{
+.link, .brand-link{
   color: #FFFFFF;
   text-decoration: none;
   font-weight: bold;
+}
+
+.brand-link {
+  font-size: 20px;
 }
 
 </style>

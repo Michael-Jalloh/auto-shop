@@ -41,7 +41,7 @@ api.add_resource(user.Signup, '/api/v1/signup'"")
 api.add_resource(car.AddCar, '/api/v1/add-car')
 api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.ViewCar, '/api/v1/view-car')
-
+api.add_resource(car.PhotoUpload,'/api/v1/upload-car-photo')
 
 api.add_resource(car.TestCar, '/api/v1/test-car')
 

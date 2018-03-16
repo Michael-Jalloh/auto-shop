@@ -41,7 +41,16 @@
       </el-form>
     </div>
     <div class="grid-md-2">
+      <h3>Featured Image</h3>
 
+      <el-upload
+        class="avatar-uploader"
+        action="http://localhost:5000/api/v1/upload-car-photo"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+</el-upload>
     </div>
   </div>
 </template>
@@ -50,6 +59,7 @@
 export default {
   data(){
     return {
+      imageUrl: '',
       form: {
         name: '',
         price: '',
@@ -111,17 +121,53 @@ export default {
               type: res.data['status']
         });
       })
+    },
+
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('Avatar picture must be JPG format!');
+        }
+        if (!isLt2M) {
+          this.$message.error('Avatar picture size can not exceed 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
     }
-  }
+
 }
 </script>
 
 <style lang="scss">
 @import '../../layout.scss';
 
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 
-.two-column {
-  display: flex;
-  flex-flow: row wrap;
-}
 </style>

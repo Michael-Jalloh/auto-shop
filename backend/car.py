@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
+from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-import logging
+import logging, datetime
 from models import User, Car
 
 parser = reqparse.RequestParser()
@@ -21,6 +22,54 @@ parser.add_argument('fuel')
 parser.add_argument('drive_train')
 parser.add_argument('published')
 parser.add_argument('car_id')
+parser.add_argument('file')
+
+UPLOAD_FOLDER = "static/img"
+ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
+
+def allow_file(filename):
+    return '.' in filename and \
+            filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_date():
+    date = str(datetime.database.now()).replace(' ','-')
+    date = date.replace(':','-')
+    return date.replace('.','-')
+
+class PhotoUpload(Resource):
+    decorators=[]
+
+    def post(self):
+        data = parser.parse_args()
+        print data
+        print 'Trying to save a pic'
+        if data['file'] == "":
+            return {
+                    'data':'',
+                    'message':'No photo found',
+                    'status':'Error'
+                    }
+        photo = data['file']
+        print data
+        if photo.filename =='':
+            return {
+                    'data':'',
+                    'message':'No selected file',
+                    'status':'error'
+                    }
+        if photo and allow_file(photo.filename):
+            filename = secure_filename(get_date() +photo.filename)
+            photo.save(os.path.join(UPLOAD_FOLDER,filename))
+            return {
+                    'data':photo,
+                    'message':'photo uploaded',
+                    'status':'success'
+                    }
+        return {
+                'data':'',
+                'message':'Something when wrong',
+                'status':'Error'
+                }
 
 class AddCar(Resource):
     decorators = []

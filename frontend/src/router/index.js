@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path:'/',
-      name: 'ViewCars',
+      name: 'View-Cars',
       component: ViewCars
     },
     {
