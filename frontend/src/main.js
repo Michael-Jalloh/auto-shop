@@ -10,6 +10,7 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import './layout.scss'
 
 
 Vue.config.productionTip = false

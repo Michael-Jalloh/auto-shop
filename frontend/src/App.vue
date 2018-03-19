@@ -6,7 +6,6 @@
         <main>
             <router-view/>
         </main>
-      <aside class="aside"></aside>
     </div>
     <app-footer></app-footer>
   </div>

@@ -59,9 +59,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../variable.scss';
-@import '../mixins.scss';
-@import '../main.scss';
+@import '../layout.scss';
 
 .header {
   background-color: #343A40;

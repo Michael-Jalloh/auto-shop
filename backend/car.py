@@ -42,6 +42,7 @@ class PhotoUpload(Resource):
     decorators=[]
 
     def post(self):
+        '''
         data = parser.parse_args()
         if data['file'] == "":
             return {
@@ -58,12 +59,20 @@ class PhotoUpload(Resource):
                     'data':'',
                     'message':'photo uploaded',
                     'status':'success'
-                    }
+                    }'''
         return {
                 'data':'',
-                'message':'Something when wrong',
-                'status':'Error'
+                'message':'ok',
+                'status':'success'
                 }
+
+class GetPhoto(Resource):
+
+    decorators=[]
+
+    def get(self, name):
+        return send_from_directory(name)
+
 
 class AddCar(Resource):
     decorators = []
@@ -83,6 +92,11 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
+        photo = data['file']
+        if photo:
+            filename = os.path.join(UPLOAD_FOLDER, get_date()+'.png')
+            photo.save(filename)
+            car.pics = filename
         try:
             car.owner = User.get(id=int(data['user']))
             car.save()
@@ -139,7 +153,7 @@ class ViewCar(Resource):
 class TestCar(Resource):
     def post(self):
         data = parser.parse_args()
-        print data['engine'], data['transmission']
+        print data['file']
         return {
                 'data':'',
                 'message': 'data received',

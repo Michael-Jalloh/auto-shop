@@ -2,7 +2,7 @@
   <div class="">
     <h3>Luxury Cars</h3>
     <el-carousel ref="carousel" arrow="always" :autoplay="false">
-      <el-carousel-item v-for="item in cars.length" :key="item">
+      <el-carousel-item class="overlay" v-for="item in cars.length" :key="item">
         <h3>{{ cars[item - 1] }}</h3>
       </el-carousel-item>
     </el-carousel>
@@ -53,4 +53,5 @@ export default {
 </script>
 
 <style lang="scss">
+
 </style>

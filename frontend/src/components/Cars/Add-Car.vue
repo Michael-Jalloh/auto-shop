@@ -41,12 +41,14 @@
       </el-form>
     </div>
     <div class="grid-md-2">
-      <h3>Featured Image</h3>
+      <h3 class="mt-0">Featured Image</h3>
 
       <el-upload
         class="avatar-uploader"
         action="http://localhost:5000/api/v1/upload-car-photo"
         :show-file-list="false"
+        :on-change="test"
+        :auto-upload="false"
         :on-success="handleAvatarSuccess">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -71,7 +73,8 @@ export default {
         engine: '',
         mileage: '',
         fuel: '',
-        drive_train:''
+        drive_train:'',
+        file: ''
       },
       rules: {
         name: [
@@ -126,8 +129,10 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log(res);
         this.imageUrl = URL.createObjectURL(file.raw);
+        this.form.file  = file.raw;
       },
       beforeAvatarUpload(file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -138,6 +143,14 @@ export default {
           this.$message.error('Avatar picture size can not exceed 2MB!');
         }
         return isJPG && isLt2M;
+      },
+
+      test(file,fileList){
+      //console.log(fileList);
+        console.log(file);
+        this.imageUrl = URL.createObjectURL(file.raw);
+  //      this.form.photoName = file.name;
+        this.form.file = file.raw;
       }
     }
 
@@ -145,7 +158,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../layout.scss';
 
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
@@ -153,6 +165,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    width: 100%;
   }
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
