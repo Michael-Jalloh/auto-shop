@@ -44,6 +44,7 @@ api.add_resource(car.ViewCar, '/api/v1/view-car')
 api.add_resource(car.PhotoUpload,'/api/v1/upload-car-photo')
 
 api.add_resource(car.TestCar, '/api/v1/test-car')
+api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')
 
 if __name__ =='__main__':
     application.run(host='0.0.0.0')

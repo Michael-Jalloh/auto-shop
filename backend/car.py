@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import send_from_directory
 import werkzeug
 import os
+import flickrapi
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
 from models import User, Car
@@ -25,9 +26,16 @@ parser.add_argument('drive_train')
 parser.add_argument('published')
 parser.add_argument('car_id')
 parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files')
+parser.add_argument('pic_name')
+parser.add_argument('car_id')
 
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
+
+api_secret ="814497b9208c1852"
+api_key="df40df114fe618ff84f4592b93abf213"
+flickr = flickrapi.FlickrAPI(api_key, api_secret)
+(token,frob)= flickr.get_token_part_one(perms='write')
 
 def allow_file(filename):
     return '.' in filename and \
@@ -42,8 +50,8 @@ class PhotoUpload(Resource):
     decorators=[]
 
     def post(self):
-        '''
         data = parser.parse_args()
+        car = Car.get(id=int(data['car_id']))
         if data['file'] == "":
             return {
                     'data':'',
@@ -54,12 +62,15 @@ class PhotoUpload(Resource):
 
         if photo:
             filename = get_date()+'.png'
+            car.pics = filename #os.path.join(UPLOAD_FOLDER,filename)
+            car.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
             return {
                     'data':'',
                     'message':'photo uploaded',
                     'status':'success'
-                    }'''
+                    }
+        print data
         return {
                 'data':'',
                 'message':'ok',
@@ -92,13 +103,8 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
-        photo = data['file']
-        if photo:
-            filename = os.path.join(UPLOAD_FOLDER, get_date()+'.png')
-            photo.save(filename)
-            car.pics = filename
         try:
-            car.owner = User.get(id=int(data['user']))
+            car.owner = User.get(id=1) #int(data['user']))
             car.save()
             return {
                 'data':Car.car_to_dict(car),
@@ -159,3 +165,6 @@ class TestCar(Resource):
                 'message': 'data received',
                 'status': 'success'
                 }
+class GetImage(Resource):
+    def get(self, filename):
+        send_from_directory(UPLOAD_FOLDER,filename)

@@ -82,7 +82,8 @@ class Car(BaseModel):
                         'username':car.owner.username,
                         'id':car.owner.id
                       },
-            'created': str(car.created)
+            'created': str(car.created),
+            'pic': car.pics
             }
 
 class Brand(BaseModel):
