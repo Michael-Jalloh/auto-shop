@@ -18,6 +18,8 @@
     <el-carousel  arrow="always" :autoplay="false">
       <el-carousel-item v-for="item in cars.length" :key="item">
         <h3>{{ cars[item - 1] }}</h3>
+        <h2>{{ item.pic}}</h2>
+        <my-img v-bind:image_url="item.pic" ></my-img>
       </el-carousel-item>
     </el-carousel>
     <hr>
@@ -25,7 +27,13 @@
 </template>
 
 <script >
+import Image from '../Image.vue'
+
 export default {
+  components: {
+    'my-img': Image
+  },
+
   data(){
     return {
       cars: [],

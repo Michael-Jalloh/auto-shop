@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import send_from_directory
 import werkzeug
 import os
-import flickrapi
+#import flickrapi
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
 from models import User, Car
@@ -34,8 +34,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
 api_secret ="814497b9208c1852"
 api_key="df40df114fe618ff84f4592b93abf213"
-flickr = flickrapi.FlickrAPI(api_key, api_secret)
-(token,frob)= flickr.get_token_part_one(perms='write')
+#flickr = flickrapi.FlickrAPI(api_key, api_secret)
+#(token,frob)= flickr.get_token_part_one(perms='write')
 
 def allow_file(filename):
     return '.' in filename and \
