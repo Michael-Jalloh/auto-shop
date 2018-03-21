@@ -21,15 +21,18 @@
       </el-carousel-item>
     </el-carousel>
     <hr>
+    <my-select></my-select>
   </div>
 </template>
 
 <script >
 import Image from '../Image.vue'
+import Select from '../Select.vue'
 
 export default {
   components: {
-    'my-img': Image
+    'my-img': Image,
+    'my-select': Select
   },
 
   data(){

@@ -1,5 +1,13 @@
 <template lang="html">
   <div class="flex-container">
+    <el-select v-model="value" placeholder="Select">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
     <div class="grid-md-2">
       <el-form  :model="form" :rules="rules" label-width="120px">
         <el-form-item label="Name" prop="name">
@@ -21,7 +29,7 @@
           <el-input v-model="form.year"></el-input>
         </el-form-item>
         <el-form-item label="Transmission" prop="transmission">
-          <el-input v-model="form.transmission"></el-input>
+
         </el-form-item>
         <el-form-item label="Engine" prop="engine">
           <el-input v-model="form.engine"></el-input>
@@ -61,6 +69,31 @@
 export default {
   data(){
     return {
+      options: [{
+         value: 'Option1',
+         label: 'Option1'
+       }, {
+         value: 'Option2',
+         label: 'Option2'
+       }, {
+         value: 'Option3',
+         label: 'Option3'
+       }, {
+         value: 'Option4',
+         label: 'Option4'
+       }, {
+         value: 'Option5',
+         label: 'Option5'
+       }],
+       value: '',
+      transmissions: [{
+        value:"Manual",
+        label: "manual"
+        },
+        {
+          value:"Automatic",
+          label:"automatic"
+        }],
       imageUrl: '',
       form: {
         name: '',

@@ -13,8 +13,7 @@ export default {
     }
   },
    created(){
-     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url,
-     console.log(location)
+     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url
    }
 }
 </script>
