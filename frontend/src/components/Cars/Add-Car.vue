@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="flex-container">
-    <div class="grid-md-2">
-      <el-form  :model="form" :rules="rules" label-width="120px">
+    <div class="grid-md-2 ml-10">
+      <el-form label-position="left" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="Name" prop="name">
           <el-input  v-model="form.name" placeholder="Name *"></el-input>
         </el-form-item>
@@ -18,34 +18,72 @@
           <el-input v-model="form.model"></el-input>
         </el-form-item>
         <el-form-item label="Year" prop="year">
-          <el-input v-model="form.year"></el-input>
+          <el-date-picker
+            v-model="form.year"
+            type="year"
+            placeholder="Pick a year"
+            class="w-100"
+            >
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="Transmission" prop="transmission">
-          <el-input v-model="form.transmission"></el-input>
+          <el-select placeholder="Transmission" v-model="form.transmission" class="w-100">
+            <el-option
+              v-for="item in transmissions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Engine" prop="engine">
-          <el-input v-model="form.engine"></el-input>
+          <el-select placeholder="Cylinder" v-model="form.engine" class="w-100">
+            <el-option
+              v-for="item in engines"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Mileage" prop="mileage">
           <el-input v-model="form.mileage"></el-input>
         </el-form-item>
         <el-form-item label="Fuel" prop="fuel">
-          <el-input v-model="form.fuel"></el-input>
+          <el-select placeholder="Fuel" v-model="form.fuel" class="w-100">
+            <el-option
+              v-for="item in fuel_type"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="Drive Train" prop="drive_train">
-          <el-input v-model="form.drive_train"></el-input>
+          <el-select placeholder="Drive Train" v-model="form.drive_train" class="w-100">
+            <el-option
+              v-for="item in drive_type"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
     <el-button type="primary" @click="onSubmit">Save</el-button>
   </el-form-item>
       </el-form>
     </div>
-    <div class="grid-md-2">
+    <div class="grid-md-2 ml-10">
       <h3 class="mt-0">Featured Image</h3>
 
       <el-upload
         class="avatar-uploader"
-        action="http://localhost:5000/api/v1/upload-car-photo"
+        :action="upload_url"
         :show-file-list="false"
         :on-change="onChanged"
         :auto-upload="false"
@@ -63,6 +101,49 @@
 export default {
   data(){
     return {
+
+      transmissions: [{
+          value:"manual",
+          label: "Manual"
+        },
+        {
+          value:"automatic",
+          label:"Automatic"
+        }],
+      engines: [{
+          value:'4',
+          label: 'V4'
+        },
+        {
+          value:'6',
+          label: 'V6'
+          },
+        {
+          value:'8',
+          label: 'V8'
+        },
+        {
+          value:'12',
+          label: 'V12'
+          },
+        ],
+
+      fuel_type: [{
+          value: 'diesel',
+          label: 'Diesel'
+        },
+        {
+          value: 'petrol',
+          label: 'Petrol'
+        }],
+      drive_type : [{
+          value: '2',
+          label: '2WD'
+        },
+        {
+          value: '4',
+          label: '4WD'
+        }],
       imageUrl: '',
       form: {
         name: '',
@@ -119,6 +200,12 @@ export default {
     };
   },
 
+  created() {
+    //do something after creating vue instance
+    var url = window.location.hostname+':'+window.location.port;
+    this.upload_url = url + '/api/v1/upload-photo'
+  },
+
   methods: {
     onSubmit() {
       console.log(this.form);
@@ -128,7 +215,10 @@ export default {
               message: res.data['message'],
               type: res.data['status']
         });
-        this.fileData.car_id = res.data['data']['owner']['id'];
+        console.log(this.fileData);
+        console.log(res.data['data']['car_id']);
+        this.fileData.car_id = res.data['data']['car_id'];
+        console.log(this.fileData);
         this.$refs.upload.submit();
       })
     },
@@ -153,11 +243,12 @@ export default {
       },
 
       onChanged(file,fileList){
-      //console.log(fileList);
-        console.log(file);
         this.imageUrl = URL.createObjectURL(file.raw);
-  //      this.form.photoName = file.name;
         this.form.file = file.raw;
+      },
+
+      onSubmitTest(){
+        console.log(this.form);
       }
     }
 
@@ -189,6 +280,10 @@ export default {
     width: 100%;
     height: 178px;
     display: block;
+    object-fit: contain;
   }
 
+  .w-100 {
+    width: 100% !important;
+  }
 </style>

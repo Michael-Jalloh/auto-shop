@@ -43,6 +43,11 @@ body {
   height: calc(100vh - 120px);
   overflow-y: scroll;
   display: flex;
+
+  @include until($large-mobile){
+    flex-direction: column;
+  }
+
 }
 
 main{

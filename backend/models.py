@@ -67,6 +67,7 @@ class Car(BaseModel):
     def car_to_dict(car):
         return {
             'name': car.name,
+            'car_id': car.id,
             'price': car.price,
             'description': car.description,
             'pics': car.pics,

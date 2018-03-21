@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -6,7 +6,7 @@ import logging
 from models import RevokedToken
 import car, user
 
-
+UPLOAD_FOLDER = "static/img"
 application = Flask(__name__,
                     static_folder='./dist/static',
                     template_folder='./dist')
@@ -25,6 +25,10 @@ def check_token(decrypted_token):
 def index():
     return render_template('index.html')
 
+@application.route('/get-photo/<path:name>')
+def send_photo(name):
+    return send_from_directory(UPLOAD_FOLDER,name)
+
 # Set up the logger
 logger = logging.getLogger("app")
 logger.setLevel(logging.DEBUG)
@@ -36,6 +40,7 @@ fh.setFormatter(formatter)
 
 logger.addHandler(fh)
 logger.info('=========================START=========================')
+
 
 api.add_resource(user.Signup, '/api/v1/signup'"")
 api.add_resource(car.AddCar, '/api/v1/add-car')
