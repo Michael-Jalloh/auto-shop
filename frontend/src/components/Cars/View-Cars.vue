@@ -16,8 +16,9 @@
     <hr>
     <h3>Old Cars</h3>
     <el-carousel  arrow="always" :autoplay="false">
-      <el-carousel-item v-for="item in cars.length" :key="item">
-        <h3>{{ cars[item - 1] }}</h3>
+      <el-carousel-item v-for="item in cars" :key="item">
+        <h3>{{ item.pic}}</h3>
+        <img :src="item.pic" alt="">
       </el-carousel-item>
     </el-carousel>
     <hr>
@@ -39,7 +40,7 @@ export default {
       console.log(res.data['data']);
       //console.log(res.data);
     }).catch( res => {
-      console.log(res.data)
+      console.log(res);
     })
   },
   methods: {

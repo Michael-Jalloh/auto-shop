@@ -47,8 +47,10 @@
         class="avatar-uploader"
         action="http://localhost:5000/api/v1/upload-car-photo"
         :show-file-list="false"
-        :on-change="test"
+        :on-change="onChanged"
         :auto-upload="false"
+        ref="upload"
+        :data="fileData"
         :on-success="handleAvatarSuccess">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -110,6 +112,9 @@ export default {
         drive_train: [
           {required:true, message:'This field is required', trigger:'changed|blur'}
         ],
+      },
+      fileData:{
+        car_id: '',
       }
     };
   },
@@ -117,12 +122,14 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.form);
-      this.$http.post('/test-car', this.form).then(res => {
+      this.$http.post('/add-car', this.form).then(res => {
         this.$notify({
               title:'Car',
               message: res.data['message'],
               type: res.data['status']
         });
+        this.fileData.car_id = res.data['data']['owner']['id'];
+        this.$refs.upload.submit();
       })
     },
 
@@ -145,7 +152,7 @@ export default {
         return isJPG && isLt2M;
       },
 
-      test(file,fileList){
+      onChanged(file,fileList){
       //console.log(fileList);
         console.log(file);
         this.imageUrl = URL.createObjectURL(file.raw);
@@ -179,7 +186,7 @@ export default {
     text-align: center;
   }
   .avatar {
-    width: 178px;
+    width: 100%;
     height: 178px;
     display: block;
   }
