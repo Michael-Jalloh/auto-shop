@@ -62,7 +62,7 @@ class PhotoUpload(Resource):
 
         if photo:
             filename = get_date()+'.png'
-            car.pics = filename #os.path.join(UPLOAD_FOLDER,filename)
+            car.pics = filename
             car.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
             return {

@@ -1,6 +1,6 @@
 <template lang="html">
-  <!--<img :src="imageUrl" alt="">-->
-  <h1>{{ image_url }}</h1>
+  <img class="my-img" :src="imageUrl" alt="">
+  <!--<h1>{{ imageUrl }}</h1>-->
 </template>
 
 <script>
@@ -13,10 +13,16 @@ export default {
     }
   },
    created(){
-     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url
+     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url,
+     console.log(location)
    }
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+my-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 </style>

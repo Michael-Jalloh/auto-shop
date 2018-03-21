@@ -16,10 +16,8 @@
     <hr>
     <h3>Old Cars</h3>
     <el-carousel  arrow="always" :autoplay="false">
-      <el-carousel-item v-for="item in cars.length" :key="item">
-        <h3>{{ cars[item - 1] }}</h3>
-        <h2>{{ item.pic}}</h2>
-        <my-img v-bind:image_url="item.pic" ></my-img>
+      <el-carousel-item v-for="car in cars" >
+        <my-img v-bind:image_url="car.pic" ></my-img>
       </el-carousel-item>
     </el-carousel>
     <hr>
