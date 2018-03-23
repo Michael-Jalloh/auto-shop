@@ -17,8 +17,8 @@
     <hr>
     <h3>Old Cars</h3>
     <el-carousel  arrow="always" :autoplay="false">
-      <el-carousel-item v-for="car in cars" >
-        <my-img v-bind:image_url="car.pic" ></my-img>
+      <el-carousel-item v-for="item in cars.length" :key="item">
+        <my-img v-bind:image_url="cars[item - 1].pic" ></my-img>
       </el-carousel-item>
     </el-carousel>
     <hr>
@@ -27,12 +27,10 @@
 
 <script >
 import Image from '../Image.vue'
-import Select from '../Select.vue'
 
 export default {
   components: {
     'my-img': Image,
-    'my-select': Select
   },
 
   data(){

@@ -66,7 +66,7 @@ class PhotoUpload(Resource):
             car.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
             return {
-                    'data':'',
+                    'data': Car.car_to_dict(car),
                     'message':'photo uploaded',
                     'status':'success'
                     }
@@ -134,13 +134,12 @@ class GetCars(Resource):
                 'status':'success'
                 }
 
-class ViewCar(Resource):
+class GetCar(Resource):
     decorators = []
 
-    def post(self):
+    def get(self, car_id):
         data = parser.parse_args()
         logger = logging.getLogger('app.view-car-post')
-        car_id = data['car_id']
         try:
             car = Car.car_to_dict(Car.get(id=int(car_id)))
             return {

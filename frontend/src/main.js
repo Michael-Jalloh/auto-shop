@@ -11,10 +11,7 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-//import './layout.scss'
-//import './variable.scss'
-//import './mixins.scss'
-//import './main.scss'
+import Vuex from 'vuex'
 
 
 
@@ -23,7 +20,7 @@ Vue.use(VueAxios, axios);
 var url = window.location.hostname + ':'+window.location.port;
 axios.defaults.baseURL = "http://localhost:5000";
 
-
+Vue.use(Vuex)
 Vue.use(ElementUI, { locale} )
 Vue.use(VueLocalStorage,{
   name:'ls'
@@ -31,10 +28,30 @@ Vue.use(VueLocalStorage,{
 
 Vue.component('icon',Icon)
 
+export const bus = new Vue()
+
+const store = new Vuex.Store({
+  state: {
+    car: {},
+  },
+
+  getters: {
+    car: state => state.car
+  },
+
+  mutations: {
+    setCar: (state, payload) => {
+      state.car = payload;
+    }
+  }
+
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store: store,
   components: { App },
   template: '<App/>'
 })

@@ -70,7 +70,6 @@ class Car(BaseModel):
             'car_id': car.id,
             'price': car.price,
             'description': car.description,
-            'pics': car.pics,
             'brand': car.brand,
             'model': car.model,
             'year': str(car.year),

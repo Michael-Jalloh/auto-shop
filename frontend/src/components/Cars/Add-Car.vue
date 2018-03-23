@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="flex-container">
-    <div class="grid-md-2 ml-10">
+    <div class="grid-md-6 ml-10">
       <el-form label-position="left" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="Name" prop="name">
           <el-input  v-model="form.name" placeholder="Name *"></el-input>
@@ -78,7 +78,7 @@
   </el-form-item>
       </el-form>
     </div>
-    <div class="grid-md-2 ml-10">
+    <div class="grid-md-6 ml-10">
       <h3 class="mt-0">Featured Image</h3>
 
       <el-upload
@@ -98,6 +98,9 @@
 </template>
 
 <script>
+
+import {bus} from '../../main';
+
 export default {
   data(){
     return {
@@ -203,13 +206,14 @@ export default {
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    this.upload_url = url + '/api/v1/upload-photo'
+    //this.upload_url = url + '/api/v1/upload-photo'
+    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo"
   },
 
   methods: {
     onSubmit() {
       console.log(this.form);
-      this.$http.post('/add-car', this.form).then(res => {
+      this.$http.post('/api/v1/add-car', this.form).then(res => {
         this.$notify({
               title:'Car',
               message: res.data['message'],
@@ -218,15 +222,19 @@ export default {
         console.log(this.fileData);
         console.log(res.data['data']['car_id']);
         this.fileData.car_id = res.data['data']['car_id'];
-        console.log(this.fileData);
         this.$refs.upload.submit();
+        this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
+          this.$store.commit('setCar',resp.data['data']);
+          this.$router.push({name: 'View-Car'});
+        })
       })
     },
 
     handleAvatarSuccess(res, file) {
       console.log(res);
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.file  = file.raw;
+
+        this.$store.commit('setCar',res.data['data']);
+        this.$router.push({name: 'View-Car'});
       },
       beforeAvatarUpload(file) {
         this.imageUrl = URL.createObjectURL(file.raw);
