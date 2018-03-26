@@ -18,7 +18,8 @@ import Vuex from 'vuex'
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 var url = window.location.hostname + ':'+window.location.port;
-axios.defaults.baseURL = "http://localhost:5000";
+//axios.defaults.baseURL = "http://localhost:5000"; // for dev
+//axios.defaults.baseURL = url; // for production
 
 Vue.use(Vuex)
 Vue.use(ElementUI, { locale} )
@@ -33,15 +34,21 @@ export const bus = new Vue()
 const store = new Vuex.Store({
   state: {
     car: {},
+    cars: [],
   },
 
   getters: {
-    car: state => state.car
+    car: state => state.car,
+    cars: state => state.cars
   },
 
   mutations: {
     setCar: (state, payload) => {
       state.car = payload;
+    },
+
+    setCars: (state, payload) => {
+      state.cars = payload;
     }
   }
 

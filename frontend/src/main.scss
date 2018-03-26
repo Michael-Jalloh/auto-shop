@@ -8,6 +8,7 @@
 
 
 .overlay {
+  height: 100%;
 
   &:hover{
 
@@ -265,6 +266,10 @@
 
 .mt-0{
   margin-top: 0;
+}
+
+.mt-10 {
+  margin-top: 10px;
 }
 
 .ml-0 {

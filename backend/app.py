@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from models import Car
 import logging
 from models import RevokedToken
 import car, user
@@ -25,9 +26,10 @@ def check_token(decrypted_token):
 def index():
     return render_template('index.html')
 
-@application.route('/get-photo/<path:name>')
-def send_photo(name):
-    return send_from_directory(UPLOAD_FOLDER,name)
+@application.route('/get-photo/<path:id>')
+def send_photo(id):
+    c = Car.get(id=int(id))
+    return send_from_directory(UPLOAD_FOLDER,c.pics)
 
 # Set up the logger
 logger = logging.getLogger("app")

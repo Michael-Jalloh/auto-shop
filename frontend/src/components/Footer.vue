@@ -1,7 +1,14 @@
 <template lang="html">
   <el-container>
     <el-footer class="app-footer">
-        Auto Shop &copy;  {{ date }}
+        <div class="">
+          <p>
+            Auto Shop &copy;  {{ date }}
+          </p>
+          <p>
+            Built by Tech Solutions
+          </p>
+        </div>
     </el-footer>
   </el-container>
 </template>
@@ -28,13 +35,20 @@ export default {
 <style lang="scss" scoped>
 
 .app-footer {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
   width: 100%;
   background-color: #343A40;
   color: #FFFFFF;
+
+  div {
+    display: flex;
+    max-width: 900px;
+    justify-content: space-between;
+    width: 100%;
+  }
 }
 
 </style>

@@ -1,31 +1,33 @@
 <template lang="html">
   <div class="">
-    <el-button @click="test">Location</el-button>
     <h3>Luxury Cars</h3>
-    <el-carousel ref="carousel" arrow="always" :autoplay="false">
-      <el-carousel-item class="overlay" v-for="item in cars.length" :key="item">
-        <my-img v-bind:image_url="cars[item - 1].pic" ></my-img>
+    <el-carousel ref="carousel" indicator-position="none" arrow="always" :autoplay="false" v-loading="loading">
+      <el-carousel-item    v-for="item in cars.length"  :key="item">
+        <div class="" v-on:click="selectCar(cars[item - 1 ])" class="overlay">
+          <my-img v-bind:image_url="cars[item - 1].car_id"    ></my-img>
+        </div>
       </el-carousel-item>
     </el-carousel>
     <hr>
     <h3>New Cars</h3>
-    <el-carousel  arrow="always" :autoplay="false">
+    <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item v-for="item in cars.length" :key="item">
-        <h3>{{ cars[item - 1] }}</h3>
+
       </el-carousel-item>
     </el-carousel>
     <hr>
     <h3>Old Cars</h3>
-    <el-carousel  arrow="always" :autoplay="false">
+    <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item v-for="item in cars.length" :key="item">
-        <my-img v-bind:image_url="cars[item - 1].pic" ></my-img>
+        
       </el-carousel-item>
     </el-carousel>
     <hr>
   </div>
 </template>
 
-<script >
+<script>
+
 import Image from '../Image.vue'
 
 export default {
@@ -36,29 +38,34 @@ export default {
   data(){
     return {
       cars: [],
-      autoplay: false
+      autoplay: false,
+      loading: true
     }
   },
 
   created() {
-    this.$http.get('/api/v1/get-cars').then( res => {
-      this.cars = res.data['data'];
-      console.log(res.data['data']);
-      //console.log(res.data);
-    }).catch( res => {
-      console.log(res);
-    })
+    if(this.$store.getters.cars && this.$store.getters.cars.length > 0){
+      this.cars = this.$store.getters.cars;
+      this.loading = false
+    } else{
+      this.$http.get('/api/v1/get-cars').then( res => {
+        this.cars = res.data['data'];
+        this.$store.commit('setCars',this.cars)
+        console.log(res.data['data']);
+        this.loading = false;
+        //console.log(res.data);
+      }).catch( res => {
+        console.log(res);
+      })
+    }
+
   },
   methods: {
-    printCar() {
-      console.log(this.cars);
-      console.log(this.cars.length);
-      this.$refs.carousel.next();
-    },
 
-    test() {
-      var url = window.location.hostname + ':'+window.location.port;
-      alert(url);
+
+    selectCar(car) {
+      this.$store.commit('setCar',car);
+      this.$router.push({name: 'View-Car'});
     }
   }
 }

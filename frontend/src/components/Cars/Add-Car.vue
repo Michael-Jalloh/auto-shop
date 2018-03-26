@@ -19,8 +19,11 @@
         </el-form-item>
         <el-form-item label="Year" prop="year">
           <el-date-picker
+            format="yyyy"
+            value-format="yyyy,MM,dd"
             v-model="form.year"
             type="year"
+
             placeholder="Pick a year"
             class="w-100"
             >
@@ -92,18 +95,19 @@
         :on-success="handleAvatarSuccess">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+      </el-upload>
     </div>
   </div>
 </template>
 
 <script>
 
-import {bus} from '../../main';
+import { bus } from '../../main';
 
 export default {
   data(){
     return {
+      have_photo: false,
 
       transmissions: [{
           value:"manual",
@@ -206,34 +210,51 @@ export default {
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = url + '/api/v1/upload-photo'
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo"
+    this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
   },
 
   methods: {
     onSubmit() {
-      console.log(this.form);
-      this.$http.post('/api/v1/add-car', this.form).then(res => {
-        this.$notify({
-              title:'Car',
-              message: res.data['message'],
-              type: res.data['status']
-        });
-        console.log(this.fileData);
-        console.log(res.data['data']['car_id']);
-        this.fileData.car_id = res.data['data']['car_id'];
-        this.$refs.upload.submit();
-        this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
-          this.$store.commit('setCar',resp.data['data']);
-          this.$router.push({name: 'View-Car'});
+      if (this.have_photo){
+        console.log(this.form);
+        this.$http.post('/api/v1/add-car', this.form).then(res => {
+          this.$notify({
+                title:'Car',
+                message: res.data['message'],
+                type: res.data['status']
+          });
+          this.$http.get('/api/v1/get-cars').then( res => {
+            this.cars = res.data['data'];
+            this.$store.commit('setCars',this.cars)
+          }).catch( res => {
+            console.log(res);
+          })
+          console.log(this.fileData);
+          console.log(res.data['data']['car_id']);
+          this.fileData.car_id = res.data['data']['car_id'];
+          this.$refs.upload.submit();
+          this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
+            this.$store.commit('setCar',resp.data['data']);
+            this.$router.push({name: 'View-Car'});
+          })
         })
-      })
+      } else {
+        this.$notify.info({
+            title:'Image',
+            message: 'Please add a Featured Image'
+        })
+      }
     },
 
     handleAvatarSuccess(res, file) {
-      console.log(res);
 
-        this.$store.commit('setCar',res.data['data']);
+      //  this.$store.commit('setCar',res.data['data']);
+        console.log('upload successful');
+        console.log(res.data['data']);
+        console.log('upload successful');
+    //    bus.$emit('ViewCar',res.data['data'].pic);
+
         this.$router.push({name: 'View-Car'});
       },
       beforeAvatarUpload(file) {
@@ -253,6 +274,7 @@ export default {
       onChanged(file,fileList){
         this.imageUrl = URL.createObjectURL(file.raw);
         this.form.file = file.raw;
+        this.have_photo = true;
       },
 
       onSubmitTest(){

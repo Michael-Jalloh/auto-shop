@@ -1,7 +1,9 @@
+
 from flask_restful import Resource, reqparse
 from flask import send_from_directory
 import werkzeug
 import os
+from datetime import date
 #import flickrapi
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
@@ -32,10 +34,6 @@ parser.add_argument('car_id')
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
-api_secret ="814497b9208c1852"
-api_key="df40df114fe618ff84f4592b93abf213"
-#flickr = flickrapi.FlickrAPI(api_key, api_secret)
-#(token,frob)= flickr.get_token_part_one(perms='write')
 
 def allow_file(filename):
     return '.' in filename and \
@@ -65,8 +63,10 @@ class PhotoUpload(Resource):
             car.pics = filename
             car.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
+            c = Car.car_to_dict(car)
+            print c
             return {
-                    'data': Car.car_to_dict(car),
+                    'data': c,
                     'message':'photo uploaded',
                     'status':'success'
                     }
@@ -97,7 +97,8 @@ class AddCar(Resource):
         car.description = data['description']
         car.brand = data['brand']
         car.model = data['model']
-        car.year = data['year']
+        d = data['year'].split(',')
+        car.year = date(int(d[0]), int(d[1]), int(d[2]))
         car.transmission = data['transmission']
         car.engine = data['engine']
         car.mileage = data['mileage']
