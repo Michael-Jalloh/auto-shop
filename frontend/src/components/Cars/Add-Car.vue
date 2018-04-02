@@ -65,6 +65,17 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="Type" prop="type">
+          <el-select placeholder="Type of car" v-model="form.type" class="w-100">
+            <el-option
+              v-for="item in car_type"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="Drive Train" prop="drive_train">
           <el-select placeholder="Drive Train" v-model="form.drive_train" class="w-100">
             <el-option
@@ -83,7 +94,6 @@
     </div>
     <div class="grid-md-6 ml-10">
       <h3 class="mt-0">Featured Image</h3>
-
       <el-upload
         class="avatar-uploader"
         :action="upload_url"
@@ -119,19 +129,23 @@ export default {
         }],
       engines: [{
           value:'4',
-          label: 'V4'
+          label: '4 Cylinder'
         },
         {
           value:'6',
-          label: 'V6'
+          label: '6 Cylinder'
           },
         {
           value:'8',
-          label: 'V8'
+          label: '8 Cylinder'
+        },
+        {
+          value: '10',
+          label: '10 Cylinder'
         },
         {
           value:'12',
-          label: 'V12'
+          label: '12 Cylinder'
           },
         ],
 
@@ -151,6 +165,24 @@ export default {
           value: '4',
           label: '4WD'
         }],
+      car_type: [
+        {
+          value: 'luxury',
+          label: 'Luxury'
+        },
+        {
+          value: 'new',
+          label: 'New'
+        },
+        {
+          value: 'old',
+          label: 'Old'
+        },
+        {
+          value: 'scrap',
+          label: 'Scrap'
+        }
+      ],
       imageUrl: '',
       form: {
         name: '',
@@ -163,6 +195,7 @@ export default {
         engine: '',
         mileage: '',
         fuel: '',
+        type: '',
         drive_train:'',
         file: ''
       },

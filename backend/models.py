@@ -57,6 +57,7 @@ class Car(BaseModel):
     transmission = CharField(default="")
     engine = CharField(default="")
     mileage = IntegerField()
+    car_type = CharField(default="")
     fuel = CharField(default="")
     drive_train = CharField(default="")
     owner = ForeignKeyField(User, related_name="cars")
@@ -71,12 +72,12 @@ class Car(BaseModel):
             'price': car.price,
             'description': car.description,
             'brand': car.brand,
-            'model': car.model,
-            'year': str(car.year),
-            'transmission': car.transmission,
+            'model': car.model.capitalize(),
+            'year': car.year.split('-')[0],
+            'transmission': car.transmission.capitalize(),
             'engine': car.engine,
             'mileage': car.mileage,
-            'fuel': car.fuel,
+            'fuel': car.fuel.capitalize(),
             'drive_train': car.drive_train,
             'owner': {
                         'username':car.owner.username,

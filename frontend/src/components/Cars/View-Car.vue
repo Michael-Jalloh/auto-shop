@@ -1,11 +1,14 @@
 <template lang="html">
   <div class="flex-container">
     <div class="grid-md-8">
-      <el-card class="box-card">
+      <el-card class="box-card relative">
+        <div class="" slot="header">
+          <span>{{ car.name }}</span>
+          <el-button class="btn" @click="Edit" type="text">Edit</el-button>
+        </div>
         <my-img v-bind:image_url="car.car_id">
         </my-img>
       </el-card>
-
       <el-card class="mt-10">
         <el-table
           class="car-table"
@@ -53,20 +56,11 @@ export default {
 
   created(){
     this.car = this.$store.getters.car;
-
   },
 
   methods: {
     carTable(car){
       return [
-        {
-          label: "Name",
-          value: car.name,
-        },
-        {
-          label: "Price",
-          value: 'D'+car.price
-        },
         {
           label: "Brand",
           value: car.brand
@@ -74,6 +68,10 @@ export default {
         {
           label: "Model",
           value: car.model
+        },
+        {
+          label: "Price",
+          value: 'D'+car.price
         },
         {
           label: "Year",
@@ -85,7 +83,7 @@ export default {
         },
         {
           label: 'Engine',
-          value: 'V' + car.engine
+          value: car.engine + ' Cylinder'
         },
         {
           label: 'Mileage',
@@ -100,6 +98,11 @@ export default {
           value: car.drive_train+'WD'
         }
       ]
+    },
+
+    Edit() {
+      this.$store.commit('setCar',this.car);
+      this.$router.push({name: 'Edit-Car'});
     }
   }
 
@@ -119,6 +122,13 @@ export default {
         }
       }
   }
+}
+
+.btn {
+  position: absolute;
+  right: 32px;
+  top: 5px;
+  font-size: 20px;
 }
 
 </style>

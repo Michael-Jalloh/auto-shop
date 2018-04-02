@@ -109,7 +109,7 @@ class AddCar(Resource):
             car.save()
             return {
                 'data':Car.car_to_dict(car),
-                'message':'Post saved',
+                'message':'Posting saved',
                 'status':'success'
                 }
         except Exception as e:
@@ -119,6 +119,42 @@ class AddCar(Resource):
                 'message':'And error occur please check your fields',
                 'status':'error'
                 }
+
+class EditCar(Resource):
+    decorators = []
+
+    def post(self):
+        data = parser.parse_args()
+        logger = logging.getLogger('app.add-car-get')
+        car = Car.get(id=int(data['car_id']))
+        car.name = data['name']
+        car.price = data['price']
+        car.description = data['description']
+        car.brand = data['brand']
+        car.model = data['model']
+        d = data['year'].split(',')
+        car.year = date(int(d[0]), int(d[1]), int(d[2]))
+        car.transmission = data['transmission']
+        car.engine = data['engine']
+        car.mileage = data['mileage']
+        car.fuel = data['fuel']
+        car.drive_train = data['drive_train']
+        try:
+            car.owner = User.get(id=1) #int(data['user']))
+            car.save()
+            return {
+                'data':Car.car_to_dict(car),
+                'message':'Posting saved',
+                'status':'success'
+                }
+        except Exception as e:
+            logger.error(str(e))
+            return {
+                'data':'',
+                'message':'And error occur please check your fields',
+                'status':'error'
+                }
+
 
 class GetCars(Resource):
     decorators=[]

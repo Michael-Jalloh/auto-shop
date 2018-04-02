@@ -14,8 +14,8 @@ export default {
   },
    created(){
      var url = window.location.hostname+':'+window.location.port
-     //this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url // for dev
-     this.imageUrl = 'http://' + url + '/get-photo/'+ this.image_url // for production
+     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url // for dev
+     //this.imageUrl = 'http://' + url + '/get-photo/'+ this.image_url // for production
    }
 }
 </script>
