@@ -10,9 +10,7 @@
         <span class="bar3"></span>
       </div>
       <div id="side-menu" v-bind:class="{active:active}">
-        <!--<div class="icon">
-          <icon name="envelope" scale="1.75"></icon>
-        </div> -->
+
         <ul>
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
@@ -23,7 +21,7 @@
           <li v-on:click="active = false"><router-link to="" class="link">Old Cars</router-link></li>
           <li v-on:click="active = false"><router-link to="" class="link">Scarp Cars</router-link></li>
           <li class="log-out" v-show="!$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'Login', params: {} }" class="link"><icon class="icon" scale="1.75" name="sign-in" ></icon></router-link></li>
-          <li class="log-out" v-show="$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'Login', params: {} }" class="link"><icon class="icon" scale="1.75" name="sign-out" ></icon></router-link></li>
+          <li class="log-out" v-show="$auth.isAuthenticated()" v-on:click="logout"><icon class="icon" scale="1.75" name="sign-out" ></icon></li>
           <li></li>
         </ul>
       </div>
@@ -51,9 +49,14 @@ export default {
 
   methods: {
     logout: function(){
+      this.active = false;
       console.log('Logout');
       this.$auth.logout().then(response=> {
-        this.$router.push('/login');
+        this.$router.push('/');
+        this.$notify.success({
+          title: 'Logout',
+          message: 'You have been logged out'
+        })
       })
     }
   }

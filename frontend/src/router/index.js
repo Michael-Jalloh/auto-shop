@@ -18,7 +18,10 @@ export default new Router({
     {
       path: '/add-car',
       name: 'Add-Car',
-      component: AddCar
+      component: AddCar,
+      meta: {
+        forAuth: true
+      }
     },
     {
       path: '/view-car',
@@ -29,6 +32,9 @@ export default new Router({
       path: '/edit-car',
       name: 'Edit-Car',
       component: EditCar,
+      meta: {
+        forAuth: true
+      }
     },
     {
       path: '/login',

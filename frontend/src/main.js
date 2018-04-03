@@ -14,6 +14,8 @@ import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import Auth from './packages/auth/Auth.js'
+import Ability from './packages/ability/ability.js'
+
 
 
 Vue.config.productionTip = false
@@ -28,6 +30,7 @@ Vue.use(VueLocalStorage,{
   name:'ls'
 })
 Vue.use(Auth)
+Vue.use(Ability)
 Vue.auth.setBaseUrl("http://localhost:5000/api/v1")
 Vue.auth.setStorage(Vue.ls)
 Vue.component('icon',Icon)
@@ -63,11 +66,13 @@ const store = new Vuex.Store({
   state: {
     car: {},
     cars: [],
+    user: [],
   },
 
   getters: {
     car: state => state.car,
-    cars: state => state.cars
+    cars: state => state.cars,
+    user: state => state.user,
   },
 
   mutations: {
@@ -77,6 +82,10 @@ const store = new Vuex.Store({
 
     setCars: (state, payload) => {
       state.cars = payload;
+    },
+
+    setUser: (state, payload) => {
+      state.user = payload;
     }
   }
 

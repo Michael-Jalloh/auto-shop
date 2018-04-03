@@ -45,6 +45,15 @@ class User(BaseModel):
     def verify_password(self,password):
         return check_password_hash(self.password_hash, password)
 
+    def dictionary(self):
+        return {
+            'username': self.username,
+            'account_type':self.account_type,
+            'id': self.id,
+            'email':self.email,
+            'contact':self.contact
+        }
+
 class Car(BaseModel):
     name = CharField()
     price = CharField(default="")

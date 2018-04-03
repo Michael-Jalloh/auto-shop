@@ -46,6 +46,9 @@ logger.info('=========================START=========================')
 
 api.add_resource(user.Signup, '/api/v1/sign-up')
 api.add_resource(user.Login, '/api/v1/login')
+api.add_resource(user.LogoutAccessToken, '/api/v1/logout-access')
+api.add_resource(user.LogoutRefreshToken, '/api/v1/logout-refresh')
+
 api.add_resource(car.AddCar, '/api/v1/add-car')
 api.add_resource(car.EditCar, '/api/v1/edit-car')
 api.add_resource(car.GetCars, '/api/v1/get-cars')

@@ -59,7 +59,8 @@ class Login(Resource):
                     'status':'success',
                     'message':'Logged in as {}'.format(user.username),
                     'access-token':access_token,
-                    'refresh-token': refresh_token
+                    'refresh-token': refresh_token,
+                    'data':  user.dictionary()
                     }
             else:
                 return {
@@ -89,7 +90,7 @@ class TokenRefresh(Resource):
                 }
 
 
-class LogoutAccesToken(Resource):
+class LogoutAccessToken(Resource):
     decorators = [jwt_required]
     def get(self):
         jti = get_raw_jwt()['jti']
