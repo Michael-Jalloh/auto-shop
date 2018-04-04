@@ -22,7 +22,7 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 var url = window.location.hostname + ':'+window.location.port;
 axios.defaults.baseURL = "http://localhost:5000"; // for dev
-//axios.defaults.baseURL = url; // for production
+//axios.defaults.baseURL = "http://" + url; // for production
 
 Vue.use(Vuex)
 Vue.use(ElementUI, { locale} )
@@ -31,7 +31,8 @@ Vue.use(VueLocalStorage,{
 })
 Vue.use(Auth)
 Vue.use(Ability)
-Vue.auth.setBaseUrl("http://localhost:5000/api/v1")
+Vue.auth.setBaseUrl("http://localhost:5000/api/v1") // for dev
+//Vue.auth.setBaseUrl(url+ "/api/v1") // for production
 Vue.auth.setStorage(Vue.ls)
 Vue.component('icon',Icon)
 

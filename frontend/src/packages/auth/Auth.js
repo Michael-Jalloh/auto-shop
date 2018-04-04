@@ -65,7 +65,7 @@ export default function(Vue){
       // Delete the access token from the system
       this.storage.remove('access-token');
       this.storage.remove('expiration-time');
-      //this.storage.remove('refresh-token');
+      this.storage.remove('refresh-token');
 
     },
 
@@ -101,11 +101,17 @@ export default function(Vue){
 
 
     logout(){
-      this.userLogout = false
-      var access_token = this.getAccessToken()
-      this.destroyTokens();
+      this.userLogout = false;
+      var access_token = this.getAccessToken();
       return axios.get(this.baseURL+'/logout-access', {
         headers: {Authorization: "Bearer " + access_token}
+      })
+    },
+
+    logoutRefresh(){
+      var refresh_token = this.getRefreshToken();
+      return axios.get(this.baseURL+'/logout-refresh', {
+        headers: {Authorization: "Bearer " + refresh_token}
       })
 
     },
@@ -118,7 +124,7 @@ export default function(Vue){
         return true;
       }).catch( response => {
         console.log(response.data);
-      })
+      });
     },
 
     validateToken(){
@@ -140,8 +146,6 @@ export default function(Vue){
 
     post(url, data){
       if(this.validateToken()){
-        console.log(this.baseURL);
-        console.log(url);
         var access_token = this.getAccessToken();
        return axios.post(url,data, {
           headers:{Authorization: "Bearer " + access_token}

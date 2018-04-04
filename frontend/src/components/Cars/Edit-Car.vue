@@ -4,6 +4,10 @@
       <el-card class="box-card relative">
         <div class="" slot="header">
           <span>{{ car.name }}</span>
+          <el-button  class="btn" v-show=" owner && $can.delete(owner,car)" @click="" type="text">Delete</el-button>
+        </div>
+        <div class="">
+          <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="text">View</el-button>
         </div>
         <my-img v-bind:image_url="car.car_id">
         </my-img>
@@ -46,6 +50,7 @@ export default {
 
   created(){
     this.car = this.$store.getters.car;
+    this.owner = this.$store.getters.user;
     this.info = [
       {
         label: "Name",

@@ -31,14 +31,12 @@ export default {
         if (response.data['status']=='success') {
           this.$auth.setTokens(response.data, this.$ls);
           this.$router.push('/');
-          console.log(response.data)
           this.$notify.success({
             title:' Login',
             message: response.data['message'],
             type: response.data['status']
           });
           this.$store.commit('setUser', response.data['data']);
-          console.log(response.data['data']);
         } else {
           this.$notify.success({
             title:' Login',

@@ -52,11 +52,15 @@ export default {
       this.active = false;
       console.log('Logout');
       this.$auth.logout().then(response=> {
+        this.$auth.logoutRefresh();
+        this.$auth.destroyTokens();
         this.$router.push('/');
-        this.$notify.success({
+        this.$notify({
           title: 'Logout',
-          message: 'You have been logged out'
-        })
+          message: 'You have been logged out',
+          type: response.data['status']
+        });
+        this.$store.commit('setUser',{});
       })
     }
   }
