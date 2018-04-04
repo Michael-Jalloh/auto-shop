@@ -54,11 +54,18 @@ export default {
     return {
       car: {},
       image:'image',
+      owner: {}
     }
   },
 
   created(){
     this.car = this.$store.getters.car;
+    console.log(this.car.owner.id);
+    this.owner = this.$store.getters.owner;
+    if (this.owner) {
+        console.log(this.owner.id);
+    }
+
   },
 
   methods: {

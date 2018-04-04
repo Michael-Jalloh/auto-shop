@@ -37,7 +37,7 @@ export default {
             message: response.data['message'],
             type: response.data['status']
           });
-          //this.$store.commit('setUser', response.data['data']);
+          this.$store.commit('setUser', response.data['data']);
           console.log(response.data['data']);
         } else {
           this.$notify.success({

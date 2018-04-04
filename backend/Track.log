@@ -260,3 +260,13 @@ Params: [1]
 2018-04-03 15:19:08,231 - app - INFO - =========================START=========================
 2018-04-03 17:22:57,680 - app - INFO - =========================START=========================
 2018-04-03 17:24:55,915 - app - INFO - =========================START=========================
+2018-04-04 08:11:03,328 - app - INFO - =========================START=========================
+2018-04-04 08:11:04,345 - app - INFO - =========================START=========================
+2018-04-04 08:19:22,721 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."joined" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'michaeljalloh19@gmail..com']
+2018-04-04 08:19:43,314 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."joined" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'michaeljalloh19@gmail..com']
+2018-04-04 08:22:25,150 - app - INFO - =========================START=========================
+2018-04-04 08:22:25,661 - app - INFO - =========================START=========================
