@@ -53,6 +53,7 @@ api.add_resource(car.AddCar, '/api/v1/add-car')
 api.add_resource(car.EditCar, '/api/v1/edit-car')
 api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.GetCar, '/api/v1/get-car/<path:car_id>')
+api.add_resource(car.GetMyCars, '/api/v1/my-cars/<path:id>')
 api.add_resource(car.PhotoUpload,'/api/v1/upload-photo')
 
 api.add_resource(car.TestCar, '/api/v1/test-car')

@@ -19,7 +19,7 @@
     <h3>Old Cars</h3>
     <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item v-for="item in cars.length" :key="item">
-        
+
       </el-carousel-item>
     </el-carousel>
     <hr>
@@ -64,8 +64,9 @@ export default {
 
 
     selectCar(car) {
+      console.log(car.car_id)
       this.$store.commit('setCar',car);
-      this.$router.push({name: 'View-Car'});
+      this.$router.push({name: 'View-Car',params: {id: car.car_id}});
     }
   }
 }

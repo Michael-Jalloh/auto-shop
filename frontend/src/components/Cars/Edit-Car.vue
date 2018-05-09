@@ -1,26 +1,31 @@
 <template lang="html">
   <div class="flex-container">
     <div class="grid-md-8">
-      <el-card class="box-card relative">
-        <div class="" slot="header">
-          <span>{{ car.name }}</span>
-          <el-button  class="btn" v-show=" owner && $can.delete(owner,car)" @click="" type="text">Delete</el-button>
-        </div>
-        <div class="">
-          <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="text">View</el-button>
-        </div>
-        <my-img v-bind:image_url="car.car_id">
-        </my-img>
-      </el-card>
-      <el-card class="mt-10">
-        <div class="edit-car-fields" v-for="item in info.length ">
-          <span>{{ info[item - 1].label }}</span>
-          <span><el-input v-model:value="info[item - 1].value"></el-input></span>
-        </div>
-        <div class="mt-10">
-          <el-button @click="Save">Save</el-button>
-        </div>
-      </el-card>
+      <el-tabs type="border-card" class="relative">
+
+        <el-tab-pane label="Image">
+          <div class="tab">
+
+            <my-img v-bind:image_url="car.car_id">
+            </my-img>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Specifications">
+          <div class="tab">
+            <div class="edit-car-fields" v-for="item in info.length ">
+              <span>{{ info[item - 1].label }}</span>
+              <span><el-input v-model:value="info[item - 1].value"></el-input></span>
+            </div>
+            <div class="mt-10">
+              <el-button @click="Save">Save</el-button>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+      <div class="" style="display:flex; justify-content:space-between; margin: 10px 0;">
+        <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="">View</el-button>
+        <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="danger">Delete</el-button>
+      </div>
     </div>
     <div class="grid-md-4 ">
       <el-card class="box-card">

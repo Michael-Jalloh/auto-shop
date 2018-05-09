@@ -3,6 +3,7 @@ from playhouse.sqlite_ext import *
 from playhouse.postgres_ext import *
 from playhouse.flask_utils import get_object_or_404
 import datetime
+from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
@@ -32,7 +33,11 @@ class User(BaseModel):
     password_hash = CharField()
     email = CharField(unique=True)
     contact = CharField(default="")
+    location = CharField(default="")
     joined = DateTimeField(default=datetime.datetime.now())
+    avatar = CharField(default="avatar.png")
+    bio = TextField(default="")
+    active = BooleanField(default=False)
 
     @property
     def password(self):
@@ -45,13 +50,19 @@ class User(BaseModel):
     def verify_password(self,password):
         return check_password_hash(self.password_hash, password)
 
+    def get_cars(self):
+        cars = [car.dictionary() for car in Car.select().join(User).where(User.id == self.id)]
+        return cars
+
     def dictionary(self):
         return {
             'username': self.username,
             'account_type':self.account_type,
             'id': self.id,
             'email':self.email,
-            'contact':self.contact
+            'contact':self.contact,
+            'location': self.location,
+            'avatar': self.avatar
         }
 
 class Car(BaseModel):
@@ -88,12 +99,28 @@ class Car(BaseModel):
             'mileage': car.mileage,
             'fuel': car.fuel.capitalize(),
             'drive_train': car.drive_train,
-            'owner': {
-                        'username':car.owner.username,
-                        'id':car.owner.id
-                      },
+            'owner': car.owner.dictionary(),
             'created': str(car.created),
             'pic': car.pics
+            }
+
+    def dictionary(self):
+        return {
+            'name': self.name,
+            'car_id': self.id,
+            'price': self.price,
+            'description': self.description,
+            'brand': self.brand,
+            'model': self.model.capitalize(),
+            'year': self.year.split('-')[0],
+            'transmission': self.transmission.capitalize(),
+            'engine': self.engine,
+            'mileage': self.mileage,
+            'fuel': self.fuel.capitalize(),
+            'drive_train': self.drive_train,
+            'owner': self.owner.dictionary(),
+            'created': str(self.created),
+            'pic': self.pics
             }
 
 class Brand(BaseModel):

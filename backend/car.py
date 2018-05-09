@@ -192,6 +192,17 @@ class GetCar(Resource):
                     'status':'error'
                     }
 
+class GetMyCars(Resource):
+    decorators = []
+
+    def get(self, id):
+        user = User.get(id=id)
+        return {
+            'status':'OK',
+            'message':'',
+            'data': user.get_cars()
+            }
+
 class TestCar(Resource):
     def post(self):
         data = parser.parse_args()
