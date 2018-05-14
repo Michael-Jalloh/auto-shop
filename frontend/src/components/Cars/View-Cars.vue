@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <h3>Luxury Cars</h3>
+    <h3>New Cars</h3>
     <el-carousel ref="carousel" indicator-position="none" arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item    v-for="item in cars.length"  :key="item">
         <div class="" v-on:click="selectCar(cars[item - 1 ])" class="overlay">
@@ -9,14 +9,14 @@
       </el-carousel-item>
     </el-carousel>
     <hr>
-    <h3>New Cars</h3>
+    <h3>Old Cars</h3>
     <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item v-for="item in cars.length" :key="item">
 
       </el-carousel-item>
     </el-carousel>
     <hr>
-    <h3>Old Cars</h3>
+    <h3>Scrap Cars</h3>
     <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item v-for="item in cars.length" :key="item">
 
@@ -64,7 +64,6 @@ export default {
 
 
     selectCar(car) {
-      console.log(car.car_id)
       this.$store.commit('setCar',car);
       this.$router.push({name: 'View-Car',params: {id: car.car_id}});
     }

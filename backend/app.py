@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
@@ -30,6 +30,16 @@ def index():
 def send_photo(id):
     c = Car.get(id=int(id))
     return send_from_directory(UPLOAD_FOLDER,c.pics)
+
+@application.route('/post/images', methods=["POST"])
+def images():
+        img = request.form.get('image')
+        name = request.form.get('name')
+        print name
+        i = open(name)
+        i.write(img)
+        i.save()
+        return ''
 
 # Set up the logger
 logger = logging.getLogger("app")

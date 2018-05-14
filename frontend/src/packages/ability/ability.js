@@ -2,22 +2,29 @@ export default function(Vue){
 
   Vue.can = {
     edit(user, car){
-      if(user !== '' ){
-        console.log('Got no user')
-      }else {
-        console.log("Got user")
+      try {
+        if (user.id == car.owner.id){
+          return true;
+        }
+        return false;
+
+      } catch (e) {
+        console.log(e)
+        return false;
       }
-      if (user.id == car.owner.id){
-        return true;
-      }
-      return false
+
     },
 
     delete(user, car){
-      if (user.id == car.owner.id){
-        return true;
+      try {
+        if (user.id == car.owner.id){
+          return true;
+        }
+        return false
+      } catch (e) {
+        console.log(e);
+        return false;
       }
-      return false
     },
 
   }

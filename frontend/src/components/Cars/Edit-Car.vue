@@ -3,7 +3,7 @@
     <div class="grid-md-8">
       <el-tabs type="border-card" class="relative">
 
-        <el-tab-pane label="Image">
+        <el-tab-pane label="Featured Image">
           <div class="tab">
 
             <my-img v-bind:image_url="car.car_id">
@@ -21,9 +21,23 @@
             </div>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="Images">
+          <div class="tab">
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              action="https://127.0.0.1:5000/post/images/"
+              :auto-upload="false"
+              :on-change="test">
+              <el-button slot="trigger" size="small" type="primary">select file</el-button>
+              <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">upload to server</el-button>
+              <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+            </el-upload>
+          </div>
+        </el-tab-pane>
       </el-tabs>
       <div class="" style="display:flex; justify-content:space-between; margin: 10px 0;">
-        <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="">View</el-button>
+        <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="View" type="">View</el-button>
         <el-button  class="" v-show=" owner && $can.delete(owner,car)" @click="" type="danger">Delete</el-button>
       </div>
     </div>
@@ -49,7 +63,7 @@ export default {
     return {
       car: {},
       image:'image',
-
+username
     }
   },
 
@@ -102,10 +116,24 @@ export default {
 
   methods: {
 
-    Edit() {
+    View() {
       this.$store.commit('setCar',this.car);
-      this.$router.push({name: 'Edit-Car'});
+      this.$router.push({name: 'View-Car',params: {id: this.car.car_id}});
     },
+
+    test(file,fileList){
+      var formData = new FormData();
+      formData.append('image', formData.raw);
+      formData.append('name', formData.name);
+      this.$http.post('/post/images',formData);
+      console.log(file);
+      console.log("File-list " +fileList)
+    },
+
+    submitUpload() {
+
+       this.$refs.upload.submit();
+     },
 
     Info2Car() {
       this.car.name = this.info[0].value;

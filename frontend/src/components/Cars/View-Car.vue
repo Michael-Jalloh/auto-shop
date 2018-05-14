@@ -52,7 +52,7 @@
             </my-img>
           </div>
           <div class="">
-              <p>{{ car.owner.username}}</p>
+            <p>{{ car.owner.username}}</p>
               <p>{{ car.owner.location}}</p>
               <el-button>View Profile</el-button>
           </div>
