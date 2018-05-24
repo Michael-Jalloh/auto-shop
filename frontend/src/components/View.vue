@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <router-view/>
+    <app-header></app-header>
+    <div class="main-container">
+      <aside class="aside"></aside>
+        <main>
+            <router-view/>
+        </main>
+    </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
@@ -14,6 +21,10 @@ export default {
   components: {
     'app-header': Header,
     'app-footer': Footer
+  },
+
+  created(){
+    this.$router.push({path: '/view-cars'})
   }
 }
 </script>

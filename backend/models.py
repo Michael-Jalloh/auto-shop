@@ -133,5 +133,18 @@ class Category(BaseModel):
     value = CharField(unique=True)
 
 
+class Blog(BaseModel):
+    timestamp = DateTimeField(default=datetime.datetime.now())
+    published = BooleanField(default=False)
+    content = TextField(default="")
+
+
+    def publish(self):
+        self.published = True
+        self.timestamp = datetime.datetime.now()
+        self.save()
+
+
+
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog],safe=True)

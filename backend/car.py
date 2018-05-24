@@ -1,10 +1,8 @@
-
 from flask_restful import Resource, reqparse
 from flask import send_from_directory
 import werkzeug
 import os
 from datetime import date
-#import flickrapi
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
 from models import User, Car
@@ -86,9 +84,10 @@ class GetPhoto(Resource):
 
 
 class AddCar(Resource):
-    decorators = []
+    decorators = [jwt_required]
 
     def post(self):
+        user = get_jwt_identity()
         data = parser.parse_args()
         logger = logging.getLogger('app.add-car-get')
         car = Car()
@@ -105,7 +104,7 @@ class AddCar(Resource):
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
         try:
-            car.owner = User.get(id=1) #int(data['user']))
+            car.owner = int(user) #User.get(id=int(user)) #int(data['user']))
             car.save()
             return {
                 'data':Car.car_to_dict(car),
@@ -121,39 +120,45 @@ class AddCar(Resource):
                 }
 
 class EditCar(Resource):
-    decorators = []
+    decorators = [jwt_required]
 
     def post(self):
+        user = User.get(int(get_jwt_identity()))
         data = parser.parse_args()
         logger = logging.getLogger('app.add-car-get')
         car = Car.get(id=int(data['car_id']))
-        car.name = data['name']
-        car.price = data['price']
-        car.description = data['description']
-        car.brand = data['brand']
-        car.model = data['model']
-        d = data['year'].split(',')
-        car.year = date(int(d[0]), int(d[1]), int(d[2]))
-        car.transmission = data['transmission']
-        car.engine = data['engine']
-        car.mileage = data['mileage']
-        car.fuel = data['fuel']
-        car.drive_train = data['drive_train']
-        try:
-            car.owner = User.get(id=1) #int(data['user']))
-            car.save()
-            return {
-                'data':Car.car_to_dict(car),
-                'message':'Posting saved',
-                'status':'success'
-                }
-        except Exception as e:
-            logger.error(str(e))
-            return {
+        if car.owner == user:
+            car.name = data['name']
+            car.price = data['price']
+            car.description = data['description']
+            car.brand = data['brand']
+            car.model = data['model']
+            d = data['year'].split(',')
+            car.year = date(int(d[0]), int(d[1]), int(d[2]))
+            car.transmission = data['transmission']
+            car.engine = data['engine']
+            car.mileage = data['mileage']
+            car.fuel = data['fuel']
+            car.drive_train = data['drive_train']
+            try:
+                car.save()
+                return {
+                    'data':Car.car_to_dict(car),
+                    'message':'Posting saved',
+                    'status':'success'
+                    }
+            except Exception as e:
+                logger.error(str(e))
+                return {
                 'data':'',
-                'message':'And error occur please check your fields',
+                'message':'And error occur please check your    fields',
                 'status':'error'
                 }
+        return {
+            'data':'',
+            'message':"You aren't the creator of the car",
+            'status':'error'
+            }
 
 
 class GetCars(Resource):
@@ -193,10 +198,10 @@ class GetCar(Resource):
                     }
 
 class GetMyCars(Resource):
-    decorators = []
+    decorators = [jwt_required]
 
-    def get(self, id):
-        user = User.get(id=id)
+    def get(self):
+        user = User.get(int(get_jwt_identity()))
         return {
             'status':'OK',
             'message':'',

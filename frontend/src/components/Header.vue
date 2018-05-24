@@ -4,18 +4,20 @@
       <div class="" v-on:click="active = false">
         <router-link :to="{ name: 'View-Cars', params: {} }" class="brand-link"> {{ brand }}</router-link>
       </div>
+
       <div id="hamburger" v-on:click="active = !active"  v-bind:class="{active:active}">
         <span class="bar1"></span>
         <span class="bar2"></span>
         <span class="bar3"></span>
       </div>
+
+
       <div id="side-menu" v-bind:class="{active:active}">
 
         <ul>
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
           <li v-on:click="active = false"><router-link to="" class="link">Blog</router-link></li>
-          <li v-on:click="active = false"><router-link :to="{ name:'Add-Car', params: {} }" class="link" >Add Car</router-link></li>
           <li v-on:click="active = false"><router-link to="" class="link">Luxury Cars</router-link></li>
           <li v-on:click="active = false"><router-link to="" class="link">New Cars</router-link></li>
           <li v-on:click="active = false"><router-link to="" class="link">Old Cars</router-link></li>
@@ -63,6 +65,16 @@ export default {
         });
         this.$store.commit('setUser',{});
       })
+    },
+
+    message(){
+      this.active = false;
+
+    },
+
+    profile(){
+      this.active = false;
+
     }
   }
 

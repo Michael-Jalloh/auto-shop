@@ -42,6 +42,7 @@ export default {
   width: 100%;
   background-color: #343A40;
   color: #FFFFFF;
+  padding: 0px;
 
   div {
     display: flex;
@@ -49,6 +50,8 @@ export default {
     justify-content: space-between;
     width: 100%;
   }
+
+  
 }
 
 </style>

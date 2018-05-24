@@ -56,14 +56,16 @@ logger.info('=========================START=========================')
 
 api.add_resource(user.Signup, '/api/v1/sign-up')
 api.add_resource(user.Login, '/api/v1/login')
+api.add_resource(user.TokenRefresh,'/api/v1/token-refresh')
 api.add_resource(user.LogoutAccessToken, '/api/v1/logout-access')
 api.add_resource(user.LogoutRefreshToken, '/api/v1/logout-refresh')
+
 
 api.add_resource(car.AddCar, '/api/v1/add-car')
 api.add_resource(car.EditCar, '/api/v1/edit-car')
 api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.GetCar, '/api/v1/get-car/<path:car_id>')
-api.add_resource(car.GetMyCars, '/api/v1/my-cars/<path:id>')
+api.add_resource(car.GetMyCars, '/api/v1/my-cars/')
 api.add_resource(car.PhotoUpload,'/api/v1/upload-photo')
 
 api.add_resource(car.TestCar, '/api/v1/test-car')

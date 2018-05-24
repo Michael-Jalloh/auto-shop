@@ -30,13 +30,17 @@ export default {
       }).then( response => {
         if (response.data['status']=='success') {
           this.$auth.setTokens(response.data, this.$ls);
-          this.$router.push('/');
+          if (response.data['data'].account_type == "individual") {
+            this.$router.push('/main')
+          } else {
+            this.$router.push('/')
+          }
           this.$notify.success({
             title:' Login',
             message: response.data['message'],
             type: response.data['status']
           });
-          console.log(response.data['data'])
+          console.log(response.data['data'].account_type)
           this.$store.commit('setUser', response.data['data']);
         } else {
           this.$notify.success({

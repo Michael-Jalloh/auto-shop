@@ -4,10 +4,15 @@ import ViewCars from '@/components/Cars/View-Cars'
 import AddCar from '@/components/Cars/Add-Car'
 import ViewCar from '@/components/Cars/View-Car'
 import EditCar from '@/components/Cars/Edit-Car'
+import MyCars from '@/components/Cars/MyCars'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Profile from '@/components/User/Profile'
 import User from '@/components/User/User'
 import AddBlog from '@/components/Blog/Add-Blog'
+import Main from '@/components/Main'
+import View from '@/components/View'
+
 
 Vue.use(Router)
 
@@ -15,37 +20,42 @@ export default new Router({
   routes: [
     {
       path:'/',
-      name: 'View-Cars',
-      component: ViewCars
+      name: 'View',
+      component: View,
+      children: [
+        {
+          path: '/view-cars',
+          name: 'ViewCars',
+          component: ViewCars
+        },
+        {
+          path: '/view-car/:id',
+          name: 'View-Car',
+          component: ViewCar,
+        },
+      ]
     },
     {
-      path: '/add-car',
-      name: 'Add-Car',
-      component: AddCar,
-      meta: {
-        forAuth: true
-      }
-    },
-    {
-      path: '/view-car/:id',
-      name: 'View-Car',
-      component: ViewCar,
-    },
-    {
-      path: '/edit-car',
-      name: 'Edit-Car',
-      component: EditCar,
-      meta: {
-        forAuth: true
-      }
-    },
-    {
-      path: '/user',
-      name: 'User',
-      component: User,
-      meta: {
-        forAuth: true
-      }
+      path:'/main',
+      name: 'Main',
+      component: Main,
+      children: [
+        {
+          path:'/my-cars',
+          name: 'MyCars',
+          component: MyCars
+        },
+        {
+          path: '/add-car',
+          name: 'AddCar',
+          component: AddCar,
+        },
+        {
+          path: '/my-profile',
+          name: 'MyProfile',
+          component: Profile
+        }
+      ]
     },
     {
       path: '/login',
@@ -61,7 +71,8 @@ export default new Router({
       path:'/add-blog',
       name:'Add-Blog',
       component: AddBlog
-    }
+    },
+
   ],
   mode: 'history'
 })

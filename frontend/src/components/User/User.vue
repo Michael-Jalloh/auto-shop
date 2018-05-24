@@ -4,8 +4,11 @@
         <el-tab-pane label="Profile">
           <div class="tab">
             <div class="" style="display:flex;">
-              <div class="profile-img">
-                <img src="" alt="">
+              <div class="">
+                <div class="profile-img">
+                  <img src="" alt="">
+                </div>
+                <el-button>Update</el-button>
               </div>
               <div class="">
                   <p>{{ user }}</p>
