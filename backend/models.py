@@ -62,8 +62,13 @@ class User(BaseModel):
             'email':self.email,
             'contact':self.contact,
             'location': self.location,
-            'avatar': self.avatar
+            'avatar': self.avt()
         }
+
+    def avt(self,size=28):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+
 
 class Car(BaseModel):
     name = CharField()
