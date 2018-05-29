@@ -92,25 +92,6 @@ class Car(BaseModel):
     created = DateTimeField(default=datetime.datetime.now())
     published = BooleanField(default=False)
 
-    @staticmethod
-    def car_to_dict(car):
-        return {
-            'name': car.name,
-            'car_id': car.id,
-            'price': car.price,
-            'description': car.description,
-            'brand': car.brand,
-            'model': car.model.capitalize(),
-            'year': car.year.split('-')[0],
-            'transmission': car.transmission.capitalize(),
-            'engine': car.engine,
-            'mileage': car.mileage,
-            'fuel': car.fuel.capitalize(),
-            'drive_train': car.drive_train,
-            'owner': car.owner.dictionary(),
-            'created': str(car.created),
-            'pic': car.pics
-            }
 
     def dictionary(self):
         return {
@@ -120,7 +101,7 @@ class Car(BaseModel):
             'description': self.description,
             'brand': self.brand,
             'model': self.model.capitalize(),
-            'year': self.year.split('-')[0],
+            'year': str(self.year).split('-')[0],
             'transmission': self.transmission.capitalize(),
             'engine': self.engine,
             'mileage': self.mileage,

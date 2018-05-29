@@ -24,7 +24,10 @@ export default {
   },
 
   created(){
-    //this.$router.push({path: '/view-cars'})
+    if (this.$route.path == "/") {
+      this.$router.push({path: '/view-cars'})
+    }
+    //
   }
 }
 </script>
