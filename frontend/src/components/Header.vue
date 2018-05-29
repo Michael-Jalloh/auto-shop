@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header">
       <div class="" v-on:click="active = false">
-        <router-link :to="{ name: 'View-Cars', params: {} }" class="brand-link"> {{ brand }}</router-link>
+        <router-link :to="{ name: 'ViewCars', params: {} }" class="brand-link"> {{ brand }}</router-link>
       </div>
 
       <div id="hamburger" v-on:click="active = !active"  v-bind:class="{active:active}">

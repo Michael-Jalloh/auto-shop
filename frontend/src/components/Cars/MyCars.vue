@@ -35,6 +35,14 @@ export default {
   },
 
   created() {
+    if (!this.$auth.isAuthenticated()) {
+      this.$router.push('/view-cars');
+      this.$notify.error({
+        title: "Forbidden",
+        message: "Please login to access this page"
+      })
+      return
+    }
     this.user = this.$store.getters.user;
     this.$auth.get('/my-cars/').then(res => {
       this.cars = res.data['data']
@@ -48,7 +56,6 @@ export default {
       this.$router.push({name: 'Edit-Car'});
     },
   }
-
 }
 </script>
 

@@ -18,15 +18,40 @@
             <el-button size="small" type="primary">Click to upload</el-button>
           </el-upload>
         </div>
-        <div class="">
-            <h2>{{ user.username}}</h2>
-            <h4>{{ user.email}}</h4>
-            <h4>{{user.location}}</h4>
-            <h4>{{user.account_type}}</h4>
-            <h4>{{ user.contact }}</h4>
-            <p>{{ user.bio}}</p>
+        <div class="" style="width: 100%;">
+          <div class="flex-container">
+            <h4>Username</h4>
+            <el-input placeholder="Username" v-model="user.username"></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Email</h4>
+            <el-input placeholder="Email" v-model="user.email"></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Password</h4>
+            <el-input placeholder="Password" type="password" v-model="user.password"></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Comfirm Password</h4>
+            <el-input placeholder="Comfirm Password" type="password" v-model="user.comfirm_password" ></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Location</h4>
+            <el-input placeholder="Location" v-model="user.location"></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Contact</h4>
+            <el-input placeholder="Contact" v-model="user.contact"></el-input>
+          </div>
+          <div class="flex-container">
+            <h4>Bio</h4>
+            <el-input placeholder="Bio" v-model="user.bio" type="textarea" :rows="5"></el-input>
+          </div>
 
-            <el-button @click="EditProfile">Edit Profile</el-button>
+
+
+
+            <el-button class="mt-10" @click="submit">Save Profile</el-button>
         </div>
       </div>
     </el-card>
@@ -76,16 +101,20 @@ export default {
     },
 
     onChanged(file, fileList){
-      console.log("File");
-      console.log(file);
-      console.log("fileList");
-      console.log(fileList);
       this.fileData.user_id = this.user.id;
       this.$refs.upload.submit();
     },
 
-    EditProfile(){
-      this.$router.push({name: 'EditProfile'})
+    submit(){
+      this.$auth.post('/api/v1/edit-profile',this.user).then(res => {
+      this.$notify.success({
+          title:'Profile',
+          message: res.data['message']
+      });
+      this.$store.commit('setUser', res.data['data']);
+      this.$router.push('/my-profile');
+      console.log(res.data['data']);
+      })
     }
   }
 }
@@ -100,5 +129,19 @@ export default {
   border-radius: 50%;
   margin-right: 50px;
   overflow: hidden;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .el-input, .el-textarea {
+    width: 70%;
+  }
+
+  .mt-10 {
+    margin-top: 10px;
+  }
 }
 </style>

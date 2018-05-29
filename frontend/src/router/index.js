@@ -8,6 +8,7 @@ import MyCars from '@/components/Cars/MyCars'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/User/Profile'
+import EditProfile from '@/components/User/Edit-Profile'
 import User from '@/components/User/User'
 import AddBlog from '@/components/Blog/Add-Blog'
 import Main from '@/components/Main'
@@ -33,6 +34,11 @@ export default new Router({
           name: 'View-Car',
           component: ViewCar,
         },
+        {
+          path: '/user/:id',
+          name: 'UserProfile',
+          component: User
+        }
       ]
     },
     {
@@ -51,10 +57,21 @@ export default new Router({
           component: AddCar,
         },
         {
+          path: '/edit-car',
+          name:'Edit-Car',
+          component: EditCar
+        },
+        {
           path: '/my-profile',
           name: 'MyProfile',
           component: Profile
-        }
+        },
+        {
+          path: '/edit-my-profile',
+          name: 'EditProfile',
+          component: EditProfile
+        },
+
       ]
     },
     {

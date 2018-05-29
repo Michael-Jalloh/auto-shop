@@ -26,6 +26,7 @@ class RevokedToken(BaseModel):
         except:
             return False
 
+
 class User(BaseModel):
     username = CharField(unique=True)
     account_type = CharField(default="individual")
@@ -38,6 +39,7 @@ class User(BaseModel):
     avatar = CharField(default="avatar.png")
     bio = TextField(default="")
     active = BooleanField(default=False)
+    email_confirm = BooleanField(default=False)
 
     @property
     def password(self):
@@ -62,7 +64,8 @@ class User(BaseModel):
             'email':self.email,
             'contact':self.contact,
             'location': self.location,
-            'avatar': self.avt()
+            'avatar':  self.avatar,
+            'bio': self.bio
         }
 
     def avt(self,size=28):

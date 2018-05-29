@@ -9,7 +9,7 @@
         </template>
         <el-menu-item-group>
           <!--<span slot="title">View Location</span>-->
-          <el-menu-item index="1-1"><router-link class="router-link" to="/">Dashboard</router-link></el-menu-item>
+          <el-menu-item index="1-1"><router-link class="router-link" to="">Dashboard</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="2">
@@ -23,15 +23,25 @@
           <el-menu-item index="2-2"><router-link to="/add-car">Add Car</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-submenu index="3">
         <template slot="title">
           <icon class="icon" scale="1.50" name="user"></icon>
           <span  slot="title">Profile</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1"><router-link to="/profile">Profile</router-link></el-menu-item>
+          <el-menu-item index="3-1"><router-link to="/my-profile">Profile</router-link></el-menu-item>
+          <el-menu-item index="3-1"><router-link to="/edit-my-profile">Edit Profile</router-link></el-menu-item>
         </el-menu-item-group>
-      </el-menu-item>
+      </el-submenu>
+      <el-submenu index="4">
+        <template slot="title">
+          <icon class="icon" scale="1.50" name="envelope"></icon>
+          <span  slot="title">Message</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="4-1"><router-link to="">Messages</router-link></el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
     <div class="collapse-btn" v-on:click="isCollapse = !isCollapse">
       <i  class="el-icon-arrow-left"  color="white" v-if="!isCollapse" ></i>

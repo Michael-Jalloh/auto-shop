@@ -282,7 +282,7 @@ export default {
     onSubmit() {
       if (this.have_photo){
         console.log(this.form);
-        this.$http.post('/api/v1/add-car', this.form).then(res => {
+        this.$auth.post('/api/v1/add-car', this.form).then(res => {
           this.$notify({
                 title:'Car',
                 message: res.data['message'],
@@ -339,6 +339,9 @@ export default {
         this.imageUrl = URL.createObjectURL(file.raw);
         this.form.file = file.raw;
         this.have_photo = true;
+        console.log(this.car);
+        //this.fileData.car_id = this.car.car_id
+        //this.$refs.upload.submit();
       },
 
       onSubmitTest(){

@@ -24,7 +24,7 @@ export default {
   },
 
   created(){
-    this.$router.push({path: '/view-cars'})
+    //this.$router.push({path: '/view-cars'})
   }
 }
 </script>

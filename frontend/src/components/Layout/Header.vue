@@ -59,7 +59,8 @@ export default {
     logout: function(){
       console.log('Logout');
       this.$auth.logout().then(response=> {
-        this.$router.push('/login');
+        this.$auth.destroyTokens();
+        this.$router.push('/view-cars');
       })
     }
   }

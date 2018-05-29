@@ -5,7 +5,7 @@ from flask_cors import CORS
 from models import Car
 import logging
 from models import RevokedToken
-import car, user
+import car, user, profile
 
 UPLOAD_FOLDER = "static/img"
 application = Flask(__name__,
@@ -67,6 +67,11 @@ api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.GetCar, '/api/v1/get-car/<path:car_id>')
 api.add_resource(car.GetMyCars, '/api/v1/my-cars/')
 api.add_resource(car.PhotoUpload,'/api/v1/upload-photo')
+
+api.add_resource(profile.ProfileUpload, '/api/v1/upload-profile')
+api.add_resource(profile.GetProfilePic,'/api/v1/get-profile-pic/<path:user_id>')
+api.add_resource(profile.EditProfile,'/api/v1/edit-profile')
+api.add_resource(profile.GetProfile,'/api/v1/get-profile/<path:user_id>')
 
 api.add_resource(car.TestCar, '/api/v1/test-car')
 api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')

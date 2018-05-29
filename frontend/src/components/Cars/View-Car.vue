@@ -48,13 +48,12 @@
       <el-card class="box-card">
         <div class="">
           <div class="profile-img">
-            <my-img v-bind:image_url="car.car_id">
-            </my-img>
+            <img :src="profile_url" alt="">
           </div>
           <div class="">
             <p>{{ car.owner.username}}</p>
               <p>{{ car.owner.location}}</p>
-              <el-button>View Profile</el-button>
+              <el-button @click="ViewProfile">View Profile</el-button>
           </div>
         </div>
 
@@ -81,7 +80,9 @@ export default {
       id: this.$route.params.id,
       car: {},
       image:'image',
-      owner: null
+      owner: null,
+      profile_url: ''
+
     }
   },
 
@@ -90,6 +91,9 @@ export default {
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
         console.log(res.data);
+        //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+        this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
+        console.log(this.profile_url);
     }).catch( res => {
       console.log(res.data);
     })
@@ -154,6 +158,10 @@ export default {
         title: "Flag Report",
         message: "You have raise a flag report for "+ this.car.name+".\nYou will be contact for more details"
       })
+    },
+
+    ViewProfile(){
+      this.$router.push({name:"UserProfile", params:{id:this.car.owner.id}})
     }
   }
 

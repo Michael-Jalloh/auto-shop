@@ -217,6 +217,7 @@ class TestCar(Resource):
                 'message': 'data received',
                 'status': 'success'
                 }
+
 class GetImage(Resource):
     def get(self, filename):
         send_from_directory(UPLOAD_FOLDER,filename)

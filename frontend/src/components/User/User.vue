@@ -1,93 +1,52 @@
-  <template lang="html">
-    <div class="">
-      <el-tabs type="border-card">
-        <el-tab-pane label="Profile">
-          <div class="tab">
-            <div class="" style="display:flex;">
-              <div class="">
-                <div class="profile-img">
-                  <img src="" alt="">
-                </div>
-                <el-button>Update</el-button>
-              </div>
-              <div class="">
-                  <p>{{ user }}</p>
-                  <p>{{ }}</p>
-                  <el-button>Edit Profile</el-button>
-              </div>
-            </div>
+<template lang="html">
+  <div class="">
+    <el-card class="box-card">
+      <div class="" style="display:flex;">
+        <div class="">
+          <div class="profile-img">
+            <img :src="imageUrl" alt="">
           </div>
-        </el-tab-pane>
-        <el-tab-pane label="Cars">
-          <div class="tab">
-            <el-card v-for="car in cars" :key="car" :label="car" style="margin-bottom:10px;">
-              <div class="" style="display:flex; justify-content:space-between;">
-                <div class="car-content" style="display:flex; max-width:400px;">
-                  <div class="profile-sm">
-                    <my-img :image_url="car.car_id"></my-img>
-                  </div>
-                  <div class="">
-                    {{ car.name }}
-                  </div>
-                </div>
-                <div class="">
-                  <el-button @click="Edit(car)">Edit</el-button>
-                  <el-button type="danger">Delete</el-button>
-                </div>
-              </div>
-            </el-card>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="Profile">
-          <div class="tab">
-
-          </div>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-
+        </div>
+        <div class="">
+            <h2>{{ user.username}}</h2>
+            <h4>{{ user.email}}</h4>
+            <h4>{{user.location}}</h4>
+            <h4>{{user.account_type}}</h4>
+            <h4>{{ user.contact }}</h4>
+        </div>
+      </div>
+    </el-card>
+  </div>
 </template>
 
 <script>
-import Image from '../Image'
 export default {
 
-  components: {
-    'my-img': Image,
-  },
+
 
   data(){
     return {
+      url:'',
       user: {},
-      cars: []
+      cars: [],
+      imageUrl: '',
     }
   },
 
   created() {
-    this.user = this.$store.getters.user;
-    this.$auth.get('/my-cars/'+this.user.id).then(res => {
-      this.cars = res.data['data']
-      console.log(res.data['data'])
+    //alert(this.$route.params.id)
+    //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.$route.params.id
+
+    this.$http.get("/api/v1/get-profile/"+this.$route.params.id).then( res => {
+      this.user = res.data['data'];
     })
   },
 
-  methods: {
-    Edit(car) {
-      this.$store.commit('setCar',car);
-      this.$router.push({name: 'Edit-Car'});
-    },
-  }
 }
 </script>
 
 <style lang="scss">
-
-.tab {
-  max-height: 425px;
-  min-height: 400px;
-  overflow-y: auto;
-}
-
 .profile-img {
   width: 250px;
   height: 250px;
@@ -95,16 +54,6 @@ export default {
   border: 1px solid;
   border-radius: 50%;
   margin-right: 50px;
-  overflow: hidden;
-}
-
-.profile-sm {
-  width: 75px;
-  height: 75px;
-  min-width: 75px;
-  border: 1px solid;
-  border-radius: 50%;
-  margin-right: 20px;
   overflow: hidden;
 }
 </style>

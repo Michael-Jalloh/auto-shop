@@ -124,6 +124,7 @@ export default function(Vue){
         return true;
       }).catch( response => {
         console.log(response.data);
+        this.destroyTokens();
       });
     },
 
