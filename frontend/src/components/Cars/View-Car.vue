@@ -1,14 +1,13 @@
 <template lang="html">
   <div class="flex-container">
-    <div class="grid-md-8">
+    <div class="grid-md-8 mb-10">
 
       <div class="">
         <el-tabs  class="relative" type="border-card">
-          <el-button  class="ab-btn" v-show=" owner  && $can.edit(owner,car)" @click="Edit">Edit</el-button>
           <el-tab-pane label="Image" >
             <div class="tab">
               <p style="font-style:bold;">{{ car.name }}</p>
-              <my-img v-bind:image_url="car.car_id">
+              <my-img v-bind:image_url="id">
               </my-img>
             </div>
           </el-tab-pane>
@@ -44,15 +43,15 @@
 
       </div>
     </div>
-    <div class="grid-md-4 ">
+    <div class="grid-md-4 mb-10 mt-10">
       <el-card class="box-card">
         <div class="">
           <div class="profile-img">
             <img :src="profile_url" alt="">
           </div>
           <div class="">
-            <p>{{ car.owner.username}}</p>
-              <p>{{ car.owner.location}}</p>
+            <p>{{ owner.username}}</p>
+              <p>{{ owner.location}}</p>
               <el-button @click="ViewProfile">View Profile</el-button>
           </div>
         </div>
@@ -80,7 +79,10 @@ export default {
       id: this.$route.params.id,
       car: {},
       image:'image',
-      owner: null,
+      owner: {
+        username:'',
+        location: ''
+        },
       profile_url: ''
 
     }
@@ -90,6 +92,7 @@ export default {
     console.log(this.$route.params.id);
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
+        this.owner  = this.car.owner;
         console.log(res.data);
         //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
         this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
@@ -97,10 +100,9 @@ export default {
     }).catch( res => {
       console.log(res.data);
     })
-    if (this.$store.getters.user !== null) {
-      console.log("getting user from store")
-        this.owner = this.$store.getters.user;
-    }
+
+    console.log("Created")
+
 
 
 
@@ -138,6 +140,10 @@ export default {
           value: car.mileage
         },
         {
+          label: 'Type',
+          value: this.capitalize(car.type)
+        },
+        {
           label: 'Fuel',
           value: car.fuel
         },
@@ -151,6 +157,10 @@ export default {
     Edit() {
       this.$store.commit('setCar',this.car);
       this.$router.push({name: 'Edit-Car'});
+    },
+
+    capitalize(string=""){
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
     flag() {
@@ -192,7 +202,7 @@ export default {
 }
 
 .tab {
-  max-height: 425px;
+  max-height: 550px;
   min-height: 400px;
   overflow-y: auto;
 }

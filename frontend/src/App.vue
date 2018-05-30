@@ -57,4 +57,7 @@ main{
   height: 100%;
 }
 
+.mb-10 {
+  margin-bottom: 10px;
+}
 </style>

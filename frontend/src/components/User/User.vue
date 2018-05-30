@@ -8,14 +8,16 @@
           </div>
         </div>
         <div class="">
-            <h2>{{ user.username}}</h2>
-            <h4>{{ user.email}}</h4>
-            <h4>{{user.location}}</h4>
-            <h4>{{user.account_type}}</h4>
-            <h4>{{ user.contact }}</h4>
+            <h2>Username: {{ user.username}}</h2>
+            <h4>Email: {{ user.email}}</h4>
+            <h4>Address: {{user.location}}</h4>
+            <h4>Tel: {{ user.contact }}</h4>
+            <h4>Bio: {{ user.bio}}</h4>
         </div>
       </div>
     </el-card>
+
+    
   </div>
 </template>
 
@@ -40,7 +42,9 @@ export default {
 
     this.$http.get("/api/v1/get-profile/"+this.$route.params.id).then( res => {
       this.user = res.data['data'];
-    })
+    });
+
+
   },
 
 }

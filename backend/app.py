@@ -67,6 +67,7 @@ api.add_resource(car.GetCars, '/api/v1/get-cars')
 api.add_resource(car.GetCar, '/api/v1/get-car/<path:car_id>')
 api.add_resource(car.GetMyCars, '/api/v1/my-cars/')
 api.add_resource(car.PhotoUpload,'/api/v1/upload-photo')
+api.add_resource(car.UserCars, '/api/v1/user-cars/<path:user>')
 
 api.add_resource(profile.ProfileUpload, '/api/v1/upload-profile')
 api.add_resource(profile.GetProfilePic,'/api/v1/get-profile-pic/<path:user_id>')

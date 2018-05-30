@@ -228,7 +228,8 @@ export default {
         fuel: '',
         type: '',
         drive_train:'',
-        file: ''
+        file: '',
+
       },
       rules: {
         name: [
@@ -355,7 +356,9 @@ export default {
           this.step = 0;
 
         }
-      }
+      },
+
+    
     }
 
 }

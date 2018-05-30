@@ -104,13 +104,13 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
-        
+
 
         try:
             car.owner = int(user) #User.get(id=int(user)) #int(data['user']))
-            #car.save()
+            car.save()
             return {
-                'data':'', #car.dictionary(),
+                'data': car.dictionary(),
                 'message':'Posting saved',
                 'status':'success'
                 }
@@ -171,7 +171,7 @@ class GetCars(Resource):
         cars = Car.select()
         query = []
         for car in cars:
-            query.append(Car.car_to_dict(car))
+            query.append(car.dictionary())
 
         return {
                 'data':query,
@@ -186,10 +186,10 @@ class GetCar(Resource):
         data = parser.parse_args()
         logger = logging.getLogger('app.view-car-post')
         try:
-            car = Car.car_to_dict(Car.get(id=int(car_id)))
+            car = Car.get(id=int(car_id))
             return {
                 'message':'',
-                'data': car,
+                'data': car.dictionary(),
                 'status':'succes'
                 }
         except Exception as e:
@@ -224,3 +224,27 @@ class TestCar(Resource):
 class GetImage(Resource):
     def get(self, filename):
         send_from_directory(UPLOAD_FOLDER,filename)
+
+class UserCars(Resource):
+    def get(self,user):
+        try:
+            cars = [car.dictionary() for car in Car.select().where(Car.owner==int(user)).join(User)]
+            if cars:
+                return {
+                    'data': cars,
+                    'message':'',
+                    'status':'success'
+                    }
+            else:
+                return {
+                    'data':'',
+                    'message':'User has not cars',
+                    'status':'error'
+                    }
+        except Exception as e:
+                print str(e)
+                return {
+                    'data':'',
+                    'message':'An error occur pls contact admin',
+                    'status': 'error'
+                    }

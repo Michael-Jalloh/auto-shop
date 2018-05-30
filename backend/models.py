@@ -109,7 +109,8 @@ class Car(BaseModel):
             'drive_train': self.drive_train,
             'owner': self.owner.dictionary(),
             'created': str(self.created),
-            'pic': self.pics
+            'pic': self.pics,
+            'type': self.car_type
             }
 
 class Brand(BaseModel):
