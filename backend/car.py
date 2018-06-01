@@ -211,15 +211,6 @@ class GetMyCars(Resource):
             'data': user.get_cars()
             }
 
-class TestCar(Resource):
-    def post(self):
-        data = parser.parse_args()
-        print data['file']
-        return {
-                'data':'',
-                'message': 'data received',
-                'status': 'success'
-                }
 
 class GetImage(Resource):
     def get(self, filename):
@@ -248,3 +239,14 @@ class UserCars(Resource):
                     'message':'An error occur pls contact admin',
                     'status': 'error'
                     }
+
+class DeleteCar(Resource):
+    decorators = [] #[jwt_required]
+
+    def delete(self, id):
+        print id
+        return {
+            'data': '',
+            'message':'The car has been deleted from the server',
+            'status':'success'
+            }
