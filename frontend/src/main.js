@@ -92,7 +92,7 @@ const store = new Vuex.Store({
 
 })
 
-export const myBus = new Vue()
+
 
 /* eslint-disable no-new */
 new Vue({

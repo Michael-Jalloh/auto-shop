@@ -284,28 +284,31 @@ export default {
   methods: {
     onSubmit() {
       if (this.have_photo){
-        console.log(this.form);
-        this.$http.post('/api/v1/add-car', this.form).then(res => {
+
+        console.log(this.car);
+        this.$auth.post('/api/v1/edit-car', this.form).then(res => {
           this.$notify({
                 title:'Car',
                 message: res.data['message'],
                 type: res.data['status']
           });
-          this.$http.get('/api/v1/get-cars').then( res => {
-            this.cars = res.data['data'];
-            this.$store.commit('setCars',this.cars)
-          }).catch( res => {
-            console.log(res);
-          })
           console.log(this.fileData);
           console.log(res.data['data']['car_id']);
           this.fileData.car_id = res.data['data']['car_id'];
           this.$refs.upload.submit();
-          this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
-            this.$store.commit('setCar',resp.data['data']);
-            this.$router.push({name: 'View-Car', params:resp.data['data']['car_id']});
+          }).catch( res => {
+
+            if (res.response.status == 401) {
+              this.$notify.info( {
+                title: 'Login',
+                message: 'You login expired'
+              })
+
+              bus.$emit('login');
+            }
           })
-        })
+
+
       } else {
         this.$notify.info({
             title:'Image',

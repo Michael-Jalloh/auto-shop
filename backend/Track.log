@@ -55,3 +55,14 @@
 2018-06-03 17:39:31,339 - app - INFO - =========================START=========================
 2018-06-03 17:41:41,576 - app - INFO - =========================START=========================
 2018-06-03 17:43:23,432 - app - INFO - =========================START=========================
+2018-06-05 10:20:33,743 - app - INFO - =========================START=========================
+2018-06-05 10:20:34,095 - app - INFO - =========================START=========================
+2018-06-05 15:38:27,611 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']
+2018-06-05 15:39:48,174 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']
+2018-06-05 15:41:01,487 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']

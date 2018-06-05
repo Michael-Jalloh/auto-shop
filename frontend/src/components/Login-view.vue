@@ -8,14 +8,14 @@
     <h3>Sign In</h3>
     <el-input placeholder="Email" class="spacing" v-model="email" clearable></el-input>
     <el-input placeholder="Password" type="password" class="spacing" v-model="password" clearable></el-input>
-    <el-button type="success" class="spacing" v-bind:loading="loading" @click="close()">Login </el-button>
-     
+    <el-button type="success" class="spacing" v-bind:loading="loading" @click="login()">Login </el-button>
+
 
   </el-dialog>
 </template>
 
 <script>
-import { myBus } from '../main'
+import { bus } from '../main'
 
 export default {
   data(){
@@ -28,7 +28,7 @@ export default {
   },
 
   created(){
-    myBus.$on('login', ()=> {
+    bus.$on('login', ()=> {
       this.show = true
     })
   },
@@ -42,12 +42,8 @@ export default {
       }).then( response => {
         if (response.data['status']=='success') {
           this.$auth.setTokens(response.data, this.$ls);
-          if (response.data['data'].account_type == "individual") {
-            this.$router.push('/main')
-          } else {
-            this.$router.push('/')
-          }
-          this.$notify.success({
+
+          this.$notify({
             title:' Login',
             message: response.data['message'],
             type: response.data['status']
@@ -55,7 +51,7 @@ export default {
           console.log(response.data['data'].account_type)
           this.$store.commit('setUser', response.data['data']);
         } else {
-          this.$notify.success({
+          this.$notify({
             title:' Login',
             message: response.data['message'],
             type: response.data['status']
@@ -65,8 +61,12 @@ export default {
       }).catch(
        response => {
          console.log(response);
+         this.$notify.error({
+           title: 'Login',
+           message: 'Error Occur',
+         })
        });
-
+       this.show = false;
       this.loading = false;
     },
 
