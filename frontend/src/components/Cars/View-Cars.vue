@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="">
     <h3>New Cars</h3>
+    <el-button @click="test">Test</el-button>
     <el-carousel ref="carousel" indicator-position="none" arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item    v-for="item in cars.length"  :key="item">
         <div class="" v-on:click="selectCar(cars[item - 1 ])" class="overlay">
@@ -29,6 +30,7 @@
 <script>
 
 import Image from '../Image.vue'
+import { myBus } from '../../main'
 
 export default {
   components: {
@@ -66,6 +68,10 @@ export default {
     selectCar(car) {
       this.$store.commit('setCar',car);
       this.$router.push({name: 'View-Car',params: {id: car.car_id}});
+    },
+
+    test(){
+      myBus.$emit('login');
     }
   }
 }

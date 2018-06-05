@@ -214,7 +214,21 @@ class GetMyCars(Resource):
 
 class GetImage(Resource):
     def get(self, filename):
-        send_from_directory(UPLOAD_FOLDER,filename)
+        return send_from_directory(UPLOAD_FOLDER,filename)
+
+
+class GetImagebyId(Resource):
+    def get(self,id):
+        try:
+            car = Car.get(id=int(id))
+            return send_from_directory(UPLOAD_FOLDER, car.pics)
+        except Exception as e:
+            return {
+                'data':'',
+                'message':'Image not found',
+                'status':'error'
+                }
+
 
 class UserCars(Resource):
     def get(self,user):
@@ -241,12 +255,24 @@ class UserCars(Resource):
                     }
 
 class DeleteCar(Resource):
-    decorators = [] #[jwt_required]
+    decorators = [jwt_required]
 
     def delete(self, id):
-        print id
-        return {
-            'data': '',
-            'message':'The car has been deleted from the server',
-            'status':'success'
-            }
+        user = User.get(int(get_jwt_identity()))
+        car = Car.get(id=int(id))
+        if car.owner == user:
+            print car.pics
+            if os.path.isfile(UPLOAD_FOLDER+'/'+car.pics):
+                os.remove(UPLOAD_FOLDER+'/'+car.pics)
+            car.delete_instance()
+            return {
+                'data': '',
+                'message':'The car has been deleted from the server',
+                'status':'success'
+                }
+        else:
+            return {
+                'data':'',
+                'message':'You do not own this car',
+                'status':'error'
+                }

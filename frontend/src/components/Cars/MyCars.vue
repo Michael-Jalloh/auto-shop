@@ -12,19 +12,25 @@
         </div>
         <div class="">
           <el-button @click="Edit(cars[car - 1])">Edit</el-button>
-          <el-button type="danger">Delete</el-button>
+          <el-button type="danger" @click="Delete(car - 1)" >Delete</el-button>
         </div>
       </div>
     </el-card>
+    <hr>
+    <div class="">
+      <car v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
+    </div>
   </div>
 </template>
 
 <script>
 import Image from '../Image'
+import Car from './Car'
 
 export default {
   components: {
     'my-img':Image,
+    'car': Car
   },
 
   data(){
@@ -55,6 +61,10 @@ export default {
       this.$store.commit('setCar',car);
       this.$router.push({name: 'Edit-Car'});
     },
+    Delete(car) {
+      this.cars.splice(car,1);
+
+    }
   }
 }
 </script>

@@ -152,7 +152,16 @@ export default function(Vue){
           headers:{Authorization: "Bearer " + access_token}
         })
       }
-    }
+    },
+
+    delete(url){
+      if (this.validateToken()) {
+        return axios.delete(this.baseURL+url,{
+          headers:{Authorization: "Bearer " +this.getAccessToken()}
+        });
+      }
+      return null;
+    },
 
 }
 

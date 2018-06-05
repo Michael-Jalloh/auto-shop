@@ -147,7 +147,7 @@ import { bus } from '../../main';
 export default {
   data(){
     return {
-      have_photo: false,
+      have_photo: true,
       step: 0,
       car: {},
       transmissions: [{
