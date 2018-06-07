@@ -31,7 +31,7 @@ export default {
         if (response.data['status']=='success') {
           this.$auth.setTokens(response.data, this.$ls);
           if (response.data['data'].account_type == "individual") {
-            this.$router.push('/main')
+            this.$router.push('/my-cars')
           } else {
             this.$router.push('/')
           }

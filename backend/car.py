@@ -136,8 +136,7 @@ class EditCar(Resource):
             car.description = data['description']
             car.brand = data['brand']
             car.model = data['model']
-            d = data['year'].split(',')
-            car.year = date(int(d[0]), int(d[1]), int(d[2]))
+            car.year = data['year']
             car.transmission = data['transmission']
             car.engine = data['engine']
             car.mileage = data['mileage']
@@ -146,7 +145,7 @@ class EditCar(Resource):
             try:
                 car.save()
                 return {
-                    'data':Car.car_to_dict(car),
+                    'data':car.dictionary(),
                     'message':'Posting saved',
                     'status':'success'
                     }

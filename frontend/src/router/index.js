@@ -5,6 +5,8 @@ import AddCar from '@/components/Cars/Add-Car'
 import ViewCar from '@/components/Cars/View-Car'
 import EditCar from '@/components/Cars/Edit-Car'
 import MyCars from '@/components/Cars/MyCars'
+import MyCarView from '@/components/Cars/My-CarView'
+
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/User/Profile'
@@ -16,6 +18,8 @@ import View from '@/components/View'
 
 
 Vue.use(Router)
+
+
 
 export default new Router({
   routes: [
@@ -71,6 +75,11 @@ export default new Router({
           name: 'EditProfile',
           component: EditProfile
         },
+        {
+          path: '/my-car',
+          name: 'MyCarView',
+          component: MyCarView
+        }
 
       ]
     },

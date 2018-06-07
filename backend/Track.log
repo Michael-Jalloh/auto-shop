@@ -55,3 +55,25 @@
 2018-06-03 17:39:31,339 - app - INFO - =========================START=========================
 2018-06-03 17:41:41,576 - app - INFO - =========================START=========================
 2018-06-03 17:43:23,432 - app - INFO - =========================START=========================
+2018-06-05 19:41:25,301 - app - INFO - =========================START=========================
+2018-06-05 19:41:26,155 - app - INFO - =========================START=========================
+2018-06-05 19:50:09,494 - app - INFO - =========================START=========================
+2018-06-05 19:52:15,963 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']
+2018-06-05 19:53:09,543 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']
+2018-06-05 19:53:21,024 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'']
+2018-06-05 19:54:48,530 - app.add-car-get - ERROR - type object 'Car' has no attribute 'car_to_dict'
+2018-06-05 19:55:54,292 - app - INFO - =========================START=========================
+2018-06-05 20:00:42,182 - app - INFO - =========================START=========================
+2018-06-05 20:01:39,051 - app.add-car-get - ERROR - unbound method dictionary() must be called with Car instance as first argument (got nothing instead)
+2018-06-05 20:01:42,920 - app.add-car-get - ERROR - unbound method dictionary() must be called with Car instance as first argument (got nothing instead)
+2018-06-05 20:02:13,797 - app - INFO - =========================START=========================
+2018-06-06 07:31:31,613 - app - INFO - =========================START=========================
+2018-06-06 07:31:32,528 - app - INFO - =========================START=========================
+2018-06-06 07:50:11,041 - app - INFO - =========================START=========================
+2018-06-06 07:50:11,419 - app - INFO - =========================START=========================

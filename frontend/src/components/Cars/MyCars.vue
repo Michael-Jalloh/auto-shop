@@ -12,6 +12,7 @@
         </div>
         <div class="">
           <el-button @click="Edit(cars[car - 1])">Edit</el-button>
+          <el-button type="primary" @click="View(cars[car - 1].car_id)" >View</el-button>
           <el-button type="danger" @click="Delete(car - 1)" >Delete</el-button>
         </div>
       </div>
@@ -61,6 +62,12 @@ export default {
       this.$store.commit('setCar',car);
       this.$router.push({name: 'Edit-Car'});
     },
+
+    View(car_id){
+      console.log(car_id);
+      this.$router.push('/my-car/'+car_id)
+    },
+
     Delete(car) {
       this.cars.splice(car,1);
 

@@ -215,56 +215,6 @@ export default {
         }
       ],
       imageUrl: '',
-      form: {
-        name: '',
-        price: '',
-        description: '',
-        brand: '',
-        model: '',
-        year: '',
-        transmission: '',
-        engine: '',
-        mileage: '',
-        fuel: '',
-        type: '',
-        drive_train:'',
-        file: ''
-      },
-      rules: {
-        name: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        price: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        description: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        brand: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        model: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        year: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        transmission: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        engine: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        mileage: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        fuel: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        drive_train: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-      },
       fileData:{
         car_id: '',
       }
@@ -284,8 +234,8 @@ export default {
   methods: {
     onSubmit() {
       if (this.have_photo){
-        console.log(this.form);
-        this.$http.post('/api/v1/add-car', this.form).then(res => {
+        console.log(this.car);
+        this.$auth.post('/api/v1/edit-car', this.car).then(res => {
           this.$notify({
                 title:'Car',
                 message: res.data['message'],
@@ -295,16 +245,15 @@ export default {
             this.cars = res.data['data'];
             this.$store.commit('setCars',this.cars)
           }).catch( res => {
-            console.log(res);
+            console.log(res.response);
           })
-          console.log(this.fileData);
-          console.log(res.data['data']['car_id']);
-          this.fileData.car_id = res.data['data']['car_id'];
-          this.$refs.upload.submit();
-          this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
-            this.$store.commit('setCar',resp.data['data']);
-            this.$router.push({name: 'View-Car', params:resp.data['data']['car_id']});
-          })
+        }).catch( error =>{
+          console.log(error.response)
+          if (error.response.status == 401) {
+            bus.$emit('login')
+          } else if (error.response.status == 422) {
+            bus.$emit('login')
+          }
         })
       } else {
         this.$notify.info({
