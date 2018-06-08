@@ -76,7 +76,7 @@ export default new Router({
           component: EditProfile
         },
         {
-          path: '/my-car',
+          path: '/my-car/:id',
           name: 'MyCarView',
           component: MyCarView
         }

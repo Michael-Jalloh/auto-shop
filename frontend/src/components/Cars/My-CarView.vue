@@ -68,7 +68,7 @@ export default {
   },
 
   created(){
-    console.log(this.$route.params.id);
+    ///console.log(this.$route.params.id);
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
     }).catch( res => {
