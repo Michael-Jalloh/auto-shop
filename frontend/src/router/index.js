@@ -6,6 +6,7 @@ import ViewCar from '@/components/Cars/View-Car'
 import EditCar from '@/components/Cars/Edit-Car'
 import MyCars from '@/components/Cars/MyCars'
 import MyCarView from '@/components/Cars/My-CarView'
+import TypeCars from '@/components/Cars/TypeCars'
 
 import Login from '@/components/Login'
 import Register from '@/components/Register'
@@ -42,6 +43,11 @@ export default new Router({
           path: '/user/:id',
           name: 'UserProfile',
           component: User
+        },
+        {
+          path: '/cars/:id',
+          name: 'Type-Cars',
+          component: TypeCars
         }
       ]
     },
@@ -80,7 +86,6 @@ export default new Router({
           name: 'MyCarView',
           component: MyCarView
         }
-
       ]
     },
     {

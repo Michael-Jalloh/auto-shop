@@ -224,11 +224,11 @@ export default {
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
     this.car = this.$store.getters.car;
-    //this.imageUrl = 'http://' + url +'/api/v1/get-photo/'+this.car.card_id;
-    this.imageUrl = 'http://localhost:5000/get-photo/'+this.car.car_id;
+    this.imageUrl = 'http://' + url +'/api/v1/get-photo/'+this.car.card_id;
+    //this.imageUrl = 'http://localhost:5000/get-photo/'+this.car.car_id;
   },
 
   methods: {

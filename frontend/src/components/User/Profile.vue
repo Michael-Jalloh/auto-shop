@@ -55,11 +55,11 @@ export default {
   created() {
     this.user = this.$store.getters.user;
     this.url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
+    this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 
-    //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
-    this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
+    this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
 
   },
 

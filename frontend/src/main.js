@@ -21,8 +21,8 @@ import Ability from './packages/ability/ability.js'
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 var url = window.location.hostname + ':'+window.location.port;
-axios.defaults.baseURL = "http://localhost:5000"; // for dev
-//axios.defaults.baseURL = "http://" + url; // for production
+//axios.defaults.baseURL = "http://localhost:5000"; // for dev
+axios.defaults.baseURL = "http://" + url; // for production
 
 Vue.use(Vuex)
 Vue.use(ElementUI, { locale} )
@@ -31,11 +31,14 @@ Vue.use(VueLocalStorage,{
 })
 Vue.use(Auth)
 Vue.use(Ability)
-Vue.auth.setBaseUrl("http://localhost:5000/api/v1") // for dev
-//Vue.auth.setBaseUrl(url+ "/api/v1") // for production
+//Vue.auth.setBaseUrl("http://localhost:5000/api/v1") // for dev
+Vue.auth.setBaseUrl("http://"+url+ "/api/v1") // for production
 Vue.auth.setStorage(Vue.ls)
 Vue.component('icon',Icon)
 
+Vue.filter('capitalize', function(value){
+  return value.charAt(0).toUpperCase() + value.slice(1);
+})
 export const bus = new Vue()
 
 router.beforeEach(

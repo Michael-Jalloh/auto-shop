@@ -1,6 +1,6 @@
 <template lang="html">
   <el-container>
-    <el-header class="header">
+    <el-header class="header user">
       <div class="">
         <a href="#" class="brand"><h3>{{ brand}}</h3></a>
       </div>
@@ -115,44 +115,46 @@ export default {
 
 }
 
-#hamburger {
-  position: relative;
-  width: 44px;
-  height: 40px;
-  //top: -10px;
-  //left: 5px;
-  padding: 4px;
-  transition: .25s;
+.user {
+  #hamburger {
+    position: relative;
+    width: 44px;
+    height: 40px;
+    //top: -10px;
+    //left: 5px;
+    padding: 4px;
+    transition: .25s;
 
-  @include at-least($large-tablet){
-    display: none;
-  }
+    @include at-least($large-tablet){
+      display: none;
+    }
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+      cursor: pointer;
+    }
 
-  .bar1, .bar2, .bar3{
-    //background-color: #ffffff;
-    position: absolute;
-    transition: .5s;
-    width: 44%;
-    border: 4px solid #fff;
-    border-bottom: none;
-    border-radius: 2px;
-    outline: none;
-  }
+    .bar1, .bar2, .bar3{
+      //background-color: #ffffff;
+      position: absolute;
+      transition: .5s;
+      width: 44%;
+      border: 4px solid #fff;
+      border-bottom: none;
+      border-radius: 2px;
+      outline: none;
+    }
 
-  .bar1 {
-    top: 10px;
-  }
+    .bar1 {
+      top: 10px;
+    }
 
-  .bar2 {
-    top: 22px;
-  }
+    .bar2 {
+      top: 22px;
+    }
 
-  .bar3{
-    bottom: 10px;
+    .bar3{
+      bottom: 10px;
+    }
   }
 }
 

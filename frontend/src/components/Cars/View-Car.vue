@@ -94,8 +94,9 @@ export default {
         this.car = res.data['data'];
         this.owner  = this.car.owner;
         console.log(res.data);
-        //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
-        this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
+        this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+        //this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
+        this.profile_url = "http://" + this.url + "/api/v1/get-profile-pic/"+this.car.owner.id
         console.log(this.profile_url);
     }).catch( res => {
       console.log(res.data);

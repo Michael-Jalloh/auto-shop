@@ -18,10 +18,10 @@
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
           <li v-on:click="active = false"><router-link to="" class="link">Blog</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Luxury Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">New Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Old Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Scarp Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id:'luxury'} }" class="link">Luxury Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'new'} }" class="link">New Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'old'} }" class="link">Old Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'scrap'}}" class="link">Scarp Cars</router-link></li>
           <li v-if="$auth.isAuthenticated()" v-on:click="active = false"> <router-link :to="{ name: 'User', params: {} }" class="link">Profile</router-link></li>
           <li class="log-out" v-show="!$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'Login', params: {} }" class="link"><icon class="icon" scale="1.75" name="sign-in" ></icon></router-link></li>
           <li class="log-out" v-show="$auth.isAuthenticated()" v-on:click="logout"><icon class="icon" scale="1.75" name="sign-out" ></icon></li>

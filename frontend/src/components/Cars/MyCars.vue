@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <el-card v-for="car in cars.length" :key="car" :label="car" style="margin-bottom:10px;">
+  <!--  <el-card v-for="car in cars.length" :key="car" :label="car" style="margin-bottom:10px;">
       <div class="" style="display:flex; justify-content:space-between;">
         <div class="car-content" style="display:flex; max-width:400px;">
           <div class="profile-sm">
@@ -16,9 +16,9 @@
           <el-button type="danger" @click="Delete(car - 1)" >Delete</el-button>
         </div>
       </div>
-    </el-card>
+    </el-card> -->
     <hr>
-    <div class="">
+    <div class=" flex-container">
       <car v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
     </div>
   </div>

@@ -62,8 +62,9 @@ export default {
     }
 
   },
-  methods: {
 
+
+  methods: {
 
     selectCar(car) {
       this.$store.commit('setCar',car);
