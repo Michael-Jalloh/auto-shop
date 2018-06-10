@@ -204,6 +204,7 @@ class GetMyCars(Resource):
 
     def get(self):
         user = User.get(int(get_jwt_identity()))
+        print get_jwt_identity()
         return {
             'status':'OK',
             'message':'',
