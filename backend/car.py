@@ -275,3 +275,22 @@ class DeleteCar(Resource):
                 'message':'You do not own this car',
                 'status':'error'
                 }
+
+class CarType(Resource):
+    decorators = []
+
+    def get(self, car_type):
+        cars = [car.dictionary() for car in Car.select().where(Car.car_type == car_type)]
+
+        if cars:
+            return {
+            'data':cars,
+            'message':'',
+            'status':'success'
+            }
+        else :
+            return {
+            'data':'',
+            'message':'',
+            'status':'error'
+            }

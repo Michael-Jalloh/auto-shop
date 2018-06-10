@@ -70,6 +70,7 @@ api.add_resource(car.PhotoUpload,'/api/v1/upload-photo')
 api.add_resource(car.UserCars, '/api/v1/user-cars/<path:user>')
 api.add_resource(car.DeleteCar, '/api/v1/delete-car/<path:id>')
 api.add_resource(car.GetImagebyId, '/api/v1/get-image-by-id/<path:id>')
+api.add_resource(car.CarType, '/api/v1/get-cars/<path:car_type>')
 
 api.add_resource(profile.ProfileUpload, '/api/v1/upload-profile')
 api.add_resource(profile.GetProfilePic,'/api/v1/get-profile-pic/<path:user_id>')
@@ -80,4 +81,4 @@ api.add_resource(profile.GetProfile,'/api/v1/get-profile/<path:user_id>')
 api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')
 
 if __name__ =='__main__':
-    application.run(host='0.0.0.0')
+    application.run(host='0.0.0.0', port=5500)
