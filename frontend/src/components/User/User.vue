@@ -58,7 +58,7 @@ export default {
   created() {
     //alert(this.$route.params.id)
     this.url = window.location.hostname+':'+window.location.port;
-    this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    this.imageUrl = "http://" + this.url+"/api/v1/get-profile-pic/"+this.$route.params.id // production
     //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.$route.params.id
 
     this.$http.get("/api/v1/get-profile/"+this.$route.params.id).then( res => {

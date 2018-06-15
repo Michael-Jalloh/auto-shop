@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <el-card class="box-card">
-      <div class="" style="display:flex;">
+      <div class="flex-container">
         <div class="">
           <div class="profile-img">
             <img :src="imageUrl" alt="">
@@ -55,10 +55,10 @@ export default {
   created() {
     this.user = this.$store.getters.user;
     this.url = window.location.hostname+':'+window.location.port;
-    this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
+    this.upload_url = 'http://' + this.url + '/api/v1/upload-profile' // production
     //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 
-    this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    this.imageUrl = "http://"+this.url+"/api/v1/get-profile-pic/"+this.user.id // production
     //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
 
   },

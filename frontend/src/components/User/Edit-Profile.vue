@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     <el-card class="box-card">
-      <div class="" style="display:flex;">
+      <div class="flex-container">
         <div class="">
           <div class="profile-img">
             <img :src="imageUrl" alt="">
@@ -80,10 +80,10 @@ export default {
   created() {
     this.user = this.$store.getters.user;
     this.url = window.location.hostname+':'+window.location.port;
-    this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
+    this.upload_url = 'http://' + this.url + '/api/v1/upload-profile' // production
     //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 
-    this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    this.imageUrl = "http://" + this.url+"/api/v1/get-profile-pic/"+this.user.id // production
     //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
 
   },
@@ -124,11 +124,14 @@ export default {
 .profile-img {
   width: 250px;
   height: 250px;
-  min-width: 250px;
   border: 1px solid;
   border-radius: 50%;
   margin-right: 50px;
   overflow: hidden;
+
+  @include until($large-tablet - 1) {
+    width: 225px;
+  }
 }
 
 .flex-container {
@@ -136,8 +139,18 @@ export default {
   justify-content: space-between;
   align-items: center;
 
+  @include until($large-tablet - 1){
+    flex-direction: column;
+  }
+
   .el-input, .el-textarea {
     width: 70%;
+
+    @include until($large-tablet - 1){
+      width: 100%;
+
+    }
+
   }
 
   .mt-10 {

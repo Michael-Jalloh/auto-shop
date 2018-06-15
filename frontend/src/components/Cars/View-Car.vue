@@ -89,17 +89,19 @@ export default {
   },
 
   created(){
+    var url = window.location.host
     console.log(this.$route.params.id);
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
         this.owner  = this.car.owner;
         console.log(res.data);
-        this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
         //this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
-        this.profile_url = "http://" + this.url + "/api/v1/get-profile-pic/"+this.car.owner.id
+        this.profile_url = "http://" + url + "/api/v1/get-profile-pic/"+this.car.owner.id
+        console.log(url)
+        console.log(this.car.owner.id)
         console.log(this.profile_url);
     }).catch( res => {
-      console.log(res.data);
+      console.log(res.response);
     })
 
     console.log("Created")

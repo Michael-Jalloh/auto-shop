@@ -33,7 +33,7 @@ export default {
           if (response.data['data'].account_type == "individual") {
             this.$router.push('/my-cars')
           } else {
-            this.$router.push('/')
+            this.$router.push('/view-cars')
           }
           this.$notify.success({
             title:' Login',
