@@ -1,9 +1,12 @@
 <template lang="html">
   <div class="">
-  
+
     <hr>
     <div class=" flex-container">
-      <car v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
+      <car  v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
+      <div class="">
+        <p>You haven't added any cars yet...s</p>
+      </div>
     </div>
   </div>
 </template>

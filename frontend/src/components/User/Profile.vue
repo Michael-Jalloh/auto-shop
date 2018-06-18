@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="profile">
     <el-card class="box-card">
       <div class="flex-container">
         <div class="">
@@ -100,5 +100,9 @@ export default {
   border-radius: 50%;
   margin-right: 50px;
   overflow: hidden;
+
+  @include until($large-tablet - 1) {
+    width: 225px;
+  }
 }
 </style>

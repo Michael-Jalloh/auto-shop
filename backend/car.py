@@ -203,7 +203,8 @@ class GetMyCars(Resource):
     decorators = [jwt_required]
 
     def get(self):
-        user = User.get(int(get_jwt_identity()))
+        user = User.get(id=int(get_jwt_identity()))
+        print user.username
         print get_jwt_identity()
         return {
             'status':'OK',

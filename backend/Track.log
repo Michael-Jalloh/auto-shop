@@ -135,3 +135,21 @@ Params: [u'']
 2018-06-15 15:18:41,044 - app - INFO - =========================START=========================
 2018-06-15 15:20:16,979 - app - INFO - =========================START=========================
 2018-06-15 15:20:17,293 - app - INFO - =========================START=========================
+2018-06-17 21:35:34,372 - app - INFO - =========================START=========================
+2018-06-17 21:35:35,764 - app - INFO - =========================START=========================
+2018-06-17 21:38:43,250 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'test@gmail.com']
+2018-06-17 21:38:44,584 - app.user-login-post - ERROR - <class 'models.User'> instance matching query does not exist:
+SQL: SELECT "t1"."id", "t1"."username", "t1"."account_type", "t1"."logo", "t1"."password_hash", "t1"."email", "t1"."contact", "t1"."location", "t1"."joined", "t1"."avatar", "t1"."bio", "t1"."active", "t1"."email_confirm" FROM "user" AS "t1" WHERE ("t1"."email" = ?) LIMIT 1 OFFSET 0
+Params: [u'test@gmail.com']
+2018-06-17 21:42:53,559 - app - INFO - =========================START=========================
+2018-06-17 21:44:59,749 - app - INFO - =========================START=========================
+2018-06-17 22:12:02,293 - app - INFO - =========================START=========================
+2018-06-17 22:12:03,061 - app - INFO - =========================START=========================
+2018-06-17 22:35:41,938 - app - INFO - =========================START=========================
+2018-06-17 22:35:42,876 - app - INFO - =========================START=========================
+2018-06-17 22:44:08,747 - app - INFO - =========================START=========================
+2018-06-17 22:44:09,102 - app - INFO - =========================START=========================
+2018-06-17 22:49:16,553 - app - INFO - =========================START=========================
+2018-06-17 22:49:16,892 - app - INFO - =========================START=========================
