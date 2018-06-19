@@ -91,6 +91,7 @@ class Car(BaseModel):
     owner = ForeignKeyField(User, related_name="cars")
     created = DateTimeField(default=datetime.datetime.now())
     published = BooleanField(default=False)
+    featured = BooleanField(default=False)
 
 
     def dictionary(self):

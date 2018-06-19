@@ -296,3 +296,22 @@ class CarType(Resource):
             'message':'',
             'status':'error'
             }
+
+class FeaturedCars(Resource):
+    decorators = []
+
+    def get(self):
+        cars = [car.dictionary() for car  in Car.select().where(Car.featured == True)]
+
+        if cars:
+            return {
+                'data':cars,
+                'message':'',
+                'status':'succes'
+                }
+        else:
+            return {
+                'data':'',
+                'message':'No featured cars at the moment',
+                'status':'error'
+                }

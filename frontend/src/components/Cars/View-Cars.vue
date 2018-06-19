@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="">
-    <h3>New Cars</h3>
-    <el-button @click="test">Test</el-button>
+    <h3>Featured Cars</h3>
     <el-carousel ref="carousel" indicator-position="none" arrow="always" :autoplay="false" v-loading="loading">
       <el-carousel-item    v-for="item in cars.length"  :key="item">
         <div class="" v-on:click="selectCar(cars[item - 1 ])" class="overlay">
@@ -9,21 +8,8 @@
         </div>
       </el-carousel-item>
     </el-carousel>
-    <hr>
-    <h3>Old Cars</h3>
-    <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
-      <el-carousel-item v-for="item in cars.length" :key="item">
 
-      </el-carousel-item>
-    </el-carousel>
-    <hr>
-    <h3>Scrap Cars</h3>
-    <el-carousel  arrow="always" :autoplay="false" v-loading="loading">
-      <el-carousel-item v-for="item in cars.length" :key="item">
 
-      </el-carousel-item>
-    </el-carousel>
-    <hr>
   </div>
 </template>
 
@@ -50,7 +36,7 @@ export default {
       this.cars = this.$store.getters.cars;
       this.loading = false
     } else{
-      this.$http.get('/api/v1/get-cars').then( res => {
+      this.$http.get('/api/v1/featured-cars').then( res => {
         this.cars = res.data['data'];
         this.$store.commit('setCars',this.cars)
         console.log(res.data['data']);
