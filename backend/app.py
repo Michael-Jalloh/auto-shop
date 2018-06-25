@@ -84,4 +84,4 @@ api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')
 
 
 if __name__ =='__main__':
-    application.run(host='0.0.0.0', port=5500)
+    application.run(host='0.0.0.0', port=5000)

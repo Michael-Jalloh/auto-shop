@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="">
     <h3>{{ car_type | capitalize }} Cars</h3>
+    <hr>
     <div class="flex-container" >
       <el-card class="car-card relative"  v-for="car in cars.length" :key="car" :label="car" style="margin-bottom:10px;">
         <div class="overlay" @click="selectCar(cars[ car - 1])">

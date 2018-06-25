@@ -16,6 +16,8 @@ import User from '@/components/User/User'
 import AddBlog from '@/components/Blog/Add-Blog'
 import Main from '@/components/Main'
 import View from '@/components/View'
+import Admin from '@/components/Admin'
+import AdminCars from '@/components/Admins/Admin-Cars'
 
 
 Vue.use(Router)
@@ -89,6 +91,18 @@ export default new Router({
       ]
     },
     {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      children: [
+        {
+          path: '/admin-cars',
+          name: 'AdminCars',
+          component: AdminCars
+        }
+      ]
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
@@ -105,5 +119,5 @@ export default new Router({
     },
 
   ],
-  
+
 })

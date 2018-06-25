@@ -46,12 +46,8 @@
     <div class="grid-md-4 mb-10 mt-10">
       <el-card class="box-card">
         <div class="">
-          <div class="profile-img">
-            <img :src="profile_url" alt="">
-          </div>
           <div class="">
             <p>{{ owner.username}}</p>
-              <p>{{ owner.location}}</p>
               <el-button @click="ViewProfile">View Profile</el-button>
           </div>
         </div>

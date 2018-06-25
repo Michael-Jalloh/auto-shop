@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header user">
       <div class="">
-        <a href="#" class="brand"><h3>{{ brand}}</h3></a>
+        <router-link :to="{ name: 'ViewCars', params: {} }" class="brand-link"> {{ brand }}</router-link>
       </div>
       <div id="hamburger" v-on:click="active = !active"  v-bind:class="{active:active}">
         <span class="bar1"></span>
@@ -176,5 +176,15 @@ export default {
 
 .log-out{
   cursor: pointer;
+}
+
+.link, .brand-link{
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.brand-link {
+  font-size: 20px;
 }
 </style>

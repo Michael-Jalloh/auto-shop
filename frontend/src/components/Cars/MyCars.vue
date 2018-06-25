@@ -4,7 +4,7 @@
     <hr>
     <div class=" flex-container">
       <car  v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
-      <div class="">
+      <div class="" v-if="no_car">
         <p>You haven't added any cars yet...s</p>
       </div>
     </div>
@@ -24,7 +24,8 @@ export default {
   data(){
     return {
       user:{},
-      cars:[]
+      cars:[],
+      no_car: true
     }
   },
 
@@ -39,8 +40,9 @@ export default {
     }
     this.user = this.$store.getters.user;
     this.$auth.get('/my-cars/').then(res => {
-      this.cars = res.data['data']
-      console.log(res.data['data'])
+      this.cars = res.data['data'];
+      console.log(res.data['data']);
+      this.no_car = false;
     })
   },
 

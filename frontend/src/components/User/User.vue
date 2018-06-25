@@ -1,20 +1,11 @@
 <template lang="html">
   <div class="">
     <el-card class="box-card">
-      <div class="flex-container" >
-        <div class="profile-img">
-          <img :src="imageUrl" alt="">
-        </div>
-
-
         <div class=" info">
             <h2>Username: {{ user.username}}</h2>
             <h4>Email: {{ user.email}}</h4>
-            <h4>Address: {{user.location}}</h4>
             <h4>Tel: {{ user.contact }}</h4>
-            <h4>Bio: {{ user.bio}}</h4>
         </div>
-      </div>
     </el-card>
     <hr>
     <h3>{{ user.username}}'s Cars</h3>

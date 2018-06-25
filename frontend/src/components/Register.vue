@@ -7,6 +7,7 @@
       <el-input v-validate="'required'" placeholder="Password" type="password" class="spacing" v-model="form.password" clearable></el-input>
       <el-input v-validate="'required'" placeholder="Confirm Password" type="password" class="spacing" v-model="form.password_confirm" clearable></el-input>
       <el-button v-show="form.password && form.username && form.password == form.password_confirm && form.email" type="success" class="spacing" v-bind:loading="loading" @click="Register()">Register</el-button>
+      <el-button type="danger" @click="cancel">Cancel</el-button>
     </el-card>
 
 
@@ -35,7 +36,7 @@ export default {
             message: res.data['message'],
             type: res.data['status']
           });
-          this.$router.push({name:'View-Cars'});
+          this.$router.push('/login')
         }).catch(res => {
           console.log(res.data);
         });
@@ -47,6 +48,10 @@ export default {
         })
       }
       console.log(this.form);
+    },
+
+    cancel(){
+      this.$router.push('/view-cars')
     }
   }
 }

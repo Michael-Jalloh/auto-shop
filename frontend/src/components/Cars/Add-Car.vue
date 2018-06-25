@@ -210,8 +210,8 @@ export default {
           label: 'Old'
         },
         {
-          value: 'scrap',
-          label: 'Scrap'
+          value: 'rent',
+          label: 'Rent'
         }
       ],
       imageUrl: '',
@@ -275,8 +275,8 @@ export default {
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
-    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
   },
 
   methods: {

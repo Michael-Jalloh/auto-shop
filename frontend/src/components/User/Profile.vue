@@ -2,7 +2,7 @@
   <div class="profile">
     <el-card class="box-card">
       <div class="flex-container">
-        <div class="">
+        <!--<div class="">
           <div class="profile-img">
             <img :src="imageUrl" alt="">
           </div>
@@ -17,14 +17,11 @@
             >
             <el-button size="small" type="primary">Click to upload</el-button>
           </el-upload>
-        </div>
+        </div> -->
         <div class="">
             <h2>{{ user.username}}</h2>
             <h4>{{ user.email}}</h4>
-            <h4>{{user.location}}</h4>
-            <h4>{{user.account_type}}</h4>
             <h4>{{ user.contact }}</h4>
-            <p>{{ user.bio}}</p>
 
             <el-button @click="EditProfile">Edit Profile</el-button>
         </div>

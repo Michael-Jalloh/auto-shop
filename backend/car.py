@@ -29,6 +29,7 @@ parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='f
 parser.add_argument('pic_name')
 parser.add_argument('car_id')
 parser.add_argument('car_type')
+parser.add_argument('type')
 
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -104,7 +105,7 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
-
+        car.car_type = data['type']
 
         try:
             car.owner = int(user) #User.get(id=int(user)) #int(data['user']))
@@ -142,6 +143,7 @@ class EditCar(Resource):
             car.mileage = data['mileage']
             car.fuel = data['fuel']
             car.drive_train = data['drive_train']
+            car.car_type = data['type']
             try:
                 car.save()
                 return {
