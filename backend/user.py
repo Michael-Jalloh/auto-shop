@@ -64,6 +64,7 @@ class Login(Resource):
                     }
             else:
                 return {
+                        'data':'',
                         'status':'error',
                         'message':'Wrong credentials'
                         }

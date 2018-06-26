@@ -30,6 +30,8 @@ parser.add_argument('pic_name')
 parser.add_argument('car_id')
 parser.add_argument('car_type')
 parser.add_argument('type')
+parser.add_argument('flagger')
+parser.add_argument('flag_reason')
 
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -316,4 +318,32 @@ class FeaturedCars(Resource):
                 'data':'',
                 'message':'No featured cars at the moment',
                 'status':'error'
+                }
+
+class FlagCar(Resource):
+    decorators = []
+
+    def post(self):
+        try:
+            data = parser.parse_args()
+            logger = logging.getLogger('app.car-flagger')
+            car_id = data['car_id']
+            message = data['flag_reason']
+            email = data['flagger']
+            car = Car.get(id=int(car_id))
+            car.flagged = True
+            car.flagger = email
+            car.flag_reason = message
+            car.save()
+            return {
+                'data':'',
+                'message':'Car has been flagged',
+                'status': 'success'
+                }
+        except Exception as e:
+            logger.error(str(e))
+            return {
+                'data':'',
+                'message':'An error occur',
+                'status': 'error'
                 }

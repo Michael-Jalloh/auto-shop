@@ -8,7 +8,6 @@
           <span slot="title">Dashboard</span>
         </template>
         <el-menu-item-group>
-          <!--<span slot="title">View Location</span>-->
           <el-menu-item index="1-1"><router-link class="router-link" to="">Dashboard</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -19,27 +18,37 @@
         </template>
         <el-menu-item-group>
           <!--<span slot="title">View Location</span>-->
-          <el-menu-item index="2-1"><router-link to="/my-cars">My Cars</router-link></el-menu-item>
-          <el-menu-item index="2-2"><router-link to="/add-car">Add Car</router-link></el-menu-item>
+          <el-menu-item index="2-1"><router-link to="/admin-cars">Cars</router-link></el-menu-item>
+          <el-menu-item index="2-2"><router-link to="/flag-cars">Flag Cars</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
           <icon class="icon" scale="1.50" name="user"></icon>
-          <span  slot="title">Profile</span>
+          <span  slot="title">Users</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1"><router-link to="/my-profile">Profile</router-link></el-menu-item>
-          <el-menu-item index="3-1"><router-link to="/edit-my-profile">Edit Profile</router-link></el-menu-item>
+          <el-menu-item index="3-1"><router-link to="">User</router-link></el-menu-item>
+          <el-menu-item index="3-1"><router-link to=""></router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="4">
+        <template slot="title">
+          <icon class="icon" scale="1.50" name="book"></icon>
+          <span  slot="title">Blogs</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="4-1"><router-link to="">Blogs Post</router-link></el-menu-item>
+          <el-menu-item index="4-2"><router-link to="">Drafts</router-link></el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="5">
         <template slot="title">
           <icon class="icon" scale="1.50" name="envelope"></icon>
           <span  slot="title">Message</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="4-1"><router-link to="">Messages</router-link></el-menu-item>
+          <el-menu-item index="5-1"><router-link to="">Messages</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

@@ -52,10 +52,20 @@
           </div>
         </div>
 
-        <el-button @click="flag" style="margin-top:10px;">Flag</el-button>
+        <el-button @click="flagDialog=true" style="margin-top:10px;">Flag</el-button>
       </el-card>
     </div>
-
+    <el-dialog
+      title="Flag"
+      :visible.sync="flagDialog"
+      width="50%">
+      <p>Please enter your reason for flagging this car please</p>
+      <el-input type="textarea" :rows="4" v-model="flagForm.flag_reason"></el-input>
+      <div class="" style="margin-top:10px;">
+        <el-button type="primary" @click="flag">Flag</el-button>
+        <el-button type="danger" @click="flagDialog=false">Cancel</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -79,7 +89,13 @@ export default {
         username:'',
         location: ''
         },
-      profile_url: ''
+      profile_url: '',
+      flagForm: {
+        flagger: 'michaeljalloh19@gmail.com',
+        flag_reason: '',
+        car_id: ''
+      },
+      flagDialog: false
 
     }
   },
@@ -163,10 +179,29 @@ export default {
     },
 
     flag() {
-      this.$notify.success({
-        title: "Flag Report",
-        message: "You have raise a flag report for "+ this.car.name+".\nYou will be contact for more details"
+      this.flagForm.car_id = this.car.car_id
+      if (this.flagForm.flag_reason == '') {
+        this.$notify.error({
+          title:'Error',
+          message: 'Please fill in your reason'
+        })
+        return
+      }
+      alert('Sending')
+      this.$http.post('/api/v1/flag/', this.flagForm).then(res => {
+        if (res.data['status'] == 'success') {
+          this.$notify.success({
+            title: "Flag Report",
+            message: "You have raise a flag report for "+ this.car.name+".\nYou will be contact for more details"
+          })
+        } else {
+          this.$notify.error({
+            title: "Flag Report",
+            message: res.data['message']
+          })
+        }
       })
+    this.flagDialog = false
     },
 
     ViewProfile(){

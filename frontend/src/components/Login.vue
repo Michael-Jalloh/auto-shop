@@ -5,6 +5,7 @@
       <el-input placeholder="Email" class="spacing" v-model="email" clearable></el-input>
       <el-input placeholder="Password" type="password" class="spacing" v-model="password" clearable></el-input>
       <el-button type="success" class="spacing" v-bind:loading="loading" @click="login()">Login </el-button>
+      <el-button type="danger" class="spacing" @click="cancel">Cancel</el-button>
       <p class="spacing">If You don't have an account? You can create one <router-link :to="{ name:'Register', params: {} }">here!</router-link></p>
     </el-card>
 
@@ -22,6 +23,9 @@ export default {
     }
   },
   methods: {
+    cancel(){
+      this.$router.push('/view-cars')
+    },
     login() {
       this.loading = true;
       this.$auth.login({

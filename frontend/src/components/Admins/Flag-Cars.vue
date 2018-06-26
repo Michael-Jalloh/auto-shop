@@ -3,7 +3,7 @@
     <el-table
         :data="carData"
         style="width: 100%"
-        :row-class-name="FlagCar">
+        >
         <el-table-column
             prop="name"
             label="Name">
@@ -21,10 +21,10 @@
             </template>
         </el-table-column>
         <el-table-column
-            label="Featured"
+            label="Flagged"
             width="150">
             <template slot-scope="scope">
-              <el-checkbox v-model="scope.row.featured"></el-checkbox>
+              <el-checkbox v-model="scope.row.flagged"></el-checkbox>
             </template>
         </el-table-column>
         <el-table-column
@@ -49,7 +49,7 @@ export default {
   },
 
   created(){
-    this.$http.get('/api/v1/admin-cars').then( res => {
+    this.$http.get('/api/v1/flagged-cars').then( res => {
       if (res.data['status'] == 'success') {
         this.carData = res.data['data'];
         console.log(this.carData);

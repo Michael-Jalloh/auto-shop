@@ -18,6 +18,7 @@ import Main from '@/components/Main'
 import View from '@/components/View'
 import Admin from '@/components/Admin'
 import AdminCars from '@/components/Admins/Admin-Cars'
+import FlagCars from '@/components/Admins/Flag-Cars'
 
 
 Vue.use(Router)
@@ -99,6 +100,11 @@ export default new Router({
           path: '/admin-cars',
           name: 'AdminCars',
           component: AdminCars
+        },
+        {
+          path: '/flag-cars',
+          name: 'FlagCars',
+          component: FlagCars
         }
       ]
     },

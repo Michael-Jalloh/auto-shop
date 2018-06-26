@@ -5,7 +5,7 @@ from flask_cors import CORS
 from models import Car
 import logging
 from models import RevokedToken
-import car, user, profile
+import car, user, profile, admin
 
 UPLOAD_FOLDER = "static/img"
 application = Flask(__name__,
@@ -72,14 +72,18 @@ api.add_resource(car.DeleteCar, '/api/v1/delete-car/<path:id>')
 api.add_resource(car.GetImagebyId, '/api/v1/get-image-by-id/<path:id>')
 api.add_resource(car.CarType, '/api/v1/get-cars/<path:car_type>')
 api.add_resource(car.FeaturedCars, '/api/v1/featured-cars')
+api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')
+api.add_resource(car.FlagCar,'/api/v1/flag/')
 
 api.add_resource(profile.ProfileUpload, '/api/v1/upload-profile')
 api.add_resource(profile.GetProfilePic,'/api/v1/get-profile-pic/<path:user_id>')
 api.add_resource(profile.EditProfile,'/api/v1/edit-profile')
 api.add_resource(profile.GetProfile,'/api/v1/get-profile/<path:user_id>')
 
+api.add_resource(admin.AdminGetCars, '/api/v1/admin-cars')
+api.add_resource(admin.AdminDeleteCar, '/api/v1/admin-delete-car/<path:id>')
+api.add_resource(admin.FlaggedCars, '/api/v1/flagged-cars')
 
-api.add_resource(car.GetImage, '/api/v1/get-image/<path:filename>')
 
 
 

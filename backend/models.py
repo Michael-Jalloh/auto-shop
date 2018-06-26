@@ -92,7 +92,9 @@ class Car(BaseModel):
     created = DateTimeField(default=datetime.datetime.now())
     published = BooleanField(default=False)
     featured = BooleanField(default=False)
-
+    flagged = BooleanField(default=False)
+    flagger = CharField(default="")
+    flag_reason = TextField(default="")
 
     def dictionary(self):
         return {
@@ -111,7 +113,12 @@ class Car(BaseModel):
             'owner': self.owner.dictionary(),
             'created': str(self.created),
             'pic': self.pics,
-            'type': self.car_type
+            'type': self.car_type,
+            'featured': self.featured,
+            'flagged': self.flagged,
+            'flagger': self.flagger,
+            'flag_reason': self.flag_reason,
+            'published': self.published
             }
 
 class Brand(BaseModel):
@@ -122,7 +129,6 @@ class BodyType(BaseModel):
 
 class Category(BaseModel):
     value = CharField(unique=True)
-
 
 class Blog(BaseModel):
     timestamp = DateTimeField(default=datetime.datetime.now())

@@ -2,15 +2,13 @@
   <div class="login">
     <el-card>
       <h3>Register</h3>
-      <el-input v-validate="'required'" placeholder="Email" class="spacing" v-model="form.email" clearable></el-input>
-      <el-input v-validate="'required'" placeholder="username" class="spacing" v-model="form.username" clearable></el-input>
-      <el-input v-validate="'required'" placeholder="Password" type="password" class="spacing" v-model="form.password" clearable></el-input>
-      <el-input v-validate="'required'" placeholder="Confirm Password" type="password" class="spacing" v-model="form.password_confirm" clearable></el-input>
+      <el-input placeholder="Email" class="spacing" v-model="form.email" clearable></el-input>
+      <el-input placeholder="username" class="spacing" v-model="form.username" clearable></el-input>
+      <el-input placeholder="Password" type="password" class="spacing" v-model="form.password" clearable></el-input>
+      <el-input placeholder="Confirm Password" type="password" class="spacing" v-model="form.password_confirm" clearable></el-input>
       <el-button v-show="form.password && form.username && form.password == form.password_confirm && form.email" type="success" class="spacing" v-bind:loading="loading" @click="Register()">Register</el-button>
       <el-button type="danger" @click="cancel">Cancel</el-button>
     </el-card>
-
-
   </div>
 </template>
 

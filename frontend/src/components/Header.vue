@@ -87,11 +87,11 @@ export default {
 @import '../layout.scss';
 
 .header {
-  background-color: #FFFFFF;
+  background-color: #343A40;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #343A40;
+  color: #FFFFFF;
 }
 
 .brand {
@@ -165,7 +165,7 @@ export default {
     position: absolute;
     transition: .5s;
     width: 44%;
-    border: 4px solid #252525;
+    border: 4px solid #FFFFFF;
     border-bottom: none;
     border-radius: 2px;
     outline: none;
@@ -212,6 +212,7 @@ export default {
 
 .brand-link {
   font-size: 20px;
+  color: #FFFFFF;
 }
 
 </style>
