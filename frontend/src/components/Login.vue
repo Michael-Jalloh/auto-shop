@@ -36,7 +36,10 @@ export default {
           this.$auth.setTokens(response.data, this.$ls);
           if (response.data['data'].account_type == "individual") {
             this.$router.push('/my-cars')
-          } else {
+          } else if (response.data['data'].account_type=="admin") {
+            this.$router.push('/admin-cars')
+          }
+           else {
             this.$router.push('/view-cars')
           }
           this.$notify.success({

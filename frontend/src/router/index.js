@@ -13,13 +13,18 @@ import Register from '@/components/Register'
 import Profile from '@/components/User/Profile'
 import EditProfile from '@/components/User/Edit-Profile'
 import User from '@/components/User/User'
-import AddBlog from '@/components/Blog/Add-Blog'
+import AddPost from '@/components/Post/Add-Post'
+import AdminPost from '@/components/Post/AdminPost'
+import EditPost from '@/components/Post/Edit-Post'
+import Drafts from '@/components/Post/Drafts'
+import Post from '@/components/Post/Post'
 import Main from '@/components/Main'
 import View from '@/components/View'
 import Admin from '@/components/Admin'
 import AdminCars from '@/components/Admins/Admin-Cars'
 import FlagCars from '@/components/Admins/Flag-Cars'
-
+import Users from '@/components/Admins/Users'
+import BlogPosts from '@/components/Blog-Posts'
 
 Vue.use(Router)
 
@@ -51,6 +56,16 @@ export default new Router({
           path: '/cars/:id',
           name: 'Type-Cars',
           component: TypeCars
+        },
+        {
+          path: '/blog-post/:id',
+          name: 'BlogPost',
+          component: Post
+        },
+        {
+          path: '/blog-posts',
+          name: 'BlogPosts',
+          component: BlogPosts
         }
       ]
     },
@@ -62,32 +77,51 @@ export default new Router({
         {
           path:'/my-cars',
           name: 'MyCars',
-          component: MyCars
+          component: MyCars,
+          meta: {
+            forAuth: true
+          }
+
         },
         {
           path: '/add-car',
           name: 'AddCar',
           component: AddCar,
+          meta: {
+            forAuth: true
+          }
         },
         {
           path: '/edit-car',
           name:'Edit-Car',
-          component: EditCar
+          component: EditCar,
+          meta: {
+            forAuth: true
+          }
         },
         {
           path: '/my-profile',
           name: 'MyProfile',
-          component: Profile
+          component: Profile,
+          meta: {
+            forAuth: true
+          }
         },
         {
           path: '/edit-my-profile',
           name: 'EditProfile',
-          component: EditProfile
+          component: EditProfile,
+          meta: {
+            forAuth: true
+          }
         },
         {
           path: '/my-car/:id',
           name: 'MyCarView',
-          component: MyCarView
+          component: MyCarView,
+          meta: {
+            forAuth: true
+          }
         }
       ]
     },
@@ -99,12 +133,74 @@ export default new Router({
         {
           path: '/admin-cars',
           name: 'AdminCars',
-          component: AdminCars
+          component: AdminCars,
+          meta: {
+            forAuth: true
+          }
         },
         {
           path: '/flag-cars',
           name: 'FlagCars',
-          component: FlagCars
+          component: FlagCars,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path:'/add-post',
+          name:'Add-Post',
+          component: AddPost,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin-posts',
+          name: 'AdminPost',
+          component: AdminPost,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/edit-post',
+          name: 'EditPost',
+          component: EditPost,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/drafts',
+          name:'Drafts',
+          component: Drafts,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path:'/post/:id',
+          name: 'Post',
+          component: Post,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin/view-car/:id',
+          name: 'AdminViewCar',
+          component: MyCarView,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin/users',
+          name: 'Users',
+          component: Users,
+          meta: {
+            forAuth: true
+          }
         }
       ]
     },
@@ -118,11 +214,7 @@ export default new Router({
       name: 'Register',
       component: Register
     },
-    {
-      path:'/add-blog',
-      name:'Add-Blog',
-      component: AddBlog
-    },
+
 
   ],
 

@@ -13,10 +13,8 @@
         <div class="icon">
           <icon name="envelope" scale="1.75"></icon>
         </div>
-        <div class="">
-          <el-input v-model="search_input" placeholder="Search">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
+        <div class="icon">
+          <icon name="bell" scale="1.75"></icon>
         </div>
           <div class="log-out" v-on:click="logout()">
             <icon class="icon" scale="1.75" name="sign-out" v-on:click="logout()"></icon>

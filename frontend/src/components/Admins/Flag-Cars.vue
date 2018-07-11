@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="">
+    <el-button @click="Refresh">Refresh</el-button>
     <el-table
         :data="carData"
         style="width: 100%"
@@ -17,7 +18,7 @@
             label="Published"
             width="150">
             <template slot-scope="scope">
-              <el-checkbox v-model="scope.row.published" ></el-checkbox>
+              <el-checkbox v-model="scope.row.published" @change="published_check(scope.row)" ></el-checkbox>
             </template>
         </el-table-column>
         <el-table-column
@@ -83,7 +84,32 @@ export default {
       } else {
         return '';
       }
-    }
+    },
+
+    Refresh(){
+      this.$http.get('/api/v1/flag-cars').then( res => {
+        if (res.data['status'] == 'success') {
+          this.carData = res.data['data'];
+          console.log(this.carData);
+        }
+      })
+    },
+
+    published_check(car){
+       var formData = {
+         published: car.published,
+         car_id: car.car_id
+       }
+      this.$http.post('/api/v1/published', formData).then( res => {
+        this.$notify.success({
+          title: 'Published',
+          message: res.data['message']
+        })
+      }).catch ( res => {
+        console.log(res.response)
+      })
+
+    },
   }
 
 }

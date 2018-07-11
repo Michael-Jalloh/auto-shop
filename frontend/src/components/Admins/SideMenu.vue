@@ -28,18 +28,19 @@
           <span  slot="title">Users</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="3-1"><router-link to="">User</router-link></el-menu-item>
-          <el-menu-item index="3-1"><router-link to=""></router-link></el-menu-item>
+          <el-menu-item index="3-1"><router-link to="/admin/users">User</router-link></el-menu-item>
+          <el-menu-item index="3-2"><router-link to=""></router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="4">
         <template slot="title">
           <icon class="icon" scale="1.50" name="book"></icon>
-          <span  slot="title">Blogs</span>
+          <span  slot="title">Posts</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="4-1"><router-link to="">Blogs Post</router-link></el-menu-item>
-          <el-menu-item index="4-2"><router-link to="">Drafts</router-link></el-menu-item>
+          <el-menu-item index="4-1"><router-link to="/admin-posts">Blog Posts</router-link></el-menu-item>
+          <el-menu-item index="4-2"><router-link to="/add-post">Add Post</router-link></el-menu-item>
+          <el-menu-item index="4-3"><router-link to="/drafts">Drafts</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="5">

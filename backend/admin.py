@@ -30,7 +30,7 @@ parser.add_argument('pic_name')
 parser.add_argument('car_id')
 parser.add_argument('car_type')
 parser.add_argument('type')
-
+parser.add_argument('featured')
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
@@ -45,25 +45,49 @@ def get_date():
     return date.replace('.','-')
 
 class AdminGetCars(Resource):
+    decorators = [jwt_required]
     def get(self):
-        cars = [car.dictionary() for car in Car.select()]
-        return {
-            'data':cars,
-            'message':'',
-            'status':'success'
-            }
+        user = get_jwt_identity()
+        if user:
+            user = User.get(id=int(user)).account_type
+        else:
+            return{
+                'data':'',
+                'message':'Forbidden',
+                'status':'error'
+                }
+        if (user =='admin'):
+            cars = [car.dictionary() for car in Car.select()]
+            return {
+                'data':cars,
+                'message':'',
+                'status':'success'
+                }
+        else:
+            return{
+                'data':'',
+                'message':'Forbidden',
+                'status':'error'
+                }
 
 class AdminDeleteCar(Resource):
-
+    decorators = [jwt_required]
     def delete(self,id):
         try:
-            car = Car.get(id=int(id))
-            car.delete_instance()
+            user = User.get(id=int(get_jwt_identity())).account_type
+            if (user == 'admin'):
+                car = Car.get(id=int(id))
+                car.delete_instance()
 
+                return {
+                    'data':'',
+                    'messsage':'Car deleted',
+                    'status':'success'
+                    }
             return {
                 'data':'',
-                'messsage':'Car deleted',
-                'status':'success'
+                'message':'Forbidden',
+                'status':'error'
                 }
         except Exception as e:
             print str(e)
@@ -87,3 +111,97 @@ class FlaggedCars(Resource):
         'message':'',
         'status':'success'
         }
+
+class AdminFeatured(Resource):
+  decorators = [jwt_required]
+
+  def post(self):
+    logger = logging.getLogger('app.post-admin-featured')
+    data = parser.parse_args()
+
+    try:
+        user = User.get(id=int(get_jwt_identity())).account_type
+        if user != 'admin':
+            return {
+                'data':'',
+                'message':'Forbidden',
+                'status':'error'
+            }
+        car = Car.get(id=int(data['car_id']))
+        car.featured = False
+        if data['featured'] == 'True':
+            car.featured =  True
+
+        car.save()
+        if car.featured:
+            return {
+                    'data':'Featured',
+                    'message':'Car {} has been featured'.format(car.name),
+                    'status': 'success'
+                    }
+        return {
+            'data': 'Featured',
+            'message':'Car {} has been removed from the featured cars'.format(car.name),
+            'status':'success'
+            }
+
+    except Exception as e:
+        print str(e)
+        logger.error(e)
+        return {
+                'data':'',
+                'message':'An error occur',
+                'status': 'error'
+                }
+
+class AdminPublished(Resource):
+  decorators = [jwt_required]
+
+  def post(self):
+    logger = logging.getLogger('app.post-admin-published')
+    data = parser.parse_args()
+    try:
+        user = User.get(id=int(get_jwt_identity())).account_type
+        if user != 'admin':
+            return {
+                'data':'',
+                'message':'Forbidden',
+                'status':'error'
+            }
+        car = Car.get(id=int(data['car_id']))
+        car.published = False
+        if data['published'] == 'True':
+            car.published =  True
+
+        car.save()
+        if car.published:
+            return {
+                    'data':'',
+                    'message':'Car {} has been published'.format(car.name),
+                    'status': 'success'
+                    }
+        return {
+            'data': '',
+            'message':'Car {} has been removed from the published cars'.format(car.name),
+            'status':'success'
+            }
+
+    except Exception as e:
+        print str(e)
+        logger.error(e)
+        return {
+                'data':'',
+                'message':'An error occur',
+                'status': 'error'
+                }
+
+class AdminUsers(Resource):
+    decorators = [jwt_required]
+
+    def get(self):
+        users = [user.dictionary() for user  in User.select()]
+        return {
+            'data':users,
+            'message': '',
+            'status':'success'
+            }

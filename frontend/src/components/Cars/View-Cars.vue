@@ -8,6 +8,9 @@
         </div>
       </el-carousel-item>
     </el-carousel>
+    <div class="spacing" >
+      <el-button @click="Refresh">Refresh</el-button>
+    </div>
 
 
   </div>
@@ -59,6 +62,18 @@ export default {
 
     test(){
       myBus.$emit('login');
+    },
+
+    Refresh(){
+      this.$http.get('/api/v1/featured-cars').then( res => {
+        this.cars = res.data['data'];
+        this.$store.commit('setCars',this.cars)
+        console.log(res.data['data']);
+        this.loading = false;
+        //console.log(res.data);
+      }).catch( res => {
+        console.log(res);
+      })
     }
   }
 }

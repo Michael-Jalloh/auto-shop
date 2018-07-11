@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="">
     <h3>{{ car_type | capitalize }} Cars</h3>
+    <el-button @click="Refresh">Refresh</el-button>
     <hr>
     <div class="flex-container" >
       <el-card class="car-card relative"  v-for="car in cars.length" :key="car" :label="car" style="margin-bottom:10px;">
@@ -60,6 +61,13 @@ export default {
     selectCar(car) {
       this.$store.commit('setCar',car);
       this.$router.push({name: 'View-Car',params: {id: car.car_id}});
+    },
+
+    Refresh(){
+      this.car_type = this.$route.params.id;
+      this.$http.get('/api/v1/get-cars/'+ this.car_type).then( res => {
+        this.cars = res.data['data'];
+      })
     }
   }
 }

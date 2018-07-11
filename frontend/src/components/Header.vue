@@ -17,7 +17,7 @@
         <ul>
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Blog</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{name: 'BlogPosts', params:{}}" class="link">Blog</router-link></li>
           <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id:'luxury'} }" class="link">Luxury Cars</router-link></li>
           <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'new'} }" class="link">New Cars</router-link></li>
           <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'old'} }" class="link">Old Cars</router-link></li>
