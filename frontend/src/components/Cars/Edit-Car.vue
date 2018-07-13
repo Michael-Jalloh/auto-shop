@@ -210,61 +210,11 @@ export default {
           label: 'Old'
         },
         {
-          value: 'scrap',
-          label: 'Scrap'
+          value: 'rent',
+          label: 'Rent'
         }
       ],
       imageUrl: '',
-      form: {
-        name: '',
-        price: '',
-        description: '',
-        brand: '',
-        model: '',
-        year: '',
-        transmission: '',
-        engine: '',
-        mileage: '',
-        fuel: '',
-        type: '',
-        drive_train:'',
-        file: ''
-      },
-      rules: {
-        name: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        price: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        description: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        brand: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        model: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        year: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        transmission: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        engine: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        mileage: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        fuel: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-        drive_train: [
-          {required:true, message:'This field is required', trigger:'changed|blur'}
-        ],
-      },
       fileData:{
         car_id: '',
       }
@@ -284,31 +234,27 @@ export default {
   methods: {
     onSubmit() {
       if (this.have_photo){
-
         console.log(this.car);
-        this.$auth.post('/api/v1/edit-car', this.form).then(res => {
+        this.$auth.post('/api/v1/edit-car', this.car).then(res => {
           this.$notify({
                 title:'Car',
                 message: res.data['message'],
                 type: res.data['status']
           });
-          console.log(this.fileData);
-          console.log(res.data['data']['car_id']);
-          this.fileData.car_id = res.data['data']['car_id'];
-          this.$refs.upload.submit();
+          this.$http.get('/api/v1/get-cars').then( res => {
+            this.cars = res.data['data'];
+            this.$store.commit('setCars',this.cars)
           }).catch( res => {
-
-            if (res.response.status == 401) {
-              this.$notify.info( {
-                title: 'Login',
-                message: 'You login expired'
-              })
-
-              bus.$emit('login');
-            }
+            console.log(res.response);
           })
-
-
+        }).catch( error =>{
+          console.log(error.response)
+          if (error.response.status == 401) {
+            bus.$emit('login')
+          } else if (error.response.status == 422) {
+            bus.$emit('login')
+          }
+        })
       } else {
         this.$notify.info({
             title:'Image',

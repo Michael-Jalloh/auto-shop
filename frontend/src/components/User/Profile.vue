@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="">
+  <div class="profile">
     <el-card class="box-card">
-      <div class="" style="display:flex;">
-        <div class="">
+      <div class="flex-container">
+        <!--<div class="">
           <div class="profile-img">
             <img :src="imageUrl" alt="">
           </div>
@@ -17,14 +17,11 @@
             >
             <el-button size="small" type="primary">Click to upload</el-button>
           </el-upload>
-        </div>
+        </div> -->
         <div class="">
             <h2>{{ user.username}}</h2>
             <h4>{{ user.email}}</h4>
-            <h4>{{user.location}}</h4>
-            <h4>{{user.account_type}}</h4>
             <h4>{{ user.contact }}</h4>
-            <p>{{ user.bio}}</p>
 
             <el-button @click="EditProfile">Edit Profile</el-button>
         </div>
@@ -34,6 +31,8 @@
 </template>
 
 <script>
+import { bus } from '../../main'
+ 
 export default {
 
   components: {
@@ -55,11 +54,11 @@ export default {
   created() {
     this.user = this.$store.getters.user;
     this.url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
+    this.upload_url = 'http://' + this.url + '/api/v1/upload-profile' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 
-    //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
-    this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
+    this.imageUrl = "http://"+this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
 
   },
 
@@ -100,5 +99,9 @@ export default {
   border-radius: 50%;
   margin-right: 50px;
   overflow: hidden;
+
+  @include until($large-tablet - 1) {
+    width: 225px;
+  }
 }
 </style>

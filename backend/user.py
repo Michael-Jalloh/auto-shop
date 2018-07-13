@@ -53,17 +53,20 @@ class Login(Resource):
             user = User.get(User.email == email)
             expires = timedelta(days=0.5)
             if user is not None and user.verify_password(password):
-                access_token = create_access_token(identity=user.id)
-                refresh_token = create_refresh_token(identity=user.id)
+                access_token = create_access_token(identity=user.id, expires_delta=expires)
+                refresh_token = create_refresh_token(identity=user.id, expires_delta=expires)
+                expires = expires.total_seconds() * 1000
                 return {
                     'status':'success',
                     'message':'Logged in as {}'.format(user.username),
                     'access-token':access_token,
                     'refresh-token': refresh_token,
+                    'expires': expires,
                     'data':  user.dictionary()
                     }
             else:
                 return {
+                        'data':'',
                         'status':'error',
                         'message':'Wrong credentials'
                         }

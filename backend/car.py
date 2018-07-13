@@ -29,6 +29,9 @@ parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='f
 parser.add_argument('pic_name')
 parser.add_argument('car_id')
 parser.add_argument('car_type')
+parser.add_argument('type')
+parser.add_argument('flagger')
+parser.add_argument('flag_reason')
 
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -104,7 +107,7 @@ class AddCar(Resource):
         car.mileage = data['mileage']
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
-
+        car.car_type = data['type']
 
         try:
             car.owner = int(user) #User.get(id=int(user)) #int(data['user']))
@@ -136,17 +139,17 @@ class EditCar(Resource):
             car.description = data['description']
             car.brand = data['brand']
             car.model = data['model']
-            d = data['year'].split(',')
-            car.year = date(int(d[0]), int(d[1]), int(d[2]))
+            car.year = data['year']
             car.transmission = data['transmission']
             car.engine = data['engine']
             car.mileage = data['mileage']
             car.fuel = data['fuel']
             car.drive_train = data['drive_train']
+            car.car_type = data['type']
             try:
                 car.save()
                 return {
-                    'data':Car.car_to_dict(car),
+                    'data':car.dictionary(),
                     'message':'Posting saved',
                     'status':'success'
                     }
@@ -204,7 +207,9 @@ class GetMyCars(Resource):
     decorators = [jwt_required]
 
     def get(self):
-        user = User.get(int(get_jwt_identity()))
+        user = User.get(id=int(get_jwt_identity()))
+        print user.username
+        print get_jwt_identity()
         return {
             'status':'OK',
             'message':'',
@@ -275,4 +280,70 @@ class DeleteCar(Resource):
                 'data':'',
                 'message':'You do not own this car',
                 'status':'error'
+                }
+
+class CarType(Resource):
+    decorators = []
+
+    def get(self, car_type):
+        cars = [car.dictionary() for car in Car.select().where((Car.car_type == car_type) & (Car.published == True))]
+
+        if cars:
+            return {
+            'data':cars,
+            'message':'',
+            'status':'success'
+            }
+        else :
+            return {
+            'data':'',
+            'message':'',
+            'status':'error'
+            }
+
+class FeaturedCars(Resource):
+    decorators = []
+
+    def get(self):
+        cars = [car.dictionary() for car  in Car.select().where((Car.featured == True) & (Car.published == True))]
+
+        if cars:
+            return {
+                'data':cars,
+                'message':'',
+                'status':'succes'
+                }
+        else:
+            return {
+                'data':'',
+                'message':'No featured cars at the moment',
+                'status':'error'
+                }
+
+class FlagCar(Resource):
+    decorators = []
+
+    def post(self):
+        try:
+            data = parser.parse_args()
+            logger = logging.getLogger('app.car-flagger')
+            car_id = data['car_id']
+            message = data['flag_reason']
+            email = data['flagger']
+            car = Car.get(id=int(car_id))
+            car.flagged = True
+            car.flagger = email
+            car.flag_reason = message
+            car.save()
+            return {
+                'data':'',
+                'message':'Car has been flagged',
+                'status': 'success'
+                }
+        except Exception as e:
+            logger.error(str(e))
+            return {
+                'data':'',
+                'message':'An error occur',
+                'status': 'error'
                 }

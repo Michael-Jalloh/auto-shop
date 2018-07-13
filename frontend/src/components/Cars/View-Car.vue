@@ -46,20 +46,26 @@
     <div class="grid-md-4 mb-10 mt-10">
       <el-card class="box-card">
         <div class="">
-          <div class="profile-img">
-            <img :src="profile_url" alt="">
-          </div>
           <div class="">
             <p>{{ owner.username}}</p>
-              <p>{{ owner.location}}</p>
               <el-button @click="ViewProfile">View Profile</el-button>
           </div>
         </div>
 
-        <el-button @click="flag" style="margin-top:10px;">Flag</el-button>
+        <el-button @click="flagDialog=true" style="margin-top:10px;">Flag</el-button>
       </el-card>
     </div>
-
+    <el-dialog
+      title="Flag"
+      :visible.sync="flagDialog"
+      width="50%">
+      <p>Please enter your reason for flagging this car please</p>
+      <el-input type="textarea" :rows="4" v-model="flagForm.flag_reason"></el-input>
+      <div class="" style="margin-top:10px;">
+        <el-button type="primary" @click="flag">Flag</el-button>
+        <el-button type="danger" @click="flagDialog=false">Cancel</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -83,22 +89,31 @@ export default {
         username:'',
         location: ''
         },
-      profile_url: ''
+      profile_url: '',
+      flagForm: {
+        flagger: 'michaeljalloh19@gmail.com',
+        flag_reason: '',
+        car_id: ''
+      },
+      flagDialog: false
 
     }
   },
 
   created(){
+    var url = window.location.host
     console.log(this.$route.params.id);
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
         this.owner  = this.car.owner;
         console.log(res.data);
-        //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
-        this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
+        //this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
+        this.profile_url = "http://" + url + "/api/v1/get-profile-pic/"+this.car.owner.id
+        console.log(url)
+        console.log(this.car.owner.id)
         console.log(this.profile_url);
     }).catch( res => {
-      console.log(res.data);
+      console.log(res.response);
     })
 
     console.log("Created")
@@ -164,10 +179,29 @@ export default {
     },
 
     flag() {
-      this.$notify.success({
-        title: "Flag Report",
-        message: "You have raise a flag report for "+ this.car.name+".\nYou will be contact for more details"
+      this.flagForm.car_id = this.car.car_id
+      if (this.flagForm.flag_reason == '') {
+        this.$notify.error({
+          title:'Error',
+          message: 'Please fill in your reason'
+        })
+        return
+      }
+      alert('Sending')
+      this.$http.post('/api/v1/flag/', this.flagForm).then(res => {
+        if (res.data['status'] == 'success') {
+          this.$notify.success({
+            title: "Flag Report",
+            message: "You have raise a flag report for "+ this.car.name+".\nYou will be contact for more details"
+          })
+        } else {
+          this.$notify.error({
+            title: "Flag Report",
+            message: res.data['message']
+          })
+        }
       })
+    this.flagDialog = false
     },
 
     ViewProfile(){

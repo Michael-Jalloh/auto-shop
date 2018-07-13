@@ -17,12 +17,13 @@
         <ul>
           <li><el-input v-model="search_input" placeholder="Search">
           </el-input></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Blog</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Luxury Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">New Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Old Cars</router-link></li>
-          <li v-on:click="active = false"><router-link to="" class="link">Scarp Cars</router-link></li>
-          <li v-if="$auth.isAuthenticated()" v-on:click="active = false"> <router-link :to="{ name: 'User', params: {} }" class="link">Profile</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{name: 'BlogPosts', params:{}}" class="link">Blog</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id:'luxury'} }" class="link">Luxury Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'new'} }" class="link">New Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'old'} }" class="link">Old Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'rent'} }" class="link">Rent Cars</router-link></li>
+          <li v-if="$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'MyCars', params: {}}" class="link">Dashboard</router-link></li>
+          <li v-if="$auth.isAuthenticated()" v-on:click="active = false"> <router-link :to="{ name: 'MyProfile', params: {} }" class="link">Profile</router-link></li>
           <li class="log-out" v-show="!$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'Login', params: {} }" class="link"><icon class="icon" scale="1.75" name="sign-in" ></icon></router-link></li>
           <li class="log-out" v-show="$auth.isAuthenticated()" v-on:click="logout"><icon class="icon" scale="1.75" name="sign-out" ></icon></li>
           <li></li>
@@ -64,6 +65,8 @@ export default {
           type: response.data['status']
         });
         this.$store.commit('setUser',{});
+      }).catch(res => {
+        console.log(res)
       })
     },
 
@@ -86,11 +89,11 @@ export default {
 @import '../layout.scss';
 
 .header {
-  background-color: #FFFFFF;
+  background-color: #343A40;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #343A40;
+  color: #FFFFFF;
 }
 
 .brand {
@@ -164,7 +167,7 @@ export default {
     position: absolute;
     transition: .5s;
     width: 44%;
-    border: 4px solid #252525;
+    border: 4px solid #FFFFFF;
     border-bottom: none;
     border-radius: 2px;
     outline: none;
@@ -211,6 +214,7 @@ export default {
 
 .brand-link {
   font-size: 20px;
+  color: #FFFFFF;
 }
 
 </style>

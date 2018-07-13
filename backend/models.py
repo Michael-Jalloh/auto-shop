@@ -91,7 +91,10 @@ class Car(BaseModel):
     owner = ForeignKeyField(User, related_name="cars")
     created = DateTimeField(default=datetime.datetime.now())
     published = BooleanField(default=False)
-
+    featured = BooleanField(default=False)
+    flagged = BooleanField(default=False)
+    flagger = CharField(default="")
+    flag_reason = TextField(default="")
 
     def dictionary(self):
         return {
@@ -110,7 +113,12 @@ class Car(BaseModel):
             'owner': self.owner.dictionary(),
             'created': str(self.created),
             'pic': self.pics,
-            'type': self.car_type
+            'type': self.car_type,
+            'featured': self.featured,
+            'flagged': self.flagged,
+            'flagger': self.flagger,
+            'flag_reason': self.flag_reason,
+            'published': self.published
             }
 
 class Brand(BaseModel):
@@ -122,17 +130,45 @@ class BodyType(BaseModel):
 class Category(BaseModel):
     value = CharField(unique=True)
 
-
-class Blog(BaseModel):
-    timestamp = DateTimeField(default=datetime.datetime.now())
-    published = BooleanField(default=False)
+class Post(BaseModel):
+    title = CharField()
     content = TextField(default="")
-
+    created = DateTimeField(default=datetime.datetime.now())
+    published = BooleanField(default=False)
+    timestamp = DateTimeField(default=datetime.datetime.now())
+    pic = CharField(default='')
 
     def publish(self):
         self.published = True
         self.timestamp = datetime.datetime.now()
         self.save()
+
+
+    @classmethod
+    def get_published_post(cls):
+        posts = [post.dictionary() for post in Post.select().where(Post.published==True)]
+        return posts
+
+    @classmethod
+    def get_all_post(cls):
+        posts = [post.dictionary() for post in Post.select()]
+        return posts
+
+    @classmethod
+    def get_drafts(cls):
+        posts = [post.dictionary() for post in Post.select().where(Post.published==False)]
+        return posts
+
+    def dictionary(self):
+
+        return {
+            'title': self.title,
+            'id': self.id,
+            'publish': self.published,
+            'timestamp': str(self.timestamp),
+            'content': self.content
+            }
+
 
 
 

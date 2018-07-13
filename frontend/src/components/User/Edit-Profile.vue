@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="">
     <el-card class="box-card">
-      <div class="" style="display:flex;">
-        <div class="">
+      <div class="flex-container">
+        <!--<div class="">
           <div class="profile-img">
             <img :src="imageUrl" alt="">
           </div>
@@ -17,7 +17,7 @@
             >
             <el-button size="small" type="primary">Click to upload</el-button>
           </el-upload>
-        </div>
+        </div> -->
         <div class="" style="width: 100%;">
           <div class="flex-container">
             <h4>Username</h4>
@@ -36,22 +36,11 @@
             <el-input placeholder="Comfirm Password" type="password" v-model="user.comfirm_password" ></el-input>
           </div>
           <div class="flex-container">
-            <h4>Location</h4>
-            <el-input placeholder="Location" v-model="user.location"></el-input>
-          </div>
-          <div class="flex-container">
             <h4>Contact</h4>
             <el-input placeholder="Contact" v-model="user.contact"></el-input>
           </div>
-          <div class="flex-container">
-            <h4>Bio</h4>
-            <el-input placeholder="Bio" v-model="user.bio" type="textarea" :rows="5"></el-input>
-          </div>
 
-
-
-
-            <el-button class="mt-10" @click="submit">Save Profile</el-button>
+          <el-button class="mt-10" @click="submit">Save Profile</el-button>
         </div>
       </div>
     </el-card>
@@ -59,6 +48,9 @@
 </template>
 
 <script>
+
+import { bus } from '../../main'
+
 export default {
 
   components: {
@@ -80,11 +72,11 @@ export default {
   created() {
     this.user = this.$store.getters.user;
     this.url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + this.url + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
+    this.upload_url = 'http://' + this.url + '/api/v1/upload-profile' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 
-    //this.imageUrl = this.url+"/api/v1/get-profile-pic/"+this.user.id // production
-    this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
+    this.imageUrl = "http://" + this.url+"/api/v1/get-profile-pic/"+this.user.id // production
+    //this.imageUrl = "http://localhost:5000/api/v1/get-profile-pic/"+this.user.id
 
   },
 
@@ -114,7 +106,13 @@ export default {
       this.$store.commit('setUser', res.data['data']);
       this.$router.push('/my-profile');
       console.log(res.data['data']);
-      })
+    }).ctach( res => {
+      if (error.response.status == 401) {
+        bus.$emit('login')
+      } else if (error.response.status == 422) {
+        bus.$emit('login')
+      }
+    })
     }
   }
 }
@@ -124,11 +122,14 @@ export default {
 .profile-img {
   width: 250px;
   height: 250px;
-  min-width: 250px;
   border: 1px solid;
   border-radius: 50%;
   margin-right: 50px;
   overflow: hidden;
+
+  @include until($large-tablet - 1) {
+    width: 225px;
+  }
 }
 
 .flex-container {
@@ -136,8 +137,18 @@ export default {
   justify-content: space-between;
   align-items: center;
 
+  @include until($large-tablet - 1){
+    flex-direction: column;
+  }
+
   .el-input, .el-textarea {
     width: 70%;
+
+    @include until($large-tablet - 1){
+      width: 100%;
+
+    }
+
   }
 
   .mt-10 {

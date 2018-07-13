@@ -24,13 +24,16 @@ export default function(Vue){
 
     setTokens(data, storage){
       // Set the refresh token and access tokens are login
-      var t = (Date.now() + (1020 * 1000)) - 2000;
+      if (data['expires']) {
+        storage.set('expiration-time', Date.now() + data['expires'])
+      } else {
+        var t = (Date.now() + (1020 * 1000)) - 2000;
+      }
       if (data['refresh-token']) {
         storage.set('refresh-token',data['refresh-token']);
       }
       if (data['access-token']) {
         storage.set('access-token',data['access-token']);
-        storage.set('expiration-time',t);
       }
 
     },
@@ -52,7 +55,7 @@ export default function(Vue){
       }
       var timeLeft = ((expiration - Date.now()) / 1000) / 60;
 
-      console.log(timeLeft);
+      console.log(timeLeft + ' minutes');
       if (Date.now() > expiration){
         this.destroyTokens();
         return null;
@@ -148,7 +151,7 @@ export default function(Vue){
     post(url, data){
       if(this.validateToken()){
         var access_token = this.getAccessToken();
-       return axios.post(url,data, {
+       return axios.post(this.baseURL+url,data, {
           headers:{Authorization: "Bearer " + access_token}
         })
       }

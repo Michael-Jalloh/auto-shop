@@ -1,8 +1,12 @@
 <template lang="html">
   <div class="">
+
     <hr>
-    <div class="">
-      <car v-for="car in cars.length" :key="car" :car="cars[car - 1]" style="margin-bottom:10px;"></car>
+    <div class=" flex-container">
+      <car  v-for="car in cars.length" :key="car" :car="cars[car - 1]" ></car>
+      <div class="" v-if="no_car">
+        <p>You haven't added any cars yet...s</p>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +24,8 @@ export default {
   data(){
     return {
       user:{},
-      cars:[]
+      cars:[],
+      no_car: true
     }
   },
 
@@ -35,8 +40,15 @@ export default {
     }
     this.user = this.$store.getters.user;
     this.$auth.get('/my-cars/').then(res => {
-      this.cars = res.data['data']
-      console.log(res.data['data'])
+      this.cars = res.data['data'];
+      console.log(res.data['data']);
+      this.no_car = false;
+    }).catch( res => {
+      if (error.response.status == 401) {
+        bus.$emit('login')
+      } else if (error.response.status == 422) {
+        bus.$emit('login')
+      }
     })
   },
 
@@ -45,6 +57,12 @@ export default {
       this.$store.commit('setCar',car);
       this.$router.push({name: 'Edit-Car'});
     },
+
+    View(car_id){
+      console.log(car_id);
+      this.$router.push('/my-car/'+car_id)
+    },
+
     Delete(car) {
       this.cars.splice(car,1);
 

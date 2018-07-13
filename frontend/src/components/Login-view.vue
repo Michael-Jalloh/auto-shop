@@ -42,7 +42,6 @@ export default {
       }).then( response => {
         if (response.data['status']=='success') {
           this.$auth.setTokens(response.data, this.$ls);
-
           this.$notify({
             title:' Login',
             message: response.data['message'],
@@ -67,7 +66,8 @@ export default {
          })
        });
        this.show = false;
-      this.loading = false;
+       this.loading = false;
+       this.show = false;
     },
 
     close(){

@@ -1,8 +1,8 @@
 <template lang="html">
   <el-container>
-    <el-header class="header">
+    <el-header class="header user">
       <div class="">
-        <a href="#" class="brand"><h3>{{ brand}}</h3></a>
+        <router-link :to="{ name: 'ViewCars', params: {} }" class="brand-link"> {{ brand }}</router-link>
       </div>
       <div id="hamburger" v-on:click="active = !active"  v-bind:class="{active:active}">
         <span class="bar1"></span>
@@ -13,10 +13,8 @@
         <div class="icon">
           <icon name="envelope" scale="1.75"></icon>
         </div>
-        <div class="">
-          <el-input v-model="search_input" placeholder="Search">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
+        <div class="icon">
+          <icon name="bell" scale="1.75"></icon>
         </div>
           <div class="log-out" v-on:click="logout()">
             <icon class="icon" scale="1.75" name="sign-out" v-on:click="logout()"></icon>
@@ -36,8 +34,7 @@
 </template>
 
 <script>
-
-
+import { bus } from '../../main'
 export default {
   name: 'Header',
 
@@ -61,6 +58,10 @@ export default {
       this.$auth.logout().then(response=> {
         this.$auth.destroyTokens();
         this.$router.push('/view-cars');
+      }).catch(res => {
+        if(res.response.status == 422){
+          bus.$emit('login')
+        }
       })
     }
   }
@@ -115,44 +116,46 @@ export default {
 
 }
 
-#hamburger {
-  position: relative;
-  width: 44px;
-  height: 40px;
-  //top: -10px;
-  //left: 5px;
-  padding: 4px;
-  transition: .25s;
+.user {
+  #hamburger {
+    position: relative;
+    width: 44px;
+    height: 40px;
+    //top: -10px;
+    //left: 5px;
+    padding: 4px;
+    transition: .25s;
 
-  @include at-least($large-tablet){
-    display: none;
-  }
+    @include at-least($large-tablet){
+      display: none;
+    }
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+      cursor: pointer;
+    }
 
-  .bar1, .bar2, .bar3{
-    //background-color: #ffffff;
-    position: absolute;
-    transition: .5s;
-    width: 44%;
-    border: 4px solid #fff;
-    border-bottom: none;
-    border-radius: 2px;
-    outline: none;
-  }
+    .bar1, .bar2, .bar3{
+      //background-color: #ffffff;
+      position: absolute;
+      transition: .5s;
+      width: 44%;
+      border: 4px solid #fff;
+      border-bottom: none;
+      border-radius: 2px;
+      outline: none;
+    }
 
-  .bar1 {
-    top: 10px;
-  }
+    .bar1 {
+      top: 10px;
+    }
 
-  .bar2 {
-    top: 22px;
-  }
+    .bar2 {
+      top: 22px;
+    }
 
-  .bar3{
-    bottom: 10px;
+    .bar3{
+      bottom: 10px;
+    }
   }
 }
 
@@ -174,5 +177,15 @@ export default {
 
 .log-out{
   cursor: pointer;
+}
+
+.link, .brand-link{
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.brand-link {
+  font-size: 20px;
 }
 </style>

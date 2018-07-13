@@ -210,8 +210,8 @@ export default {
           label: 'Old'
         },
         {
-          value: 'scrap',
-          label: 'Scrap'
+          value: 'rent',
+          label: 'Rent'
         }
       ],
       imageUrl: '',
@@ -293,6 +293,9 @@ export default {
             this.cars = res.data['data'];
             this.$store.commit('setCars',this.cars)
           }).catch( res => {
+              if(res.response.status == 422){
+                bus.$emit('login')
+              }
             console.log(res);
           })
           console.log(this.fileData);
@@ -358,7 +361,7 @@ export default {
         }
       },
 
-    
+
     }
 
 }
