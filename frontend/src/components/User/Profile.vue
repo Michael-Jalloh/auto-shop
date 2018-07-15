@@ -32,7 +32,7 @@
 
 <script>
 import { bus } from '../../main'
- 
+
 export default {
 
   components: {
@@ -53,7 +53,7 @@ export default {
 
   created() {
     this.user = this.$store.getters.user;
-    this.url = window.location.hostname+':'+window.location.port;
+    this.url = window.location.host;
     this.upload_url = 'http://' + this.url + '/api/v1/upload-profile' // production
     //this.upload_url = "http://localhost:5000"+"/api/v1/upload-profile" // dev
 

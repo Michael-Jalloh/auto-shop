@@ -24,6 +24,8 @@ import Admin from '@/components/Admin'
 import AdminCars from '@/components/Admins/Admin-Cars'
 import FlagCars from '@/components/Admins/Flag-Cars'
 import Users from '@/components/Admins/Users'
+import AdminViewCar from '@/components/Admins/ViewCar'
+import AdminUser from '@/components/Admins/User'
 import BlogPosts from '@/components/Blog-Posts'
 
 Vue.use(Router)
@@ -163,7 +165,7 @@ export default new Router({
           }
         },
         {
-          path: '/edit-post',
+          path: '/edit-post/:id',
           name: 'EditPost',
           component: EditPost,
           meta: {
@@ -189,7 +191,7 @@ export default new Router({
         {
           path: '/admin/view-car/:id',
           name: 'AdminViewCar',
-          component: MyCarView,
+          component: AdminViewCar,
           meta: {
             forAuth: true
           }
@@ -198,6 +200,14 @@ export default new Router({
           path: '/admin/users',
           name: 'Users',
           component: Users,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin/user/:id',
+          name: 'AdminUser',
+          component: AdminUser,
           meta: {
             forAuth: true
           }

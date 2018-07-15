@@ -20,7 +20,7 @@ import Ability from './packages/ability/ability.js'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
-var url = window.location.hostname + ':'+window.location.port;
+var url = window.location.host;
 axios.defaults.baseURL = "http://localhost:5000"; // for dev
 //axios.defaults.baseURL = "http://" + url; // for production
 

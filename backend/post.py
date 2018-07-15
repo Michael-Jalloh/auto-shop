@@ -13,6 +13,7 @@ parser.add_argument('content')
 parser.add_argument('pics')
 parser.add_argument('id')
 parser.add_argument('published')
+parser.add_argument('publish')
 parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files')
 parser.add_argument('pic_name')
 parser.add_argument('category')
@@ -50,11 +51,12 @@ class PostPhotoUpload(Resource):
 
         if photo:
             filename = get_date().encode('hex')+'.png'
-            post.pic = filename
+            post.pics = post.pics + ',' + filename
             post.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
             return {
                     'data': filename,
+                    'post_id': post.id,
                     'message':'photo uploaded',
                     'status':'success'
                     }
@@ -64,6 +66,8 @@ class PostPhotoUpload(Resource):
                 'message':'ok',
                 'status':'success'
                 }
+
+
 
 
 class AddPost(Resource):
@@ -77,10 +81,17 @@ class AddPost(Resource):
         data = parser.parse_args()
         logger = logging.getLogger('app.add-post-get')
         post = Post()
-        print "Title: ", data['title']
         post.title = data['title']
         post.content = data['content']
-        if (data['published'] == 'True'):
+        photo = data['file']
+
+        if photo:
+            suffix = data['pic_name'].split('.')[-1]
+            filename = get_date().encode('hex') + '.' + suffix
+            photo.save(os.path.join(UPLOAD_FOLDER, filename))
+            post.pic = filename
+
+        if (data['published'] == 'true'):
             post.published = True
         try:
             post.save()
@@ -111,10 +122,20 @@ class EditPost(Resource):
 
         post.title = data['title']
         post.content = data['content']
+        photo = data['file']
+
+
         post.published = False
-        if (data['published'] == 'True'):
+        if (data['published'] == 'true'):
             post.published = True
         try:
+            if photo:
+                suffix = data['pic_name'].split('.')[-1]
+                filename = get_date().encode('hex')+ '.'+suffix
+                photo.save(os.path.join(UPLOAD_FOLDER,filename))
+                if os.path.isfile(os.path.join(UPLOAD_FOLDER,post.pic)):
+                    os.remove(os.path.join(UPLOAD_FOLDER,post.pic))
+                post.pic = filename
             post.save()
             return {
                 'data':post.dictionary(),
@@ -219,7 +240,7 @@ class DeletePost(Resource):
         user = User.get(id = int(get_jwt_identity()))
         if user.account_type != 'admin':
             return {}, 401
-            
+
         post = Post.get(id=int(id))
         if os.path.isfile(UPLOAD_FOLDER+'/'+post.pic):
             os.remove(UPLOAD_FOLDER+'/'+post.pic)
@@ -227,5 +248,33 @@ class DeletePost(Resource):
         return {
             'data': '',
             'message':'The post has been deleted from the server',
+            'status':'success'
+            }
+
+class PostPublished(Resource):
+    decorators = [jwt_required]
+
+    def post(self):
+        user = User.get(id = int(get_jwt_identity()))
+        if user.account_type != 'admin':
+            return {}, 401
+
+        data = parser.parse_args()
+        post = Post.get(id=int(data['id']))
+        post.published = False
+
+        if (data['publish']== 'True'):
+            post.published = True
+            post.save()
+            return {
+                'data':'',
+                'message':'Post published',
+                'status':'success'
+                }
+                
+        post.save()
+        return {
+            'data':'',
+            'message':'Post un-published',
             'status':'success'
             }

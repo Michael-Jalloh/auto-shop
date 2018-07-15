@@ -87,6 +87,7 @@ api.add_resource(admin.AdminFeatured, '/api/v1/featured')
 api.add_resource(admin.AdminPublished, '/api/v1/published')
 api.add_resource(admin.AdminUsers, '/api/v1/get-users')
 api.add_resource(admin.AdminFlagCar, '/api/v1/flag-car')
+api.add_resource(admin.DeleteUser, '/api/v1/delete-user/<path:id>')
 
 api.add_resource(post.AddPost, '/api/v1/add-post')
 api.add_resource(post.EditPost, '/api/v1/edit-post')
@@ -96,8 +97,9 @@ api.add_resource(post.GetPost, '/api/v1/post/<path:post_id>')
 api.add_resource(post.GetDrafts,'/api/v1/drafts')
 api.add_resource(post.DeletePost, '/api/v1/delete-post/<path:id>')
 api.add_resource(post.PostPhotoUpload, '/api/v1/upload-post-photo')
+api.add_resource(post.PostPublished, '/api/v1/post-published')
 
 
 
 if __name__ =='__main__':
-    application.run(host='0.0.0.0', port=5000)
+    application.run(host='0.0.0.0', port=5500)

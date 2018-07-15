@@ -60,7 +60,8 @@
       :visible.sync="flagDialog"
       width="50%">
       <p>Please enter your reason for flagging this car please</p>
-      <el-input type="textarea" :rows="4" v-model="flagForm.flag_reason"></el-input>
+      <el-input placeholder="Email" v-model="flagForm.flagger" style="margin-bottom:10px;"></el-input>
+      <el-input type="textarea" :rows="4" v-model="flagForm.flag_reason" placeholder="Reason"></el-input>
       <div class="" style="margin-top:10px;">
         <el-button type="primary" @click="flag">Flag</el-button>
         <el-button type="danger" @click="flagDialog=false">Cancel</el-button>
@@ -91,7 +92,7 @@ export default {
         },
       profile_url: '',
       flagForm: {
-        flagger: 'michaeljalloh19@gmail.com',
+        flagger: '',
         flag_reason: '',
         car_id: ''
       },
@@ -180,14 +181,13 @@ export default {
 
     flag() {
       this.flagForm.car_id = this.car.car_id
-      if (this.flagForm.flag_reason == '') {
+      if (this.flagForm.flag_reason == '' || this.flagForm.flagger == '') {
         this.$notify.error({
           title:'Error',
           message: 'Please fill in your reason'
         })
         return
       }
-      alert('Sending')
       this.$http.post('/api/v1/flag/', this.flagForm).then(res => {
         if (res.data['status'] == 'success') {
           this.$notify.success({

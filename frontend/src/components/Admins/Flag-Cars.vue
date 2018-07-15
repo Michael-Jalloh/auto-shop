@@ -62,7 +62,7 @@ export default {
 
   methods: {
     View(car){
-      console.log(car);
+      this.$router.push({name:'AdminViewCar', params: {id: car.car_id}})
     },
 
     Delete(car){

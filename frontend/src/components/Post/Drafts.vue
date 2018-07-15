@@ -16,7 +16,7 @@
       <el-table-column
           fixed="right"
           label="Operations"
-          >
+          width="150">
           <template slot-scope="scope">
             <el-button type="text" @click="View(scope.row)">View</el-button>
             <el-button type="text" @click="Edit(scope.row)">Edit</el-button>
@@ -26,6 +26,8 @@
   </el-table>
 </template>
 <script>
+  import { bus } from  '../../main'
+
   export default {
 
     data(){
@@ -35,7 +37,7 @@
     },
 
     created(){
-      this.$http.get('/api/v1/drafts').then(res => {
+      this.$auth.get('/drafts').then(res => {
         this.posts = res.data['data']
         console.log(res.data['data'])
       }).catch(res => {
@@ -45,7 +47,17 @@
 
     methods: {
       published_check(post){
-        alert(post)
+        console.log(post)
+        this.$auth.post('/post-published', post).then(res => {
+          this.$notify.success({
+            title: 'Post',
+            message: res.data['message']
+          })
+        }).catch( res => {
+          if (res.response.status == 422) {
+            bus.$emit('login')
+          }
+        })
       },
       View(post){
         this.$router.push({name:'Post', params:{id:post.id}})
@@ -60,6 +72,12 @@
               message:'Post has been deleted'
             })
           }
+        }).catch(res => {
+
+          if(res.response.status == 422){
+            bus.$emit('login');
+          };
+
         })
       },
       Edit(post){

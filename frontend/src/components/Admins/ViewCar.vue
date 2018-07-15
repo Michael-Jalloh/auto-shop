@@ -38,6 +38,13 @@
                 <p>{{ car.description}}</p>
             </div>
           </el-tab-pane>
+          <el-tab-pane label="Flagged">
+            <div class="tab">
+              <h4>Flagger: {{car.flagger}}</h4>
+              <h4>Reason</h4>
+              <p style="overflow-y: auto;">{{ car.flag_reason}}</p>
+            </div>
+          </el-tab-pane>
         </el-tabs>
 
 

@@ -12,16 +12,16 @@ export default {
     }
   },
    created(){
-     var url = window.location.hostname+':'+window.location.port
-     this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url // for dev
-     //this.imageUrl = 'http://' + url + '/get-photo/'+ this.image_url // for production
-
+     var url = window.location.host;
+    // this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url // for dev
+     this.imageUrl = 'http://' + url + '/get-photo/'+ this.image_url // for production
    },
 
    computed: {
      getImage() {
-       //var img  = 'http://' + url + '/get-photo/'+ this.image_url // for production
-       var img = 'http://localhost:5000/get-photo/'+this.image_url // for dev
+       var url = window.location.host;
+       var img  = 'http://' + url + '/get-photo/'+ this.image_url // for production
+       //var img = 'http://localhost:5000/get-photo/'+this.image_url // for dev
        return img
      }
    }

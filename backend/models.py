@@ -137,6 +137,7 @@ class Post(BaseModel):
     published = BooleanField(default=False)
     timestamp = DateTimeField(default=datetime.datetime.now())
     pic = CharField(default='')
+    pics = CharField(default='')
 
     def publish(self):
         self.published = True
@@ -166,7 +167,8 @@ class Post(BaseModel):
             'id': self.id,
             'publish': self.published,
             'timestamp': str(self.timestamp),
-            'content': self.content
+            'content': self.content,
+            'pic': self.pic
             }
 
 

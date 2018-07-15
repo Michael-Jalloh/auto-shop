@@ -216,3 +216,20 @@ class AdminFlagCar(Resource):
             'message': 'Updated',
             'status': ''
             }
+
+class DeleteUser(Resource):
+    decorators = [jwt_required]
+
+    def delete(self, id):
+        user = User.get(id = int(get_jwt_identity()))
+        if user.account_type != 'admin':
+            return {}, 401
+
+        del_user = User.get(id=int(id))
+        del_user.delete_instance()
+
+        return {
+            'data':'',
+            'message':'User deleted',
+            'status':''
+            }

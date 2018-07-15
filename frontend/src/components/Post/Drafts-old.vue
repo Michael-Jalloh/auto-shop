@@ -10,13 +10,13 @@
           label="Published"
           width="150">
           <template slot-scope="scope">
-            <el-checkbox v-model="scope.row.published"  @change="published_check(scope.row)"></el-checkbox>
+            <el-checkbox v-model="scope.row.publish"  @change="published_check(scope.row)"></el-checkbox>
           </template>
       </el-table-column>
       <el-table-column
           fixed="right"
           label="Operations"
-          width="150">
+          >
           <template slot-scope="scope">
             <el-button type="text" @click="View(scope.row)">View</el-button>
             <el-button type="text" @click="Edit(scope.row)">Edit</el-button>
@@ -35,8 +35,9 @@
     },
 
     created(){
-      this.$http.get('/api/v1/drafts').then(res => {
+      this.$auth.get('/drafts').then(res => {
         this.posts = res.data['data']
+        console.log(res.data['data'])
       }).catch(res => {
         console.log(res);
       })
@@ -44,13 +45,22 @@
 
     methods: {
       published_check(post){
-
+        alert(post)
       },
       View(post){
-
+        this.$router.push({name:'Post', params:{id:post.id}})
       },
-      Delete(Post){
-
+      Delete(post){
+        var index = this.posts.indexOf(post)
+        this.$auth.delete('/delete-post/'+post.id).then(res => {
+          if (res.data['status'] == 'success') {
+            this.posts.splice(index,1);
+            this.$notify.success({
+              title:'Post',
+              message:'Post has been deleted'
+            })
+          }
+        })
       },
       Edit(post){
         this.$router.push({name:'EditPost', params:{id:post.id}})

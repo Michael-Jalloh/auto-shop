@@ -26,6 +26,8 @@
   </el-table>
 </template>
 <script>
+  import { bus } from  '../../main'
+
   export default {
 
     data(){
@@ -45,14 +47,24 @@
 
     methods: {
       published_check(post){
-        alert(post)
+        console.log(post)
+        this.$auth.post('/post-published', post).then(res => {
+          this.$notify.success({
+            title: 'Post',
+            message: res.data['message']
+          })
+        }).catch( res => {
+          if (res.response.status == 422) {
+            bus.$emit('login')
+          }
+        })
       },
       View(post){
         this.$router.push({name:'Post', params:{id:post.id}})
       },
       Delete(post){
         var index = this.posts.indexOf(post)
-        this.$http.delete('/delete-post/'+post.id).then(res => {
+        this.$auth.delete('/delete-post/'+post.id).then(res => {
           if (res.data['status'] == 'success') {
             this.posts.splice(index,1);
             this.$notify.success({
@@ -61,6 +73,10 @@
             })
           }
         }).catch(res => {
+
+          if(res.response.status == 422){
+            bus.$emit('login');
+          };
 
         })
       },
