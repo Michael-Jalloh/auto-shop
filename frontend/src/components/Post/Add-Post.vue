@@ -67,7 +67,7 @@ export default {
 
   created(){
     this.upload_url = 'http://' + window.location.host + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/photo-test" // dev
+    //this.upload_url = "http://localhost:5000"+"/api/v1/photo-test" // dev
     },
 
   methods: {
@@ -76,12 +76,15 @@ export default {
       formData.append('file',file)
       formData.append('title',this.post.title)
       formData.append('id', this.post_id)
+      console.log(this.post_id)
       this.$http.post('/api/v1/upload-post-photo',formData).then( res => {
         console.log(res.data['data']);
         let url = "http://" + window.location.host + "/api/v1/get-image/" + res.data['data'];
          //let url = 'http://localhost:5000/api/v1/get-image/'+ res.data['data'];
           console.log(url);
           this.post_id = res.data['post_id']
+          console.log("<Post></Post>")
+          console.log(this.post_id)
           Editor.insertEmbed(cursorLocation, 'image', url);
           resetUploader();
       }).catch( err => {
@@ -95,6 +98,9 @@ export default {
           this.form.append('content', this.post.content)
           this.form.append('title', this.post.title)
           this.form.append('published', this.post.published)
+          this.form.append('id', this.post_id)
+          console.log("Save")
+          console.log(this.post_id)
           this.$auth.post('/add-post', this.form).then(res => {
             if (res.data['status']=='success') {
               this.$notify.success({

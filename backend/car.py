@@ -129,7 +129,7 @@ class EditCar(Resource):
     decorators = [jwt_required]
 
     def post(self):
-        user = User.get(int(get_jwt_identity()))
+        user = User.get(id =int(get_jwt_identity()))
         data = parser.parse_args()
         logger = logging.getLogger('app.add-car-get')
         car = Car.get(id=int(data['car_id']))
@@ -263,8 +263,10 @@ class DeleteCar(Resource):
     decorators = [jwt_required]
 
     def delete(self, id):
-        user = User.get(int(get_jwt_identity()))
+        user = User.get(id =int(get_jwt_identity()))
         car = Car.get(id=int(id))
+        print user.username
+        print car.owner.username
         if car.owner == user:
             print car.pics
             if os.path.isfile(UPLOAD_FOLDER+'/'+car.pics):
@@ -286,6 +288,7 @@ class CarType(Resource):
     decorators = []
 
     def get(self, car_type):
+        print car_type
         cars = [car.dictionary() for car in Car.select().where((Car.car_type == car_type) & (Car.published == True))]
 
         if cars:

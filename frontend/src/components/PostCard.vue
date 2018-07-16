@@ -25,7 +25,7 @@ export default {
     getImage(){
       //var image_url = "http://localhost:5000/api/v1/get-image/"+this.post.pic
       var url = window.location.host;
-       var image_url = "http://" +url+"/api/v1/get-image" +post.pic
+       var image_url = "http://" +url+"/api/v1/get-image/" + this.post.pic
       return image_url
     }
   },

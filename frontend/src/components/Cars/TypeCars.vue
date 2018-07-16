@@ -42,6 +42,7 @@ export default {
 
     watch: {
       '$route.params.id': function(id){
+        console.log(id)
         this.car_type = id;
         this.$http.get('/api/v1/get-cars/'+ this.car_type).then( res => {
           this.cars = [];

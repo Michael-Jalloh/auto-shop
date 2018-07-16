@@ -235,7 +235,7 @@ export default {
     onSubmit() {
       if (this.have_photo){
         console.log(this.car);
-        this.$auth.post('/api/v1/edit-car', this.car).then(res => {
+        this.$auth.post('/edit-car', this.car).then(res => {
           this.$notify({
                 title:'Car',
                 message: res.data['message'],

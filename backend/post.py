@@ -39,13 +39,17 @@ class PostPhotoUpload(Resource):
             post = Post()
             post.title = data['title']
             post.save()
+            print "Post ID:", post.id
+            print 'New Post'
         else:
+            print "ID From site:", data['id']
             post = Post.get(id=int(data['id']))
         if data['file'] == "":
             return {
                     'data':'',
                     'message':'No photo found',
-                    'status':'Error'
+                    'status':'Error',
+                    'post_id': post.id
                     }
         photo = data['file']
 
@@ -54,6 +58,7 @@ class PostPhotoUpload(Resource):
             post.pics = post.pics + ',' + filename
             post.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
+            print "Photo", post.id
             return {
                     'data': filename,
                     'post_id': post.id,
@@ -65,7 +70,7 @@ class PostPhotoUpload(Resource):
                 'data':'',
                 'message':'ok',
                 'status':'success'
-                }
+                }, 401
 
 
 
@@ -80,7 +85,10 @@ class AddPost(Resource):
 
         data = parser.parse_args()
         logger = logging.getLogger('app.add-post-get')
-        post = Post()
+        if (data['id'] != None and data['id'] !=''):
+            post = Post.get(id=int(data['id']))
+        else:
+            post = Post()
         post.title = data['title']
         post.content = data['content']
         photo = data['file']
@@ -271,7 +279,7 @@ class PostPublished(Resource):
                 'message':'Post published',
                 'status':'success'
                 }
-                
+
         post.save()
         return {
             'data':'',
