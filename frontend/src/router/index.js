@@ -27,6 +27,8 @@ import Users from '@/components/Admins/Users'
 import AdminViewCar from '@/components/Admins/ViewCar'
 import AdminUser from '@/components/Admins/User'
 import BlogPosts from '@/components/Blog-Posts'
+import ImageSlider from '@/components/ImageSlider'
+
 
 Vue.use(Router)
 
@@ -34,6 +36,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+        path:'/image-slider',
+        name: 'ImageSlider',
+        component: ImageSlider
+    },
     {
       path:'/',
       name: 'View',

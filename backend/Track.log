@@ -488,3 +488,5 @@ Params: [u'millicentjalloh19@gmail.com']
 2018-07-15 17:50:14,875 - app.view-car-post - ERROR - <class 'models.Car'> instance matching query does not exist:
 SQL: SELECT "t1"."id", "t1"."name", "t1"."price", "t1"."description", "t1"."pics", "t1"."brand", "t1"."model", "t1"."body_type", "t1"."year", "t1"."transmission", "t1"."engine", "t1"."mileage", "t1"."car_type", "t1"."fuel", "t1"."drive_train", "t1"."owner_id", "t1"."created", "t1"."published", "t1"."featured", "t1"."flagged", "t1"."flagger", "t1"."flag_reason" FROM "car" AS "t1" WHERE ("t1"."id" = ?) LIMIT 1 OFFSET 0
 Params: [7]
+2018-07-27 14:09:42,393 - app - INFO - =========================START=========================
+2018-07-27 14:09:43,934 - app - INFO - =========================START=========================
