@@ -129,6 +129,17 @@
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+        <el-upload
+        :action="upload_url"
+        :auto-upload="false"
+        ref="upload"
+        :on-remove="handleRemove"
+        :on-change="onChange"
+        list-type="picture"
+        multiple>
+        <el-button slot="trigger" size="small" type="primary">Click to upload</el-button>
+        <el-button size="small" style="margin-left:10px;" type="success" @click="send">Send to server</el-button>
+        </el-upload>
       </div>
       <div class="btn-container">
         <el-button @click="step--" v-if="step > 0">Previous</el-button>
@@ -268,7 +279,8 @@ export default {
       },
       fileData:{
         car_id: '',
-      }
+    },
+    picList: []
     };
   },
 

@@ -78,6 +78,7 @@ class Car(BaseModel):
     price = CharField(default="")
     description = TextField(default="")
     pics = CharField(default="")
+    pictures = TextField(default="")
     brand = CharField(default="")
     model = CharField(default="")
     body_type = CharField(default="")
