@@ -25,7 +25,8 @@ parser.add_argument('fuel')
 parser.add_argument('drive_train')
 parser.add_argument('published')
 parser.add_argument('car_id')
-parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files')
+parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files', action='append')
+parser.add_argument('files',type=werkzeug.datastructures.FileStorage, location='files', action='append')
 parser.add_argument('pic_name')
 parser.add_argument('car_id')
 parser.add_argument('car_type')
@@ -78,6 +79,17 @@ class PhotoUpload(Resource):
                 'message':'ok',
                 'status':'success'
                 }
+
+class PhotoUploadTest(Resource):
+    decorators=[]
+
+    def post(self):
+        data = parser.parse_args()
+        print data
+        return {
+            'status':'OK',
+
+        }
 
 class GetPhoto(Resource):
 
