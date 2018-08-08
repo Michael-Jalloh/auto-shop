@@ -2,7 +2,9 @@
   <div id="app">
     <app-header></app-header>
     <div class="main-container">
-      <aside class="aside"></aside>
+      <aside class="aside">
+        <h1>test</h1>
+      </aside>
         <main>
             <router-view/>
         </main>

@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt
 import logging
 from datetime import timedelta
-from models import User
+from models import User, FeedBack
 
 parser = reqparse.RequestParser()
 parser.add_argument('username')
@@ -16,6 +16,10 @@ parser.add_argument('body_type')
 parser.add_argument('name')
 parser.add_argument('search')
 parser.add_argument('user')
+parser.add_argument('last_name')
+parser.add_argument('tel')
+parser.add_argument('msg')
+
 
 
 class Signup(Resource):

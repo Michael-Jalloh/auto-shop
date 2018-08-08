@@ -7,8 +7,12 @@
           <el-tab-pane label="Image" >
             <div class="tab">
               <p style="font-style:bold;">{{ car.name }}</p>
-              <my-img v-bind:image_url="id">
-              </my-img>
+              <el-carousel ref="carousel"  arrow="always">
+                <el-carousel-item    v-for="item in imgs.length"  :key="item">
+                  <car-img v-bind:image_name="imgs[item - 1]">
+                  </car-img>
+                </el-carousel-item>
+              </el-carousel>
             </div>
           </el-tab-pane>
 
@@ -73,18 +77,19 @@
 <script>
 
 import { bus } from '../../main';
-import Image from '../Image.vue';
+import CarImage from './CarImages.vue';
 
 export default {
 
   components: {
-    'my-img': Image,
+    'car-img': CarImage
   },
 
   data(){
     return {
       id: this.$route.params.id,
       car: {},
+      imgs: [],
       image:'image',
       owner: {
         username:'',
@@ -107,7 +112,15 @@ export default {
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
         this.owner  = this.car.owner;
-        console.log(res.data);
+        this.imgs.push(this.car.pic)
+        var imgs = this.car.pictures.split(',')
+        for(var i=0; i < imgs.length; i++){
+          var img = imgs[i]
+          if (img != "") {
+            this.imgs.push(img)
+          }
+        }
+
         //this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
         this.profile_url = "http://" + url + "/api/v1/get-profile-pic/"+this.car.owner.id
         console.log(url)
@@ -118,7 +131,6 @@ export default {
     })
 
     console.log("Created")
-
 
 
 
@@ -248,5 +260,8 @@ export default {
   border-radius: 50%;
   margin: 0 auto;
   overflow: hidden;
+}
+.el-carousel__button {
+  background-color: #343A40;
 }
 </style>

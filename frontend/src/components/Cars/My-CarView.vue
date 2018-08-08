@@ -7,8 +7,12 @@
           <el-tab-pane label="Image" >
             <div class="tab">
               <p style="font-style:bold;">{{ car.name }}</p>
-              <my-img v-bind:image_url="id">
-              </my-img>
+              <el-carousel ref="carousel"  arrow="always">
+                <el-carousel-item    v-for="item in imgs.length"  :key="item">
+                  <car-img v-bind:image_name="imgs[item - 1]">
+                  </car-img>
+                </el-carousel-item>
+              </el-carousel>
             </div>
           </el-tab-pane>
 
@@ -51,12 +55,13 @@
 <script>
 
 import { bus } from '../../main';
-import Image from '../Image.vue';
+import CarImage from './CarImages.vue';
+
 
 export default {
 
   components: {
-    'my-img': Image,
+    'car-img': CarImage,
   },
 
   data(){
@@ -64,6 +69,7 @@ export default {
       id: this.$route.params.id,
       car: {},
       image:'image',
+      imgs:[]
     }
   },
 
@@ -71,6 +77,14 @@ export default {
     ///console.log(this.$route.params.id);
     this.$http.get('/api/v1/get-car/'+this.$route.params.id).then( res => {
         this.car = res.data['data'];
+        this.imgs.push(this.car.pic)
+        var imgs = this.car.pictures.split(',')
+        for(var i=0; i < imgs.length; i++){
+          var img = imgs[i]
+          if (img != "") {
+            this.imgs.push(img)
+          }
+        }
     }).catch( res => {
       console.log(res.data);
     })

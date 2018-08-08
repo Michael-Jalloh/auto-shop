@@ -119,7 +119,8 @@ class Car(BaseModel):
             'flagged': self.flagged,
             'flagger': self.flagger,
             'flag_reason': self.flag_reason,
-            'published': self.published
+            'published': self.published,
+            'pictures': self.pictures
             }
 
 class Brand(BaseModel):
@@ -173,7 +174,21 @@ class Post(BaseModel):
             }
 
 
+class FeedBack(BaseModel):
+    name = CharField(default="")
+    last_name = CharField(default="")
+    email = CharField(default="")
+    tel = CharField(default="")
+    msg = TextField(default="")
 
+    def dictionary(self):
+        return {
+            'name': self.name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'tel': self.tel,
+            'msg': self.msg
+        }
 
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category, Blog],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack],safe=True)

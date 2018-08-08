@@ -1,4 +1,4 @@
-<template lang="html">
+push<template lang="html">
   <div class="">
     <div class="" style="max-width: 900px; padding-right: 20px;">
 
@@ -117,7 +117,7 @@
       <div class="step-container" v-if="step == 3">
         <h3>Images</h3>
         <div class="">
-          <img :src="imageUrl" alt="Car image">
+          <img style="width:100%;" :src="imageUrl" alt="Car image">
         </div>
         <el-upload
           :action="upload_url"
@@ -129,6 +129,19 @@
           :on-success="handleAvatarSuccess">
           <el-button class="mb-10" size="small" type="primary">Update Image</el-button>
         </el-upload>
+        <el-upload
+        :action="upload_url"
+        :auto-upload="false"
+        ref="upload"
+        :on-remove="handleRemove"
+        :on-change="onChange"
+        list-type="picture"
+        :file-list="imgs"
+        multiple>
+        <el-button class="mb-10" slot="trigger" size="small" type="primary">Click to upload</el-button>
+        </el-upload>
+
+        <el-button @click="test">Test</el-button>
       </div>
       <div class="btn-container">
         <el-button @click="step--" v-if="step > 0">Previous</el-button>
@@ -143,13 +156,20 @@
 <script>
 
 import { bus } from '../../main';
+import CarImage from './CarImages.vue';
 
 export default {
+
+  components: {
+    'car-img': CarImage
+  },
+
   data(){
     return {
       have_photo: true,
       step: 0,
       car: {},
+      imgs: [],
       transmissions: [{
           value:"manual",
           label: "Manual"
@@ -224,11 +244,19 @@ export default {
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
-    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    var view_url = "http://localhost:5000/api/v1/get-image/"
     this.car = this.$store.getters.car;
-    this.imageUrl = 'http://' + url +'/api/v1/get-photo/'+this.car.card_id;
-    //this.imageUrl = 'http://localhost:5000/get-photo/'+this.car.car_id;
+    var imgs = this.car.pictures.split(',')
+    for(var i=0; i < imgs.length; i++){
+      var img = imgs[i]
+      if (img != '') {
+        this.imgs.push({name: img, url: view_url+img});
+      }
+    }
+    //this.imageUrl = 'http://' + url +'/api/v1/get-photo/'+this.car.card_id;
+    this.imageUrl = 'http://localhost:5000/get-photo/'+this.car.car_id;
   },
 
   methods: {
@@ -247,6 +275,21 @@ export default {
           }).catch( res => {
             console.log(res.response);
           })
+
+          for (var i = 0; i < this.imgs.length; i++) {
+            var img = this.imgs[i]
+            if (img.status =="ready") {
+              var formData = new FormData()
+              formData.append('pic_name', img.name)
+              formData.append('file', img.raw)
+              formData.append('car_id', this.car.car_id)
+              this.$http.post('/api/v1/upload-photos', formData).then(res => {
+                console.log('Success')
+              }).catch(res => {
+                console.log('Error')
+              })
+            }
+          }
         }).catch( error =>{
           console.log(error.response)
           if (error.response.status == 401) {
@@ -293,8 +336,32 @@ export default {
         this.$refs.upload.submit();
       },
 
-      onSubmitTest(){
-        console.log(this.form);
+      onChange(file, fileList){
+        this.imgs = fileList
+      },
+
+      handleRemove(file, fileList){
+        console.log('File removed')
+        if (file.status =="success") {
+          this.$http.delete('/api/v1/get-image/'+this.car.car_id + ','+file.name).then(res => {
+            this.$notify.info({
+              title: 'File',
+              message: file.name +' deleted from server'
+            })
+          }).catch(res => {
+            this.$notify.error({
+              title: 'File',
+              message: 'Error Occur'
+            })
+          })
+        }
+        this.imgs = fileList
+      },
+
+      test(){
+        for (var i = 0; i < this.imgs.length; i++) {
+          console.log(this.imgs[i])
+        }
       },
 
       move(){

@@ -28,6 +28,7 @@ import AdminViewCar from '@/components/Admins/ViewCar'
 import AdminUser from '@/components/Admins/User'
 import BlogPosts from '@/components/Blog-Posts'
 import ImageSlider from '@/components/ImageSlider'
+import ContactUs from '@/components/ContactUs'
 
 
 Vue.use(Router)
@@ -75,6 +76,11 @@ export default new Router({
           path: '/blog-posts',
           name: 'BlogPosts',
           component: BlogPosts
+        },
+        {
+          path: '/contact-us',
+          name: 'ContactUs',
+          component: ContactUs
         }
       ]
     },

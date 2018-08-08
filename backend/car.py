@@ -25,7 +25,7 @@ parser.add_argument('fuel')
 parser.add_argument('drive_train')
 parser.add_argument('published')
 parser.add_argument('car_id')
-parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files', action='append')
+parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files')
 parser.add_argument('files',type=werkzeug.datastructures.FileStorage, location='files', action='append')
 parser.add_argument('pic_name')
 parser.add_argument('car_id')
@@ -33,6 +33,7 @@ parser.add_argument('car_type')
 parser.add_argument('type')
 parser.add_argument('flagger')
 parser.add_argument('flag_reason')
+
 
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
@@ -52,6 +53,7 @@ class PhotoUpload(Resource):
 
     def post(self):
         data = parser.parse_args()
+        print data
         car = Car.get(id=int(data['car_id']))
         if data['file'] == "":
             return {
@@ -66,7 +68,7 @@ class PhotoUpload(Resource):
             car.pics = filename
             car.save()
             photo.save(os.path.join(UPLOAD_FOLDER,filename))
-            c = Car.car_to_dict(car)
+            c = car.dictionary()
             print c
             return {
                     'data': c,
@@ -80,16 +82,39 @@ class PhotoUpload(Resource):
                 'status':'success'
                 }
 
-class PhotoUploadTest(Resource):
+class PhotoUploads(Resource):
     decorators=[]
 
     def post(self):
         data = parser.parse_args()
+        car = Car.get(id=int(data['car_id']))
+        if data['file'] == "":
+            return {
+                    'data':'',
+                    'message':'No photo found',
+                    'status':'Error'
+                    }
+        photo = data['file']
+
+        if photo:
+            filename = get_date()+'.png'
+            car.pictures += filename + ','
+            car.save()
+            photo.save(os.path.join(UPLOAD_FOLDER,filename))
+            c = car.dictionary()
+            print c
+            return {
+                    'data': c,
+                    'message':'photo uploaded',
+                    'status':'success'
+                    }
         print data
         return {
-            'status':'OK',
+                'data':'',
+                'message':'ok',
+                'status':'success'
+                }
 
-        }
 
 class GetPhoto(Resource):
 
@@ -232,6 +257,13 @@ class GetMyCars(Resource):
 class GetImage(Resource):
     def get(self, filename):
         return send_from_directory(UPLOAD_FOLDER,filename)
+
+    def delete(self, filename):
+        car_id, filename = filename.split(',')
+        car = Car.get(id=int(car_id))
+        car.pictures = car.pictures.strip(filename)
+        car.save()
+        os.remove(os.path.join(UPLOAD_FOLDER, filename))
 
 
 class GetImagebyId(Resource):

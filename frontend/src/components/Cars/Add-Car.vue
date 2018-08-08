@@ -124,8 +124,7 @@
           :on-change="onChanged"
           :auto-upload="false"
           ref="upload"
-          :data="fileData"
-          :on-success="handleAvatarSuccess">
+          :data="fileData">
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -133,12 +132,12 @@
         :action="upload_url"
         :auto-upload="false"
         ref="upload"
-        :on-remove="handleRemove"
+        :on-remove="handleRemoved"
         :on-change="onChange"
         list-type="picture"
         multiple>
+        <p>Additional Images</p>
         <el-button slot="trigger" size="small" type="primary">Click to upload</el-button>
-        <el-button size="small" style="margin-left:10px;" type="success" @click="send">Send to server</el-button>
         </el-upload>
       </div>
       <div class="btn-container">
@@ -280,15 +279,16 @@ export default {
       fileData:{
         car_id: '',
     },
-    picList: []
+    pictures: [],
+    pic: {}
     };
   },
 
   created() {
     //do something after creating vue instance
     var url = window.location.hostname+':'+window.location.port;
-    this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
-    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
   },
 
   methods: {
@@ -313,10 +313,42 @@ export default {
           console.log(this.fileData);
           console.log(res.data['data']['car_id']);
           this.fileData.car_id = res.data['data']['car_id'];
-          this.$refs.upload.submit();
+          var pic = new FormData()
+          pic.append('car_id', res.data['data']['car_id'])
+          pic.append('file', this.pic.raw)
+          pic.append('pic_name', this.pic.name)
+          this.$http.post('/api/v1/upload-photo', pic).then(res =>{
+            this.$notify.success({
+              title: 'Featured Image',
+              message: 'Success'
+            })
+          }).catch(res => {
+            this.$notify.error({
+              title: 'Featured Image',
+              message: 'Error'
+            })
+          })
+          if (this.pictures.length > 0) {
+            let that = this
+            this.pictures.forEach(function(f){
+              var formData = new FormData()
+              formData.append('car_id',res.data['data']['car_id'])
+              formData.append('pic_name', f.name)
+              formData.append('file', f.raw)
+              that.$http.post('/api/v1/upload-photos', formData).then(res => {
+                console.log('Success')
+                console.log(res)
+              }).catch(res => {
+                console.log('Error');
+                console.log(res)
+              })
+
+            })
+          }
+
           this.$http.get('/api/v1/get-car/'+res.data['data']['car_id']).then(resp => {
             this.$store.commit('setCar',resp.data['data']);
-            this.$router.push({name: 'View-Car', params:resp.data['data']['car_id']});
+            this.$router.push('/my-car/'+res.data['data']['car_id']);
           })
         })
       } else {
@@ -326,17 +358,6 @@ export default {
         })
       }
     },
-
-    handleAvatarSuccess(res, file) {
-
-      //  this.$store.commit('setCar',res.data['data']);
-        console.log('upload successful');
-        console.log(res.data['data']);
-        console.log('upload successful');
-    //    bus.$emit('ViewCar',res.data['data'].pic);
-
-        this.$router.push({name: 'View-Car'});
-      },
       beforeAvatarUpload(file) {
         this.imageUrl = URL.createObjectURL(file.raw);
         const isJPG = file.type === 'image/jpeg';
@@ -353,11 +374,19 @@ export default {
 
       onChanged(file,fileList){
         this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.file = file.raw;
+        this.pic = file
         this.have_photo = true;
-        console.log(this.car);
         //this.fileData.car_id = this.car.car_id
         //this.$refs.upload.submit();
+      },
+      onChange(file, fileList){
+        this.pictures = fileList
+        console.log('Changed')
+      },
+
+      handleRemove(file, fileList){
+        this.pictures = fileList;
+        console.log('Removed')
       },
 
       onSubmitTest(){
@@ -372,8 +401,6 @@ export default {
 
         }
       },
-
-
     }
 
 }
