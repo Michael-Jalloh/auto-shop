@@ -46,10 +46,10 @@
       <el-submenu index="5">
         <template slot="title">
           <icon class="icon" scale="1.50" name="envelope"></icon>
-          <span  slot="title">Message</span>
+          <span  slot="title">FeedBacks</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="5-1"><router-link to="">Messages</router-link></el-menu-item>
+          <el-menu-item index="5-1"><router-link to="/admin/contact-us">FeedBacks</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

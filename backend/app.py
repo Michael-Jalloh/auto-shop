@@ -101,6 +101,7 @@ api.add_resource(post.PostPhotoUpload, '/api/v1/upload-post-photo')
 api.add_resource(post.PostPublished, '/api/v1/post-published')
 
 api.add_resource(feedback.FeedBacks, '/api/v1/save-feedback')
+api.add_resource(feedback.GetFeedBacks, '/api/v1/feedbacks')
 
 
 
