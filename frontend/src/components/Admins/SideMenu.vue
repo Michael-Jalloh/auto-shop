@@ -57,6 +57,7 @@
       <i  class="el-icon-arrow-left"  color="white" v-if="!isCollapse" ></i>
       <i class="el-icon-arrow-right" name="angle-right" color="black" v-if="isCollapse" scale="5"></i>
     </div>
+    
   </div>
 
 </template>
