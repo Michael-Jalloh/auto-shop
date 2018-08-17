@@ -5,7 +5,7 @@ import os
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
-from models import User, Car
+from models import User, Car, Info
 
 parser = reqparse.RequestParser()
 parser.add_argument('name')
@@ -32,6 +32,8 @@ parser.add_argument('car_type')
 parser.add_argument('type')
 parser.add_argument('featured')
 parser.add_argument('flagged')
+parser.add_argument('ads-name')
+
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -43,7 +45,7 @@ def allow_file(filename):
 def get_date():
     date = str(datetime.datetime.now()).replace(' ', '-')
     date = date.replace(':','-')
-    return date.replace('.','-')
+    return date.replace('.','-').encode('hex')
 
 class AdminGetCars(Resource):
     decorators = [jwt_required]
@@ -232,4 +234,48 @@ class DeleteUser(Resource):
             'data':'',
             'message':'User deleted',
             'status':''
+            }
+
+class AdsImages(Resource):
+    decorators = [jwt_required]
+
+    def get(self):
+        user = User.get(id = int(get_jwt_identity()))
+        if user.account_type != 'admin':
+            return {}, 401
+        ads_left = Info.get(name="ads-left")
+        return {
+            'status':'OK',
+            'message':'',
+            'data':[ads_left.dictionary()]
+        }
+
+    def post(self):
+        user = User.get(id = int(get_jwt_identity()))
+        if user.account_type != 'admin':
+            return {}, 401
+
+        data = parser.parse_args()
+        print data
+        info = Info.get(name=data['ads-name'])
+        if data['file'] == '':
+            return {
+                    'data':'',
+                    'message':'No photo found',
+                    'status':'Error'
+                    }
+        photo = data['file']
+        if photo:
+            if info.value:
+                print 'Updating'
+                photo.save(os.path.join(UPLOAD_FOLDER, info.value))
+            else:
+                print 'Creating'
+                info.value = get_date()+'.png'
+                photo.save(os.path.join(UPLOAD_FOLDER, info.value))
+                info.save()
+        return {
+            'data': info.dictionary(),
+            'status':'',
+            'message':''
             }

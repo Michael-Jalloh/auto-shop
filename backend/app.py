@@ -89,6 +89,7 @@ api.add_resource(admin.AdminPublished, '/api/v1/published')
 api.add_resource(admin.AdminUsers, '/api/v1/get-users')
 api.add_resource(admin.AdminFlagCar, '/api/v1/flag-car')
 api.add_resource(admin.DeleteUser, '/api/v1/delete-user/<path:id>')
+api.add_resource(admin.AdsImages, '/api/v1/ads-images')
 
 api.add_resource(post.AddPost, '/api/v1/add-post')
 api.add_resource(post.EditPost, '/api/v1/edit-post')

@@ -8,7 +8,7 @@
           <span slot="title">Dashboard</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1"><router-link class="router-link" to="">Dashboard</router-link></el-menu-item>
+          <el-menu-item index="1-1"><router-link class="router-link" to="/admin/dashboard">Dashboard</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="2">
@@ -57,7 +57,7 @@
       <i  class="el-icon-arrow-left"  color="white" v-if="!isCollapse" ></i>
       <i class="el-icon-arrow-right" name="angle-right" color="black" v-if="isCollapse" scale="5"></i>
     </div>
-    
+
   </div>
 
 </template>

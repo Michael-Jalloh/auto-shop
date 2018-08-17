@@ -190,5 +190,14 @@ class FeedBack(BaseModel):
             'msg': self.msg
         }
 
+class Info(BaseModel):
+    name = CharField(unique=True)
+    value = CharField(default="")
+
+    def dictionary(self):
+        return {
+            'name':self.name,
+            'value':self.value}
+
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info],safe=True)
