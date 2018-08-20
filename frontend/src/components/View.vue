@@ -3,7 +3,7 @@
     <app-header></app-header>
     <div class="main-container">
       <aside class="aside">
-        <h1>test</h1>
+        <img :src="ads_left_url" alt="">
       </aside>
         <main>
             <router-view/>
@@ -24,8 +24,18 @@ export default {
     'app-header': Header,
     'app-footer': Footer
   },
+  data() {
+      return {
+          left_ads: {}
+      }
+  },
 
   created(){
+    this.$http.get('/api/v1/get-ads').then( res => {
+        this.left_ads = res.data['data']
+        //this.ads_left_url = 'http://127.0.0.1:5000/api/v1/get-image/'+this.left_ads.value
+        this.ads_left_url = 'http://'+ window.location.host +'/api/v1/get-image/'+this.left_ads.value
+    })
     if (this.$route.path == "/") {
       this.$router.push({path: '/view-cars'})
     }
@@ -66,11 +76,14 @@ main{
 }
 
 .aside {
-  max-width: 200px;
+  max-width: 300px;
   flex: 1;
   //background-color: crimson;
   padding: 10px;
   height: 100%;
+  img {
+      width: 100%;
+  }
 }
 
 </style>

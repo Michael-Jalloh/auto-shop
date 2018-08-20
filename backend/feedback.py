@@ -26,3 +26,12 @@ class FeedBacks(Resource):
             'message': 'Your message have been saved',
             'data': ''
         }
+
+class GetFeedBacks(Resource):
+    def get(self):
+        feedbacks = [feedback.dictionary() for feedback in FeedBack.select()]
+        return {
+        'data': feedbacks,
+        'message':'',
+        'status':''
+        }

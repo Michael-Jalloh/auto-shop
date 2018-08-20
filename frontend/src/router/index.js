@@ -29,6 +29,8 @@ import AdminUser from '@/components/Admins/User'
 import BlogPosts from '@/components/Blog-Posts'
 import ImageSlider from '@/components/ImageSlider'
 import ContactUs from '@/components/ContactUs'
+import AdminContact from '@/components/Admins/ContactAdmin'
+import AdminDashboard from '@/components/Admins/Dashboard'
 
 
 Vue.use(Router)
@@ -221,6 +223,22 @@ export default new Router({
           path: '/admin/user/:id',
           name: 'AdminUser',
           component: AdminUser,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin/contact-us',
+          name: 'AdminContact',
+          component: AdminContact,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin/dashboard',
+          name: 'AdminDashboard',
+          component: AdminDashboard,
           meta: {
             forAuth: true
           }
