@@ -12,17 +12,13 @@ export default {
     }
   },
    created(){
-     var url = window.location.host;
-     //this.imageUrl ='http://localhost:5000/get-photo/'+this.image_url // for dev
-     this.imageUrl = 'http://' + url + '/get-photo/'+ this.image_url // for production
+     this.imageUrl = this.$store.getters.url + '/get-photo/'+ this.image_url;
    },
 
    computed: {
      getImage() {
-       var url = window.location.host;
-       var img  = 'http://' + url + '/get-photo/'+ this.image_url // for production
-       //var img = 'http://localhost:5000/get-photo/'+this.image_url // for dev
-       return img
+       var img  = this.$store.getters.url + '/get-photo/'+ this.image_url;
+       return img;
      }
    }
 }

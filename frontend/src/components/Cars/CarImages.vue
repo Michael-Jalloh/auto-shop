@@ -13,9 +13,7 @@ export default {
   },
   computed: {
     getImage() {
-      var url = window.location.host;
-      var img  = 'http://' + url + '/api/v1/get-image/'+ this.image_name // for production
-      //var img = 'http://localhost:5000/api/v1/get-image/'+this.image_name // for dev
+      var img  = this.$store.getters.url + '/api/v1/get-image/'+ this.image_name // for production
       return img
     }
   }

@@ -65,12 +65,13 @@ export default {
     },
 
     Refresh(){
-      this.$http.get('/api/v1/featured-cars').then( res => {
-        this.cars = res.data['data'];
-        this.$store.commit('setCars',this.cars)
-        console.log(res.data['data']);
-        this.loading = false;
-        //console.log(res.data);
+        console.log(this.$store.getters.url)
+        this.$http.get('/api/v1/featured-cars').then( res => {
+            this.cars = res.data['data'];
+            this.$store.commit('setCars',this.cars)
+            console.log(res.data['data']);
+            this.loading = false;
+            //console.log(res.data);
       }).catch( res => {
         console.log(res);
       })

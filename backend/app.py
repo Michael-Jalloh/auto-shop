@@ -111,4 +111,4 @@ api.add_resource(feedback.GetFeedBacks, '/api/v1/feedbacks')
 
 
 if __name__ =='__main__':
-    application.run(host='0.0.0.0', port=5500)
+    application.run(host='0.0.0.0', port=5000)
