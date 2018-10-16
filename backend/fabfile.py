@@ -21,4 +21,6 @@ def git():
         local('git add .')
         local('git commit -m {0}'.format('a'))
         local('git push')
+	run('git add .')
+	run('git commit -m "a"')
         run('git pull')
