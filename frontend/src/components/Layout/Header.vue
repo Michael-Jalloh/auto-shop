@@ -121,8 +121,6 @@ export default {
     position: relative;
     width: 44px;
     height: 40px;
-    //top: -10px;
-    //left: 5px;
     padding: 4px;
     transition: .25s;
 

@@ -17,6 +17,7 @@ parser.add_argument('publish')
 parser.add_argument('file',type=werkzeug.datastructures.FileStorage, location='files')
 parser.add_argument('pic_name')
 parser.add_argument('category')
+parser.add_argument('is_page')
 UPLOAD_FOLDER = "static/img"
 ALLOWED_EXTENSIONS = set(['png', 'jpg','jpeg'])
 
@@ -91,6 +92,9 @@ class AddPost(Resource):
             post = Post()
         post.title = data['title']
         post.content = data['content']
+        print data["is_page"]
+        if data['is_page'] == "true":
+            post.post_type = "page"
         photo = data['file']
 
         if photo:
@@ -175,6 +179,17 @@ class GetPosts(Resource):
                 'status':'success'
                 }
 
+class GetPages(Resource):
+    decorators=[]
+
+    def get(self):
+        pages = Post.get_published_pages()
+        return {
+                'data':pages,
+                'message':'',
+                'status':'success'
+                }
+                
 class GetAllPosts(Resource):
     decorators=[]
 

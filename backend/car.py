@@ -352,7 +352,7 @@ class FeaturedCars(Resource):
     decorators = []
 
     def get(self):
-        cars = [car.dictionary() for car  in Car.select().where((Car.featured == True) & (Car.published == True))]
+        cars = [car.dictionary() for car  in Car.select().where((Car.featured == True) & (Car.published == True) & (Car.flagged == False))]
 
         if cars:
             return {

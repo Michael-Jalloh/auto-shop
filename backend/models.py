@@ -140,6 +140,7 @@ class Post(BaseModel):
     timestamp = DateTimeField(default=datetime.datetime.now())
     pic = CharField(default='')
     pics = CharField(default='')
+    post_type = CharField(default="post")
 
     def publish(self):
         self.published = True
@@ -149,9 +150,14 @@ class Post(BaseModel):
 
     @classmethod
     def get_published_post(cls):
-        posts = [post.dictionary() for post in Post.select().where(Post.published==True)]
+        posts = [post.dictionary() for post in Post.select().where((Post.published==True) & (Post.post_type =="post"))]
         return posts
 
+    @classmethod
+    def get_published_pages(cls):
+        pages = [post.dictionary() for post in Post.select().where((Post.published==True) & (Post.post_type =="page"))]
+        return pages
+        
     @classmethod
     def get_all_post(cls):
         posts = [post.dictionary() for post in Post.select()]
