@@ -12,7 +12,7 @@
 
       <div v-if="step == 0"class="step-container">
         <h1>Step 1</h1>
-        <el-form label-position="left" :model="form" :rules="rules" label-width="120px">
+        <el-form label-position="left" :model="form" label-width="120px">
           <el-form-item label="Name" prop="name">
             <el-input  v-model="form.name" placeholder="Name *"></el-input>
           </el-form-item>
@@ -41,7 +41,7 @@
       </div>
       <div class="step-container" v-if="step==1">
         <h1>Step 2</h1>
-        <el-form label-position="left" :model="form" :rules="rules" label-width="120px">
+        <el-form label-position="left" :model="form"  label-width="120px">
 
           <el-form-item label="Transmission" prop="transmission">
             <el-select placeholder="Transmission" v-model="form.transmission" class="w-100">
@@ -97,7 +97,7 @@
       </div>
       <div class="step-container" v-if="step == 2">
         <h1>Step 3</h1>
-        <el-form label-position="left" :model="form" :rules="rules" label-width="120px">
+        <el-form label-position="left" :model="form"  label-width="120px">
           <el-form-item label="Drive Train" prop="drive_train">
             <el-select placeholder="Drive Train" v-model="form.drive_train" class="w-100">
               <el-option
@@ -147,7 +147,7 @@
       </div>
 
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -216,12 +216,12 @@ export default {
           label: 'New'
         },
         {
-          value: 'old',
-          label: 'Old'
+          value: 'used',
+          label: 'User Car'
         },
         {
-          value: 'rent',
-          label: 'Rent'
+          value: 'rental',
+          label: 'Rental'
         }
       ],
       imageUrl: '',
@@ -286,9 +286,9 @@ export default {
 
   created() {
     //do something after creating vue instance
-    var url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
-    this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
+    var url = this.$store.getters.url
+    this.upload_url = url + '/api/v1/upload-photo' // production
+    //this.upload_url = "http://localhost:5000"+"/api/v1/upload-photo" // dev
   },
 
   methods: {
@@ -305,8 +305,10 @@ export default {
             this.cars = res.data['data'];
             this.$store.commit('setCars',this.cars)
           }).catch( res => {
+              alert("Error")
               if(res.response.status == 422){
                 bus.$emit('login')
+                alert("Need to login")
               }
             console.log(res);
           })
@@ -322,6 +324,7 @@ export default {
               title: 'Featured Image',
               message: 'Success'
             })
+
           }).catch(res => {
             this.$notify.error({
               title: 'Featured Image',
@@ -350,7 +353,12 @@ export default {
             this.$store.commit('setCar',resp.data['data']);
             this.$router.push('/my-car/'+res.data['data']['car_id']);
           })
-        })
+      }).catch(res => {
+          if(res.response.status == 422){
+            bus.$emit('login')
+            alert("Need to login")
+          }
+      })
       } else {
         this.$notify.info({
             title:'Image',

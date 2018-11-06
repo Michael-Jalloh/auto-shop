@@ -3,14 +3,12 @@
     <app-header></app-header>
     <el-container>
       <app-side-bar></app-side-bar>
-      <el-container>
+      <div class="content">
         <el-main class="main">
           <router-view/>
         </el-main>
-        <el-footer class="footer">
-          <app-footer></app-footer>
-        </el-footer>
-      </el-container>
+        <app-footer></app-footer>
+    </div>
     </el-container>
   </div>
 
@@ -19,7 +17,7 @@
 <script>
 import Header  from './Layout/Header.vue'
 import SideBar from './Admins/SideMenu.vue'
-import Footer from '@/components/Footer.vue'
+import Footer from '@/components/Layout/Footer.vue'
 
 
 export default {
@@ -41,9 +39,7 @@ export default {
 
 
 
-.main{
-  height: calc(100vh - 120px);
-}
+
 
 .el-footer {
   padding: 0px !important;

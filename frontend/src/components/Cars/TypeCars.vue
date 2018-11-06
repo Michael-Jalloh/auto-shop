@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="details">
-            <h3>Price: D{{ cars[car - 1].price}}</h3>
+            <h3>Price:  {{ cars[car - 1].price}}</h3>
             <h3>Brand: {{ cars[car - 1].brand }}</h3>
             <h3>Year: {{ cars[car - 1].year }}</h3>
           </div>

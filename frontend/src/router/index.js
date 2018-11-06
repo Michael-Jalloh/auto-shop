@@ -31,6 +31,7 @@ import ImageSlider from '@/components/ImageSlider'
 import ContactUs from '@/components/ContactUs'
 import AdminContact from '@/components/Admins/ContactAdmin'
 import AdminDashboard from '@/components/Admins/Dashboard'
+import Search from '@/components/Cars/Search'
 
 
 Vue.use(Router)
@@ -83,7 +84,12 @@ export default new Router({
           path: '/contact-us',
           name: 'ContactUs',
           component: ContactUs
-        }
+      },
+      {
+          path: '/search/:search',
+          name: "Search",
+          component: Search
+      }
       ]
     },
     {

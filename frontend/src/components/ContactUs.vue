@@ -17,7 +17,7 @@
         :rows="5"
         placeholder="Message" ></el-input>
     </div>
-    <el-button type="primary" @click="send" class="mt-50">Submit</el-button>
+    <el-button type="success" @click="send" class="mt-50">Submit</el-button>
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
 <style lang="scss">
 .input {
   @include at-least($desktop){
-    width: 45%;
+    width: 44%;
     margin-right: 55px;
   }
 
@@ -78,6 +78,8 @@ export default {
   }
 }
 .mt-50 {
-  margin-top: 50px;
+  @include at-least($tablet){
+      margin-top: 50px;
+  }
 }
 </style>

@@ -26,15 +26,15 @@ export default {
   },
   data() {
       return {
-          left_ads: {}
+          left_ads: {},
+          ads_left_url: ''
       }
   },
 
   created(){
     this.$http.get('/api/v1/get-ads').then( res => {
         this.left_ads = res.data['data']
-        //this.ads_left_url = 'http://127.0.0.1:5000/api/v1/get-image/'+this.left_ads.value
-        this.ads_left_url = 'http://'+ window.location.host +'/api/v1/get-image/'+this.left_ads.value
+        this.ads_left_url = this.$store.getters.url +'/api/v1/get-image/'+this.left_ads.value
     })
     if (this.$route.path == "/") {
       this.$router.push({path: '/view-cars'})
@@ -59,12 +59,13 @@ body {
 }
 
 .main-container {
-  height: calc(100vh - 120px);
-  overflow-y: scroll;
+ // height: calc(100vh - 120px);
+  //overflow-y: scroll;
   display: flex;
 
   @include until($large-mobile){
     flex-direction: column;
+    //margin-bottom: 50px;
   }
 
 }
@@ -72,7 +73,7 @@ body {
 main{
   //max-width: 1200px;
   flex: 1;
-  padding: 20px 10px 0;
+  padding: 20px 10px 20px;
 }
 
 .aside {

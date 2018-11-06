@@ -10,12 +10,12 @@
         <span class="bar3"></span>
       </div>
       <div id="side-menu" v-bind:class="{active:active}">
-        <div class="icon">
+        <!--<div class="icon">
           <icon name="envelope" scale="1.75"></icon>
         </div>
         <div class="icon">
           <icon name="bell" scale="1.75"></icon>
-        </div>
+      </div> -->
           <div class="log-out" v-on:click="logout()">
             <icon class="icon" scale="1.75" name="sign-out" v-on:click="logout()"></icon>
           </div>

@@ -33,7 +33,7 @@
           <el-menu-item index="3-1"><router-link to="/edit-my-profile">Edit Profile</router-link></el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="4">
+      <!--<el-submenu index="4">
         <template slot="title">
           <icon class="icon" scale="1.50" name="envelope"></icon>
           <span  slot="title">Message</span>
@@ -41,7 +41,7 @@
         <el-menu-item-group>
           <el-menu-item index="4-1"><router-link to="">Messages</router-link></el-menu-item>
         </el-menu-item-group>
-      </el-submenu>
+    </el-submenu> -->
     </el-menu>
     <div class="collapse-btn" v-on:click="isCollapse = !isCollapse">
       <i  class="el-icon-arrow-left"  color="white" v-if="!isCollapse" ></i>

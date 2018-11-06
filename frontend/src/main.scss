@@ -45,7 +45,11 @@
   flex-flow: row wrap;
 }
 
-
+.content {
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
 
 /*
 .grid-md-1 {

@@ -15,24 +15,26 @@
       <div id="side-menu" v-bind:class="{active:active}">
 
         <ul>
-          <li><el-input v-model="search_input" placeholder="Search">
+          <li><el-input v-model="search_input" placeholder="Search" prefix-icon="el-icon-search">
+            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
           </el-input></li>
           <li v-on:click="active = false"><router-link :to="{name: 'BlogPosts', params:{}}" class="link">Blog</router-link></li>
           <li v-on:click="active = false"><router-link :to="{name: 'ContactUs', params:{}}" class="link">Contact Us</router-link></li>
           <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id:'luxury'} }" class="link">Luxury Cars</router-link></li>
           <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'new'} }" class="link">New Cars</router-link></li>
-          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'old'} }" class="link">Old Cars</router-link></li>
-          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'rent'} }" class="link">Rent Cars</router-link></li>
-          <li v-if="$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'MyCars', params: {}}" class="link">Dashboard</router-link></li>
-          <li v-if="$auth.isAuthenticated()" v-on:click="active = false"> <router-link :to="{ name: 'MyProfile', params: {} }" class="link">Profile</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'used'} }" class="link">Used Cars</router-link></li>
+          <li v-on:click="active = false"><router-link :to="{ name: 'Type-Cars', params: {id: 'rent'} }" class="link">Rental Cars</router-link></li>
+          <li v-if="check_user() == 'admin'" v-on:click="active = false"><router-link :to="{ name: 'AdminCars', params: {}}" class="link">Dashboard</router-link></li>
+          <li v-if="check_user() == 'individual'" v-on:click="active = false"><router-link :to="{ name: 'MyCars', params: {}}" class="link">Dashboard</router-link></li>
+          <!--<li v-if="$auth.isAuthenticated()" v-on:click="active = false"> <router-link :to="{ name: 'MyProfile', params: {} }" class="link">Profile</router-link></li> -->
           <li class="log-out" v-show="!$auth.isAuthenticated()" v-on:click="active = false"><router-link :to="{ name: 'Login', params: {} }" class="link"><icon class="icon" scale="1.75" name="sign-in" ></icon></router-link></li>
           <li class="log-out" v-show="$auth.isAuthenticated()" v-on:click="logout" style="color: black"><icon class="icon" scale="1.75" name="sign-out" ></icon></li>
           <li></li>
         </ul>
       </div>
     </el-header>
-
   </el-container>
+
 </template>
 
 <script>
@@ -51,6 +53,7 @@ export default {
       active: false,
     }
   },
+
 
   methods: {
     logout: function(){
@@ -79,7 +82,27 @@ export default {
     profile(){
       this.active = false;
 
+    },
+
+    check_user(){
+        var user = ""
+        if (this.$store.getters.user) {
+            user = this.$store.getters.user.account_type
+            console.log("User")
+        }
+
+        return user
+
+    },
+
+    test() {
+        console.log(this.check_user())
+    },
+
+    search(){
+        alert("hello")
     }
+
   }
 
 }
@@ -134,7 +157,7 @@ export default {
     display: flex;
     position: absolute;
     top: 60px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 60px);
     background: #FFFFFF;
     left: 0;
     padding: 0;

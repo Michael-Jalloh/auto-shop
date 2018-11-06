@@ -5,7 +5,7 @@ import os
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
-from models import User, Car
+from models import User, Car, FTSCar
 
 parser = reqparse.RequestParser()
 parser.add_argument('name')
@@ -145,10 +145,13 @@ class AddCar(Resource):
         car.fuel = data['fuel']
         car.drive_train = data['drive_train']
         car.car_type = data['type']
+        print "[*] Add Car: "
+        print data
 
         try:
             car.owner = int(user) #User.get(id=int(user)) #int(data['user']))
             car.save()
+            car.add_search()
             return {
                 'data': car.dictionary(),
                 'message':'Posting saved',
@@ -185,6 +188,7 @@ class EditCar(Resource):
             car.car_type = data['type']
             try:
                 car.save()
+                car.add_search()
                 return {
                     'data':car.dictionary(),
                     'message':'Posting saved',
@@ -394,3 +398,20 @@ class FlagCar(Resource):
                 'message':'An error occur',
                 'status': 'error'
                 }
+
+class Search(Resource):
+    def post(self):
+        data = parser.parse_args()
+        search = data['search']
+        queries = []
+        for query in FTSCar.search(search):
+            try:
+                car = Car.get(id=query.docid)
+                queries.append(car.dictionary())
+            except Exception as e:
+                print(e)
+        return {
+            'data': queries,
+            'message':'',
+            'status':'OK'
+        }

@@ -49,6 +49,7 @@ export default {
           });
           console.log(response.data['data'].account_type)
           this.$store.commit('setUser', response.data['data']);
+          console.log("User Set")
         } else {
           this.$notify.success({
             title:' Login',

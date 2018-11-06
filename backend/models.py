@@ -7,8 +7,11 @@ from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 
+pragmas = [
+        ('journal_mode','wal'),
+        ('cache_size',-1000 * 32)]
+db = SqliteExtDatabase('auto_shop.db', pragmas=pragmas)
 
-db = SqliteExtDatabase('auto_shop.db')
 #db = PostgresqlExtDatabase('test',user='michael', password='millicent', register_hstore=False)
 class BaseModel(Model):
     class Meta:
@@ -85,7 +88,7 @@ class Car(BaseModel):
     year = DateField(formats=['%d-%m-%Y'], default='01-Jan-2000')
     transmission = CharField(default="")
     engine = CharField(default="")
-    mileage = IntegerField()
+    mileage = CharField()
     car_type = CharField(default="")
     fuel = CharField(default="")
     drive_train = CharField(default="")
@@ -123,6 +126,12 @@ class Car(BaseModel):
             'pictures': self.pictures
             }
 
+    def add_search(self):
+        FTSCar.create(
+        docid = self.id,
+        content = '\n'.join((self.name, str(self.price), self.description, self.brand, self.model, str(self.year), self.transmission, self.engine, str(self.mileage), self.fuel, self.drive_train, str(self.created), self.car_type))
+        )
+
 class Brand(BaseModel):
     value = CharField(unique=True)
 
@@ -157,7 +166,7 @@ class Post(BaseModel):
     def get_published_pages(cls):
         pages = [post.dictionary() for post in Post.select().where((Post.published==True) & (Post.post_type =="page"))]
         return pages
-        
+
     @classmethod
     def get_all_post(cls):
         posts = [post.dictionary() for post in Post.select()]
@@ -179,6 +188,11 @@ class Post(BaseModel):
             'pic': self.pic
             }
 
+    def add_search(self):
+        FTSBlog.create(
+            docid=self.id,
+            content='\n'.join((self.title, self.content))
+        )
 
 class FeedBack(BaseModel):
     name = CharField(default="")
@@ -205,5 +219,17 @@ class Info(BaseModel):
             'name':self.name,
             'value':self.value}
 
+class FTSBlog(FTSModel):
+    content = TextField()
+
+    class Meta:
+        database =db
+
+class FTSCar(FTSModel):
+    content = TextField()
+
+    class Meta:
+        database = db
+
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info, FTSBlog, FTSCar],safe=True)

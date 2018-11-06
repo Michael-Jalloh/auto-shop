@@ -145,7 +145,7 @@ push<template lang="html">
       </div>
       <div class="btn-container">
         <el-button @click="step--" v-if="step > 0">Previous</el-button>
-        <el-button @click="move" v-if="step < 3">next</el-button>
+        <el-button @click="move" v-if="step < 3">Next</el-button>
         <el-button @click="onSubmit" v-if="step == 3">Save</el-button>
       </div>
 
@@ -226,12 +226,12 @@ export default {
           label: 'New'
         },
         {
-          value: 'old',
-          label: 'Old'
+          value: 'used',
+          label: 'User car'
         },
         {
-          value: 'rent',
-          label: 'Rent'
+          value: 'rental',
+          label: 'Rental'
         }
       ],
       imageUrl: '',

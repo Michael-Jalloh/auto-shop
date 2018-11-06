@@ -27,8 +27,8 @@ export default {
   created(){
     this.$http.get('/api/v1/post/'+this.$route.params.id).then(res => {
       this.post = res.data['data'];
-      var url = 'http://' + window.location.host + '/api/get-image/' + this.post.pic // prod
-      //var url = 'http://localhost:5000/api/v1/get-image/'+ this.post.pic
+      var url = this.$store.getters.url + '/api/v1/get-image/' + this.post.pic // prod
+
       this.post.image_url = url;
     })
   }
@@ -42,7 +42,9 @@ export default {
   margin: 0 auto;
 
   img {
-    max-width: 100%;
+    width: 100%;
+    height: 50%;
+    object-fit: contain;
   }
 
   .ql-video {

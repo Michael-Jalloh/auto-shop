@@ -33,9 +33,9 @@ export default {
 
   created(){
 
-    var url = window.location.hostname + ':'+window.location.port;
+    var url = this.$store.getters.url;
     //this.image_url = 'http://localhost:5000/api/v1/get-image-by-id/'+ this.car.car_id; // dev
-    this.image_url = "http://" + url + "/api/v1/get-image-by-id/" + this.car.car_id; // production
+    this.image_url = url + "/api/v1/get-image-by-id/" + this.car.car_id; // production
   },
 
   methods: {

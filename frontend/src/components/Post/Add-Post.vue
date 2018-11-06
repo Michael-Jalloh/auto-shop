@@ -15,7 +15,9 @@
       </div>
       <div class="" style="margin-top: 20px;">
         <div class="">
+            <el-checkbox v-model='post.page'><h4>Is a Page</h4></el-checkbox>
           <el-checkbox v-model='post.published'><h4>Publish</h4></el-checkbox>
+
         </div>
         <el-button type="success" @click="Save">Save</el-button>
         <el-button type="danger" @click="Cancel">Cancel</el-button>
@@ -35,6 +37,7 @@
       </el-upload>
       <div class="mt-10" style="">
         <img v-if="post.image_url" :src="post.image_url" class="avatar" style="width:100%;">
+        
       </div>
     </div>
   </div>
@@ -58,7 +61,8 @@ export default {
         content:'',
         title: '',
         published: false,
-        image_url: ''
+        image_url: '',
+        page: false
       },
       form: new FormData(),
       post_id: ''
@@ -99,6 +103,7 @@ export default {
           this.form.append('title', this.post.title)
           this.form.append('published', this.post.published)
           this.form.append('id', this.post_id)
+          this.form.append('is_page', this.post.page)
           console.log("Save")
           console.log(this.post_id)
           this.$auth.post('/add-post', this.form).then(res => {

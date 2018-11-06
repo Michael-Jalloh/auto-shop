@@ -36,8 +36,8 @@ body {
 }
 
 .main-container {
-  height: calc(100vh - 120px);
-  overflow-y: scroll;
+  //height: calc(100vh - 120px);
+  //overflow-y: auto;
   display: flex;
 
   @include until($large-mobile){
