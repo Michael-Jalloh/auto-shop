@@ -100,7 +100,9 @@ export default {
     },
 
     search(){
-        alert("hello")
+        this.active = false
+        this.$router.push('/search/'+this.search_input)
+        //alert(this.search_input)
     }
 
   }
