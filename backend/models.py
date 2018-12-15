@@ -6,6 +6,7 @@ import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
+import urlparse
 
 pragmas = [
         ('journal_mode','wal'),
@@ -13,6 +14,17 @@ pragmas = [
 db = SqliteExtDatabase('auto_shop.db', pragmas=pragmas)
 
 #db = PostgresqlExtDatabase('test',user='michael', password='millicent', register_hstore=False)
+
+class JsonField(TextField):
+    """Store JSON data in a TextField"""
+    def python_value(self, value):
+        if value is not None:
+            return json.loads(value)
+
+    def db_value(self, value):
+        if value is not None:
+            return json.dumps(value)
+
 class BaseModel(Model):
     class Meta:
         database = db
@@ -219,6 +231,52 @@ class Info(BaseModel):
             'name':self.name,
             'value':self.value}
 
+class PageView(BaseModel):
+    domain = CharField()
+    url = TextField()
+    timestamp = DateTimeField(default=datetime.datetime.now, index=True)
+    title = TextField(default="")
+    page_type = CharField(default="")
+    ip = CharField(default="")
+    referrer = TextField(default="")
+    headers = JsonField()
+    params = JsonField()
+
+    @classmethod
+    def create_from_request(cls, **data):
+        parsed = urlparse.urlparse(data.get('request').url)
+        params = data.get('params', {})
+
+        return PageView.create(
+            domain=parsed.netloc,
+            url=parsed.path,
+            title=data.get('title',''),
+            page_type=data.get('type','')
+            ip=data.get('request').headers.get('X-Forwarded-For', data.get('request').remote_addr),
+            referrer=data.get('request').args.get('ref'),
+            headers=dict(data.get('request').headers),
+            params=params)
+
+class Log(BaseModel):
+    logger = CharField()
+    level = CharField()
+    trace = TextField(default="")
+    msg = TextField()
+    timestamp = DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return "Logger: {}, Level: {}, Trace: {}, Msg: {}, Timestamp: {}".format(self.logger, self.level, self.trace, self.msg, str(self.timestamp))
+
+    def dictionary(self):
+        return {
+            "logger": self.logger,
+            "level": self.level,
+            "trace": self.trace,
+            "msg": self.msg,
+            "timestamp": str(self.timestamp).split('.')[0]
+        }
+
+
 class FTSBlog(FTSModel):
     content = TextField()
 
@@ -231,5 +289,8 @@ class FTSCar(FTSModel):
     class Meta:
         database = db
 
+
+
+
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info, FTSBlog, FTSCar],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info, FTSBlog, FTSCar, PageView, Log],safe=True)

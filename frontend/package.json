@@ -13,6 +13,7 @@
     "@websanova/vue-auth": "^2.21.3-beta",
     "axios": "^0.18.0",
     "casl": "^1.1.0",
+    "chart.js": "^2.7.3",
     "element-ui": "^2.2.2",
     "marked": "^0.3.19",
     "node-sass": "^4.7.2",

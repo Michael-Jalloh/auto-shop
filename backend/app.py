@@ -5,7 +5,8 @@ from flask_cors import CORS
 from models import Car
 import logging
 from models import RevokedToken
-import car, user, profile, admin, post, feedback
+import car, user, profile, admin, post, feedback, analytics
+import utils
 
 UPLOAD_FOLDER = "static/img"
 application = Flask(__name__,
@@ -47,12 +48,12 @@ logger.setLevel(logging.DEBUG)
 
 # Formatter for logger
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-fh = logging.FileHandler("Track.log")
+# fh = logging.FileHandler("Track.log")
+fh = utils.DBLogger()
 fh.setFormatter(formatter)
 
 logger.addHandler(fh)
-logger.info('=========================START=========================')
-
+logger.info("Start")
 
 api.add_resource(user.Signup, '/api/v1/sign-up')
 api.add_resource(user.Login, '/api/v1/login')
@@ -110,6 +111,7 @@ api.add_resource(post.PostPublished, '/api/v1/post-published')
 api.add_resource(feedback.FeedBacks, '/api/v1/save-feedback')
 api.add_resource(feedback.GetFeedBacks, '/api/v1/feedbacks')
 
+api.add_resource(analytics.TrackPage, 'api.v1/trackpage')
 
 
 if __name__ =='__main__':

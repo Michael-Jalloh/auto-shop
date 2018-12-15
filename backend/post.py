@@ -1,11 +1,12 @@
 from flask_restful import Resource, reqparse
-from flask import send_from_directory
+from flask import send_from_directory, request
 import werkzeug
 import os
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
 from models import User, Post
+import urlparse
 
 parser = reqparse.RequestParser()
 parser.add_argument('title')
@@ -172,6 +173,14 @@ class GetPosts(Resource):
     decorators=[]
 
     def get(self):
+        print "[*]", request.url
+        parsed = urlparse.urlparse(request.url)
+        print "[*] Domain", parsed.netloc
+        params = dict(urlparse.parse_qsl(parsed.query))
+        print "[*] Params", params
+        print "[*] Ref IP", request.headers.get("X-Forwarded-For", request.remote_addr)
+        print "[*] Ref:", request.args.get("ref")
+        print "[*] Headers:", dict(request.headers)
         posts = Post.get_published_post()
         return {
                 'data':posts,
@@ -189,7 +198,7 @@ class GetPages(Resource):
                 'message':'',
                 'status':'success'
                 }
-                
+
 class GetAllPosts(Resource):
     decorators=[]
 
