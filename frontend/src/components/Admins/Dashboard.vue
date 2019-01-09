@@ -16,7 +16,13 @@
         </div>
       </el-card>
       <el-card class="card">
-        <h3>Analytics</h3>
+        <div class="flex-container" style="justify-content: space-between;">
+            <h3>Analytics</h3>
+            <el-button plain type="mini" @click="refresh_analytics">Refresh</el-button>
+        </div>
+        <p><span>Total View in Last 7 days: </span> {{last7days_view}}</p>
+        <h4>Top 10 Pages</h4>
+        <p v-for="(page,index) in topTenpages"><span style="font-weight:600; margin-right:50px;">{{ page[0]}}</span><span>{{ page[1]}}</span></p>
       </el-card>
       <el-card class="card">
           <h3>Social Media</h3>
@@ -36,12 +42,6 @@
               <el-button type="primary" @click="socialMedia">Save</el-button>
           </div>
       </el-card>
-      <el-card class="card">
-      </el-card>
-      <el-card class="card">
-      </el-card>
-      <el-card class="card">
-      </el-card>
     </div>
   </div>
 </template>
@@ -56,7 +56,9 @@ export default {
           facebook:'',
           twitter: '',
           instagram: ''
-      }
+      },
+      last7days_view: 0,
+      topTenpages:[]
     }
   },
 
@@ -64,8 +66,7 @@ export default {
     this.$auth.get('/ads-images').then(res =>{
       this.ads_left = res.data['data'][0]
       console.log(this.ads_left)
-     //this.ads_left_url = 'http://127.0.0.1:5000/api/v1/get-image/'+res.data['data'][0].value
-      this.ads_left_url = 'http://'+ window.location.host+'/api/v1/get-image/'+res.data['data'][0].value
+      this.ads_left_url = this.$store.getters.url + '/api/v1/get-image/'+res.data['data'][0].value
     })
     this.$auth.get('/social-media').then(res =>{
       this.social_media.facebook = res.data['data'].facebook
@@ -73,6 +74,11 @@ export default {
       this.social_media.instagram = res.data['data'].instagram
       console.log(res.data['data']['facebook'])
 
+    })
+    this.$auth.get('/last7days').then(res =>{
+        this.last7days_view = res.data['data']['last_7days']
+        this.topTenpages = res.data['data']['top_10']
+        console.log(res.data['data'])
     })
 
   },
@@ -87,20 +93,34 @@ export default {
         console.log(res)
       })
 
-  },
+    },
 
-  socialMedia(){
+    socialMedia(){
       console.log('**')
-      console.log(this.social_media)
-      console.log('**')
+        console.log(this.social_media)
+        console.log('**')
 
-      this.$auth.post('/social-media', this.social_media).then(res =>{
+        this.$auth.post('/social-media', this.social_media).then(res =>{
         this.$notify.success({
             title:'Social Media',
             message: 'Links updated'
         })
       })
-  }
+    },
+
+    refresh_analytics(){
+        const h = this.$createElement;
+        this.$auth.get('/last7days').then(res =>{
+            this.last7days_view = res.data['data']['last_7days']
+            this.topTenpages = res.data['data']['top_10']
+            //console.log(res.data['data'])
+        })
+
+        this.$notify({
+          title: 'Analytic',
+          message: h('i', { style: 'color: teal' }, 'Analytic Refreshed')
+        })
+    }
 
   }
 }

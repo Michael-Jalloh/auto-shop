@@ -80,19 +80,13 @@ class AdminDeleteCar(Resource):
             if user.account_type != 'admin':
                 return {}, 401
 
-            if (user == 'admin'):
-                car = Car.get(id=int(id))
-                car.delete_instance()
+            car = Car.get(id=int(id))
+            car.delete_instance()
 
-                return {
-                    'data': '',
-                    'messsage': 'Car deleted',
-                    'status': 'success'
-                    }
             return {
                 'data': '',
-                'message': 'Forbidden',
-                'status': 'error'
+                'messsage': 'Car deleted',
+                'status': 'success'
                 }
         except Exception as e:
             print str(e)
@@ -237,6 +231,8 @@ class DeleteUser(Resource):
             return {}, 401
 
         del_user = User.get(id=int(id))
+        for car in del_user.cars:
+            car.delete_instance()
         del_user.delete_instance()
 
         return {

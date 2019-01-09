@@ -122,10 +122,18 @@ export default {
         }
 
         //this.profile_url = "http://localhost:5000/api/v1/get-profile-pic/"+this.car.owner.id
-        this.profile_url = "http://" + url + "/api/v1/get-profile-pic/"+this.car.owner.id
+        this.profile_url = this.$store.getters.url + "/api/v1/get-profile-pic/"+this.car.owner.id
         console.log(url)
         console.log(this.car.owner.id)
         console.log(this.profile_url);
+        var data = {
+            "name":this.car.name,
+            "type":"car",
+            "tracker_id":this.car.car_id
+        }
+        this.$http.post("/api/v1/trackpage",data).then(res =>{
+            console.log("Tracking...")
+        })
     }).catch( res => {
       console.log(res.response);
     })

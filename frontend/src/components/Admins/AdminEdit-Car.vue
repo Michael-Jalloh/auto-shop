@@ -156,7 +156,7 @@
 <script>
 
 import { bus } from '../../main';
-import CarImage from './CarImages.vue';
+import CarImage from '../Cars/CarImages.vue';
 
 export default {
 
@@ -243,8 +243,7 @@ export default {
 
   created() {
     //do something after creating vue instance
-    var url = window.location.hostname+':'+window.location.port;
-    //this.upload_url = 'http://' + url + '/api/v1/upload-photo' // production
+
     this.upload_url = this.$store.getters.url+"/api/v1/upload-photo" // dev
     var view_url = this.$store.getters.url+"/api/v1/get-image/"
     this.car = this.$store.getters.car;
@@ -256,7 +255,7 @@ export default {
       }
     }
     //this.imageUrl = 'http://' + url +'/api/v1/get-photo/'+this.car.card_id;
-    this.imageUrl = this.$store.getters.url + '/get-photo/'+this.car.car_id;
+    this.imageUrl = this.$store.getters.url+'/get-photo/'+this.car.car_id;
   },
 
   methods: {

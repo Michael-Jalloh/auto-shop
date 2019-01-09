@@ -13,9 +13,19 @@
       <div class="">
         <el-button @click="Edit(car)">Edit</el-button>
         <el-button type="primary" @click="View(car)" >View</el-button>
-        <el-button type="danger" @click="Delete(car)" >Delete</el-button>
+        <el-button type="danger" @click="Confirm_Delete" >Delete</el-button>
       </div>
     </div>
+    <el-dialog
+          title="Deletion"
+          :visible.sync="dialogVisible"
+          width="30%">
+          <span>Do you want to delete this {{ car.name}}</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="Delete">Confirm</el-button>
+          </span>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -27,7 +37,8 @@ export default {
   data(){
     return {
       image_url: '',
-      show: true
+      show: true,
+      dialogVisible: false
     }
   },
 
@@ -44,8 +55,12 @@ export default {
       this.$router.push({name: 'Edit-Car'});
     },
 
-    Delete(car){
-      console.log(car);
+    Confirm_Delete(){
+        this.dialogVisible = true
+    },
+
+    Delete(){
+
       this.$auth.delete('/delete-car/'+this.car.car_id).then( res => {
         console.log(res)
         this.$notify({

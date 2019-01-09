@@ -71,6 +71,8 @@ export default {
         this.$store.commit('setUser',{});
       }).catch(res => {
         console.log(res)
+        this.$auth.logoutRefresh();
+        this.$auth.destroyTokens();
       })
     },
 

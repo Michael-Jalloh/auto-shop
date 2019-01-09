@@ -111,7 +111,8 @@ api.add_resource(post.PostPublished, '/api/v1/post-published')
 api.add_resource(feedback.FeedBacks, '/api/v1/save-feedback')
 api.add_resource(feedback.GetFeedBacks, '/api/v1/feedbacks')
 
-api.add_resource(analytics.TrackPage, 'api.v1/trackpage')
+api.add_resource(analytics.TrackPage, '/api/v1/trackpage')
+api.add_resource(analytics.Last7days, '/api/v1/last7days')
 
 
 if __name__ =='__main__':

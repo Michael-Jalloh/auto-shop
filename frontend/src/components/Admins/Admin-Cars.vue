@@ -34,10 +34,21 @@
             width="150">
             <template slot-scope="scope">
               <el-button type="text" @click="View(scope.row)">View</el-button>
-              <el-button type="text" @click="Delete(scope.row)">Delete</el-button>
+              <el-button type="text" @click="Edit(scope.row)">Edit</el-button>
+              <el-button type="text" @click="Confirm_Delete(scope.row)">Delete</el-button>
             </template>
         </el-table-column>
     </el-table>
+    <el-dialog
+        title="Deletion"
+        :visible.sync="dialogVisible"
+        width="30%">
+        <span>Do you want to delete this {{ car.name}}</span>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="Delete">Confirm</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +58,9 @@ import  { bus } from '../../main'
 export default {
   data(){
     return {
-      carData: []
+      carData: [],
+      car: {},
+      dialogVisible: false
 
     }
   },
@@ -63,13 +76,16 @@ export default {
 
 
   methods: {
-    View(car){
-      console.log(car);
-    },
 
-    Delete(car){
-      var carIndex = this.carData.indexOf(car);
-      this.$auth.delete('/admin-delete-car/'+ carIndex).then( res => {
+    Confirm_Delete(car){
+        this.car = car
+        this.dialogVisible = true
+    },
+    Delete(){
+        this.dialogVisible = false
+      var carIndex = this.carData.indexOf(this.car);
+      this.$auth.delete('/admin-delete-car/'+ this.car.car_id).then( res => {
+        console.log(res.data['status'])
         if (res.data['status'] == 'success') {
           this.carData.splice(carIndex,1);
           this.$notify.success({
@@ -87,7 +103,10 @@ export default {
 
       console.log(carIndex)
     },
-
+    Edit(car) {
+      this.$store.commit('setCar',car);
+      this.$router.push({name: 'AdminEdit-Car'});
+    },
     FlagCar({row, rowIndex}){
       if (row.flagged == true) {
         return "flag-car"

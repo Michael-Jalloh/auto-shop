@@ -19,15 +19,13 @@ import Ability from './packages/ability/ability.js'
 
 var protocol = location.protocol;
 var host = "//" + location.host;
-var url = protocol + host; // for prod
-//var url = protocol + "//localhost:5000";
+var url = process.env.NODE_ENV === "production" ? protocol + host : protocol + "//localhost:5000"
 console.log(url); // for dev
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 axios.defaults.baseURL = url
 //axios.defaults.baseURL = "http://" + url; // for production
-
 
 Vue.use(Vuex)
 Vue.use(ElementUI, { locale} )

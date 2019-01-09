@@ -6,6 +6,7 @@ from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import logging, datetime
 from models import User, Car, FTSCar
+import traceback, sys
 
 parser = reqparse.RequestParser()
 parser.add_argument('name')
@@ -158,7 +159,9 @@ class AddCar(Resource):
                 'status':'success'
                 }
         except Exception as e:
-            logger.error(str(e))
+            #logger.error(str(e))
+            traceback.print_exc(file=sys.stdout)
+
             return {
                 'data':'',
                 'message':'And error occur please check your fields',
@@ -173,7 +176,7 @@ class EditCar(Resource):
         data = parser.parse_args()
         logger = logging.getLogger('app.add-car-get')
         car = Car.get(id=int(data['car_id']))
-        if car.owner == user:
+        if (car.owner == user) or (user.account_type =="admin"):
             car.name = data['name']
             car.price = data['price']
             car.description = data['description']
@@ -188,14 +191,15 @@ class EditCar(Resource):
             car.car_type = data['type']
             try:
                 car.save()
-                car.add_search()
+                #car.add_search()
                 return {
                     'data':car.dictionary(),
                     'message':'Posting saved',
                     'status':'success'
                     }
             except Exception as e:
-                logger.error(str(e))
+                traceback.print_exc(file=sys.stdout)
+                # logger.error(str(e))
                 return {
                 'data':'',
                 'message':'And error occur please check your    fields',

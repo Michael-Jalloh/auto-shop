@@ -26,6 +26,7 @@ import FlagCars from '@/components/Admins/Flag-Cars'
 import Users from '@/components/Admins/Users'
 import AdminViewCar from '@/components/Admins/ViewCar'
 import AdminUser from '@/components/Admins/User'
+import AdminEditCar from '@/components/Admins/AdminEdit-Car'
 import BlogPosts from '@/components/Blog-Posts'
 import ImageSlider from '@/components/ImageSlider'
 import ContactUs from '@/components/ContactUs'
@@ -181,6 +182,14 @@ export default new Router({
           path: '/admin-posts',
           name: 'AdminPost',
           component: AdminPost,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: '/admin-edit-car',
+          name:'AdminEdit-Car',
+          component: AdminEditCar,
           meta: {
             forAuth: true
           }

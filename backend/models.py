@@ -231,10 +231,11 @@ class Info(BaseModel):
             'name':self.name,
             'value':self.value}
 
-class PageView(BaseModel):
+class Tracker(BaseModel):
     domain = CharField()
     url = TextField()
     timestamp = DateTimeField(default=datetime.datetime.now, index=True)
+    post_id = IntegerField()
     title = TextField(default="")
     page_type = CharField(default="")
     ip = CharField(default="")
@@ -242,19 +243,38 @@ class PageView(BaseModel):
     headers = JsonField()
     params = JsonField()
 
+    def dictionary(self):
+        return {
+            "domain":self.domain,
+            "url":self.url,
+            "timestamp":str(self.timestamp),
+            "post_id":self.post_id,
+            "title":self.title,
+            "page_type":self.page_type,
+            "ip":self.ip,
+            "referrer": self.referrer,
+            "params":self.params
+        }
+
     @classmethod
     def create_from_request(cls, **data):
-        parsed = urlparse.urlparse(data.get('request').url)
-        params = data.get('params', {})
+        request = data.get("request")
+        print "[*] Model Request:", request.url
+        parsed = urlparse.urlparse(request.url)
+        params = dict(urlparse.parse_qsl(parsed.query))
+        print params
+        print "[*] parsed", parsed
+        print "[*] Name:", data['name']
 
-        return PageView.create(
+        return Tracker.create(
             domain=parsed.netloc,
             url=parsed.path,
-            title=data.get('title',''),
-            page_type=data.get('type','')
-            ip=data.get('request').headers.get('X-Forwarded-For', data.get('request').remote_addr),
-            referrer=data.get('request').args.get('ref'),
-            headers=dict(data.get('request').headers),
+            title=data.get("name",''),
+            page_type=data.get('type',''),
+            post_id = int(data.get("tracker_id", 0)),
+            ip = request.headers.get('X-Forwarded-For', request.remote_addr),
+            referrer=request.args.get('ref',""),
+            headers=dict(request.headers),
             params=params)
 
 class Log(BaseModel):
@@ -262,7 +282,7 @@ class Log(BaseModel):
     level = CharField()
     trace = TextField(default="")
     msg = TextField()
-    timestamp = DateTimeField(default=datetime.now())
+    timestamp = DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return "Logger: {}, Level: {}, Trace: {}, Msg: {}, Timestamp: {}".format(self.logger, self.level, self.trace, self.msg, str(self.timestamp))
@@ -293,4 +313,4 @@ class FTSCar(FTSModel):
 
 
 def create_tables():
-    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info, FTSBlog, FTSCar, PageView, Log],safe=True)
+    db.create_tables([User, Car, Brand, BodyType, Category, Blog, FeedBack, Info, FTSBlog, FTSCar, Tracker, Log],safe=True)
