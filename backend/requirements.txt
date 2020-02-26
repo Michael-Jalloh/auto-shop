@@ -6,7 +6,7 @@ click==6.7
 dis3==0.1.2
 enum34==1.1.6
 eventlet==0.22.1
-Flask==0.12.2
+Flask==1.0
 Flask-Cors==3.0.3
 Flask-JWT-Extended==3.6.0
 Flask-RESTful==0.3.6
